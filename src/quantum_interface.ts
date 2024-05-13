@@ -1,5 +1,5 @@
 import { ProofType } from "./enum/proof_type";
-import { ProofStatus } from "./proof_status";
+import { ProofStatus } from "./types/proof_status";
 
 export default interface QuantumInterface {
     checkServerConnection(): boolean;
