@@ -1,0 +1,24 @@
+{
+  "name": "quantum-sdk",
+  "version": "1.0.0",
+  "description": "SDK to interact seamlessly with quantum node",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node dist/index.js",
+    "test": "mocha --require ts-node/register test/*_test.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chai": "^4.3.16",
+    "@types/mocha": "^10.0.6",
+    "chai": "4.1.1",
+    "mocha": "^10.4.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "ethers": "^6.12.1",
+    "ts-node": "^10.9.2"
+  }
+}
