@@ -1,4 +1,4 @@
-import { checkServerConnection } from "./api_handler/api_handler";
+import { checkServerConnection } from "./api_handler/check_server_connection";
 import { ProofType } from "./enum/proof_type";
 import QuantumInterface from "./interface/quantum_interface";
 import { Keccak256Hash } from "./types/keccak256_hash";
