@@ -27,7 +27,7 @@ describe("check server connection", () => {
         const response = await quantum.checkServerConnection();
         assert.equal(response, true, "should fail when incorrect status code is returned");
     })
-    
+
     it("should return false when server replies with error", async () => {
         const scope = nock(rpcEndPoint).get("/ping").replyWithError("server down")
         const response = await quantum.checkServerConnection();
