@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc && node dist/src/index.js",
-    "test": "mocha --require ts-node/register test/*_test.ts"
+    "test": "mocha --require ts-node/register test/*_test.ts", 
+    "test_e2e": "tsc && node dist/test/e2e.js"
   },
   "author": "",
   "license": "ISC",
