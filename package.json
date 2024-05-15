@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc && node dist/src/index.js",
-    "test": "mocha --require ts-node/register test/*_test.ts", 
+    "test": "mocha --require ts-node/register test/*_test.ts",
     "test_e2e": "tsc && node dist/test/e2e.js"
   },
   "author": "",
@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "axios": "^1.6.8",
+    "borsh": "^2.0.0",
     "ethers": "^6.12.1",
     "ts-node": "^10.9.2"
   }
