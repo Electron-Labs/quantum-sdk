@@ -6,7 +6,7 @@ import { getGnarkVKeySchema } from "./types/borsh_schema/gnark";
 import { Keccak256Hash } from "./types/keccak256_hash";
 import { ProofStatus } from "./types/proof_status";
 import { boshSerialize } from "./utils/borsh";
-import { readJsonFile } from "./utils/file";
+import { checkIfPathExist, readJsonFile } from "./utils/file";
 
 export class Quantum implements QuantumInterface {
     private rpcEndPoint: string;
@@ -35,8 +35,16 @@ export class Quantum implements QuantumInterface {
         return serializedVkey;
     }
 
+    public readVkey(vkeyPath: string) {
+        let isPathExist = checkIfPathExist(vkeyPath);
+        if(!isPathExist) {
+            throw new Error(`VkeyPath does not exist : ${vkeyPath}.`);
+        }
+        return readJsonFile(vkeyPath);
+    }
+
     async registerCircuit(vkeyPath: string, cdPath: string, proofType: ProofType): Promise<Keccak256Hash> {
-        const vkeyJson = readJsonFile(vkeyPath);
+        const vkeyJson = this.readVkey(vkeyPath);
         const serializedVKey = this.serializeVKey(vkeyJson);
         let cdSerialized = new Uint8Array();
         // TODO: handle case when cdPath is not empty string

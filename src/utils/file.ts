@@ -1,6 +1,6 @@
 import fs from "fs";
 
-export function folderExists(folderPath: string) {
+export function checkIfPathExist(folderPath: string) {
     return fs.existsSync(folderPath)
 }
 

@@ -7,7 +7,7 @@ async function main() {
     let r = await q.checkServerConnection();
     console.log(r);
 
-    let circuitHash = await q.registerCircuit("/Users/adityabansal/Downloads/vk.json", "", ProofType.GNARK_GROTH16)
+    let circuitHash = await q.registerCircuit("test/dump/vkey.json", "", ProofType.GNARK_GROTH16)
     console.log(circuitHash.asString());
 }
 
