@@ -1,3 +1,4 @@
+import { checkServerConnection } from "./api_handler/api_handler";
 import { ProofType } from "./enum/proof_type";
 import QuantumInterface from "./interface/quantum_interface";
 import { Keccak256Hash } from "./types/keccak256_hash";
@@ -13,9 +14,17 @@ export class Quantum implements QuantumInterface {
         return this.rpcEndPoint;
     }
 
-    checkServerConnection(): boolean {
-        throw new Error("Method not implemented.");
+    async checkServerConnection(){
+        let isConnectionEstablished = false;
+        try {
+            let response = await checkServerConnection(this.rpcEndPoint);
+            isConnectionEstablished = response == "pong" ? true : false;
+        } catch(e) {
+            isConnectionEstablished = false;
+        }
+        return isConnectionEstablished;
     }
+
     registerCircuit(vkeyPath: string, cdPath: string, proofType: ProofType): Keccak256Hash {
         throw new Error("Method not implemented.");
     }
@@ -24,6 +33,5 @@ export class Quantum implements QuantumInterface {
     }
     getProofData(proofId: Keccak256Hash): ProofStatus {
         throw new Error("Method not implemented.");
-    }
-    
+    }   
 }
