@@ -43,16 +43,11 @@ export class Quantum implements QuantumInterface {
         return readJsonFile(vkeyPath);
     }
 
-    async registerCircuit(vkeyPath: string, cdPath: string, proofType: ProofType): Promise<Keccak256Hash> {
+    async registerCircuit(vkeyPath: string, publicInputsCount: number, proofType: ProofType): Promise<Keccak256Hash> {
         const vkeyJson = this.readVkey(vkeyPath);
         const serializedVKey = this.serializeVKey(vkeyJson);
-        let cdSerialized = new Uint8Array();
-        // TODO: handle case when cdPath is not empty string
 
-        // if(cdPath != "") {
-        //     const cdJson = readJsonFile(cdPath);
-        // }
-        const circuitHashString = await registerCircuit(this.rpcEndPoint, serializedVKey, cdSerialized, proofType);
+        const circuitHashString = await registerCircuit(this.rpcEndPoint, serializedVKey, publicInputsCount, proofType);
         return Keccak256Hash.fromString(circuitHashString);
     }
 
