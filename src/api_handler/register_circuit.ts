@@ -3,8 +3,8 @@ import { ProofType } from "../enum/proof_type";
 import { RegisterCircuitRequest } from "./request/register_circuit_request";
 import { RegisterCircuitResponse } from "./response/register_circuit_response";
 
-export async function registerCircuit(rpcEndPoint: string, vkeySerialized: Uint8Array, cdJson: Uint8Array, proofType: ProofType) {
-    const requestBody = getRegisterCircuitRequest(vkeySerialized, cdJson, proofType);
+export async function registerCircuit(rpcEndPoint: string, vkeySerialized: Uint8Array, publicInputsCount: number, proofType: ProofType) {
+    const requestBody = getRegisterCircuitRequest(vkeySerialized, publicInputsCount, proofType);
     try {
         const response = await axios.post(`${rpcEndPoint}/register_circuit`, requestBody);
         const responseData: RegisterCircuitResponse = response.data;
@@ -16,11 +16,11 @@ export async function registerCircuit(rpcEndPoint: string, vkeySerialized: Uint8
     }
 }
 
-function getRegisterCircuitRequest( vkeySerialized: Uint8Array, cdJson: Uint8Array, proofType: ProofType) {
+function getRegisterCircuitRequest( vkeySerialized: Uint8Array, publicInputsCount: number, proofType: ProofType) {
     const prooftypeString = ProofType.asString(proofType);
     return new RegisterCircuitRequest({
         vkey: Array.from(vkeySerialized),
-        cd: Array.from(cdJson),
+        num_public_inputs: publicInputsCount,
         proof_type: prooftypeString
     })
 }
