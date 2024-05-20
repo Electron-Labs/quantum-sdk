@@ -29,8 +29,13 @@ export class Quantum implements QuantumInterface {
         return isConnectionEstablished;
     }
 
-    private serializeVKey(vkeyJson: any) {
-        const vkeySchema = getGnarkVKeySchema();
+    private serializeVKey(vkeyJson: any, proofType: ProofType) {
+        let vkeySchema;
+        if (proofType == ProofType.GNARK_GROTH16) {
+            vkeySchema = getGnarkVKeySchema();
+        } else if (proofType == ProofType.GROTH16) {
+            
+        }
         const serializedVkey= boshSerialize(vkeySchema, vkeyJson);
         return serializedVkey;
     }
@@ -45,7 +50,7 @@ export class Quantum implements QuantumInterface {
 
     async registerCircuit(vkeyPath: string, publicInputsCount: number, proofType: ProofType): Promise<Keccak256Hash> {
         const vkeyJson = this.readVkey(vkeyPath);
-        const serializedVKey = this.serializeVKey(vkeyJson);
+        const serializedVKey = this.serializeVKey(vkeyJson, proofType);
 
         const circuitHashString = await registerCircuit(this.rpcEndPoint, serializedVKey, publicInputsCount, proofType);
         return Keccak256Hash.fromString(circuitHashString);
