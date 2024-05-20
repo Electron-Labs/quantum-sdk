@@ -3,7 +3,7 @@ const nestedArrayOfStringType = { array: { type : { array : {type: 'string'}}}}
 const snarkJSVkey = {struct : {
     protocol : 'string',
     curve: 'string',
-    nPublic: 'u8',
+    nPublic: 'u32',
     vk_alpha_1 : { array: { type: 'string'}},
     vk_beta_2 : nestedArrayOfStringType,
     vk_gamma_2: nestedArrayOfStringType,
