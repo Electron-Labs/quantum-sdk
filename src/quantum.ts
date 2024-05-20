@@ -3,9 +3,10 @@ import { registerCircuit } from "./api_handler/register_circuit";
 import { ProofType } from "./enum/proof_type";
 import QuantumInterface from "./interface/quantum_interface";
 import { getGnarkVKeySchema } from "./types/borsh_schema/gnark";
+import { getSnarkJSVkeySchema } from "./types/borsh_schema/SnarkJS";
 import { Keccak256Hash } from "./types/keccak256_hash";
 import { ProofStatus } from "./types/proof_status";
-import { boshSerialize } from "./utils/borsh";
+import { borshSerialize } from "./utils/borsh";
 import { checkIfPathExist, readJsonFile } from "./utils/file";
 
 export class Quantum implements QuantumInterface {
@@ -34,9 +35,9 @@ export class Quantum implements QuantumInterface {
         if (proofType == ProofType.GNARK_GROTH16) {
             vkeySchema = getGnarkVKeySchema();
         } else if (proofType == ProofType.GROTH16) {
-            
+            vkeySchema = getSnarkJSVkeySchema();
         }
-        const serializedVkey= boshSerialize(vkeySchema, vkeyJson);
+        const serializedVkey= borshSerialize(vkeySchema, vkeyJson);
         return serializedVkey;
     }
 
