@@ -3,9 +3,10 @@ import { registerCircuit } from "./api_handler/register_circuit";
 import { ProofType } from "./enum/proof_type";
 import QuantumInterface from "./interface/quantum_interface";
 import { getGnarkVKeySchema } from "./types/borsh_schema/gnark";
+import { getSnarkJSVkeySchema } from "./types/borsh_schema/SnarkJS";
 import { Keccak256Hash } from "./types/keccak256_hash";
 import { ProofStatus } from "./types/proof_status";
-import { boshSerialize } from "./utils/borsh";
+import { borshSerialize } from "./utils/borsh";
 import { checkIfPathExist, readJsonFile } from "./utils/file";
 
 export class Quantum implements QuantumInterface {
@@ -29,9 +30,14 @@ export class Quantum implements QuantumInterface {
         return isConnectionEstablished;
     }
 
-    private serializeVKey(vkeyJson: any) {
-        const vkeySchema = getGnarkVKeySchema();
-        const serializedVkey= boshSerialize(vkeySchema, vkeyJson);
+    private serializeVKey(vkeyJson: any, proofType: ProofType) {
+        let vkeySchema;
+        if (proofType == ProofType.GNARK_GROTH16) {
+            vkeySchema = getGnarkVKeySchema();
+        } else if (proofType == ProofType.GROTH16) {
+            vkeySchema = getSnarkJSVkeySchema();
+        }
+        const serializedVkey= borshSerialize(vkeySchema, vkeyJson);
         return serializedVkey;
     }
 
@@ -45,7 +51,7 @@ export class Quantum implements QuantumInterface {
 
     async registerCircuit(vkeyPath: string, publicInputsCount: number, proofType: ProofType): Promise<Keccak256Hash> {
         const vkeyJson = this.readVkey(vkeyPath);
-        const serializedVKey = this.serializeVKey(vkeyJson);
+        const serializedVKey = this.serializeVKey(vkeyJson, proofType);
 
         const circuitHashString = await registerCircuit(this.rpcEndPoint, serializedVKey, publicInputsCount, proofType);
         return Keccak256Hash.fromString(circuitHashString);
