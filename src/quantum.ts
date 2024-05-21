@@ -1,5 +1,6 @@
 import { checkServerConnection } from "./api_handler/check_server_connection";
-import { registerCircuit } from "./api_handler/register_circuit";
+import { getCircuitRegistrationStatus, registerCircuit } from "./api_handler/register_circuit";
+import { CircuitRegistrationStatus } from "./enum/circuit_registration_status";
 import { ProofType } from "./enum/proof_type";
 import QuantumInterface from "./interface/quantum_interface";
 import { getGnarkVKeySchema } from "./types/borsh_schema/gnark";
@@ -13,6 +14,10 @@ export class Quantum implements QuantumInterface {
     private rpcEndPoint: string;
     constructor(rpcEndPoint: string) {
         this.rpcEndPoint = rpcEndPoint;
+    }
+    async isCircuitRegistered(circuitId: Keccak256Hash): Promise<CircuitRegistrationStatus> {
+       const circuitRegistrationStatus = await getCircuitRegistrationStatus(circuitId.asString(), this.rpcEndPoint);
+       return circuitRegistrationStatus;
     }
 
     public getRpcEndPoint() {

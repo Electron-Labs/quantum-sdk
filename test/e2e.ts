@@ -9,7 +9,10 @@ async function main() {
 
     let circuitHash = await q.registerCircuit("test/dump/vkey.json", 2, ProofType.GNARK_GROTH16)
     console.log(circuitHash.asString());
-}
+
+    let status = await q.isCircuitRegistered(circuitHash);
+    console.log(status);
+}   
 
 main().then(() => {
     console.log("done");
