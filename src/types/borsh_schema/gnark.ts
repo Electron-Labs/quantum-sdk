@@ -34,6 +34,24 @@ const gnarkVKey = { struct: {
     PublicAndCommitmentCommitted: { array: { type : { array : {type: 'u32'}}}},
 }};
 
+const gnarkPubInputs = {array: {type: 'string'}};
+
+const gnarkProof = {struct : {
+    Ar: fq,
+    Krs: fq,
+    Bs: fq2,
+    Commitments: {array: {type: fq }},
+    CommitmentPok: fq
+}}
+
 export function getGnarkVKeySchema() {
     return gnarkVKey;
+}
+
+export function getGnarkPubInputsSchema(){
+    return gnarkPubInputs;
+}
+
+export function getGnarkProofSchema() {
+    return gnarkProof;
 }
