@@ -12,6 +12,24 @@ const snarkJSVkey = {struct : {
     IC: nestedArrayOfStringType
 }}
 
+const snarkJSProof = {struct: {
+    pi_a: {array: {type: 'string'}},
+    pi_b: nestedArrayOfStringType,
+    pi_c: {array: {type: 'string'}},
+    protocol: 'string',
+    curve: 'string'
+}}
+
+const snarkJSPubInput = {array: {type: 'string'}};
+
+export function getSnarkJSProofSchema() {
+    return snarkJSProof;
+}
+
+export function getSnarkJSPubInputSchema() {
+    return snarkJSPubInput;
+}
+
 export function getSnarkJSVkeySchema() {
     return snarkJSVkey;
 }

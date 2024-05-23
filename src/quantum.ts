@@ -1,10 +1,11 @@
 import { checkServerConnection } from "./api_handler/check_server_connection";
 import { getCircuitRegistrationStatus, registerCircuit } from "./api_handler/register_circuit";
+import { submitProof } from "./api_handler/submit_proof";
 import { CircuitRegistrationStatus } from "./enum/circuit_registration_status";
 import { ProofType } from "./enum/proof_type";
 import QuantumInterface from "./interface/quantum_interface";
-import { getGnarkVKeySchema } from "./types/borsh_schema/gnark";
-import { getSnarkJSVkeySchema } from "./types/borsh_schema/SnarkJS";
+import { getGnarkProofSchema, getGnarkPubInputsSchema, getGnarkVKeySchema } from "./types/borsh_schema/gnark";
+import { getSnarkJSProofSchema, getSnarkJSPubInputSchema, getSnarkJSVkeySchema } from "./types/borsh_schema/SnarkJS";
 import { Keccak256Hash } from "./types/keccak256_hash";
 import { ProofStatus } from "./types/proof_status";
 import { borshSerialize } from "./utils/borsh";
@@ -46,7 +47,30 @@ export class Quantum implements QuantumInterface {
         return serializedVkey;
     }
 
-    public readVkey(vkeyPath: string) {
+    // TODO: handle this serialize based on proving schemes in better way
+    private serializeProof(proofJson: any, proofType: ProofType) {
+        let proofSchema;
+        if (proofType == ProofType.GNARK_GROTH16) {
+            proofSchema = getGnarkProofSchema();
+        } else if (proofType == ProofType.GROTH16) {
+            proofSchema = getSnarkJSProofSchema();
+        }
+        const serializedVkey= borshSerialize(proofSchema, proofJson);
+        return serializedVkey;
+    }
+
+    private serializePubInputs(pubInputsJson: any, proofType: ProofType) {
+        let pubInputsSchema;
+        if (proofType == ProofType.GNARK_GROTH16) {
+            pubInputsSchema = getGnarkPubInputsSchema();
+        } else if (proofType == ProofType.GROTH16) {
+            pubInputsSchema = getSnarkJSPubInputSchema();
+        }
+        const serializedVkey= borshSerialize(pubInputsSchema, pubInputsJson);
+        return serializedVkey;
+    }
+
+    public checkPathAndReadJsonFile(vkeyPath: string) {
         let isPathExist = checkIfPathExist(vkeyPath);
         if(!isPathExist) {
             throw new Error(`VkeyPath does not exist : ${vkeyPath}.`);
@@ -55,16 +79,24 @@ export class Quantum implements QuantumInterface {
     }
 
     async registerCircuit(vkeyPath: string, publicInputsCount: number, proofType: ProofType): Promise<Keccak256Hash> {
-        const vkeyJson = this.readVkey(vkeyPath);
+        const vkeyJson = this.checkPathAndReadJsonFile(vkeyPath);
         const serializedVKey = this.serializeVKey(vkeyJson, proofType);
 
         const circuitHashString = await registerCircuit(this.rpcEndPoint, serializedVKey, publicInputsCount, proofType);
         return Keccak256Hash.fromString(circuitHashString);
     }
 
-    submitProof(proofPath: string, pisPath: string, circuitId: Keccak256Hash): Keccak256Hash {
-        throw new Error("Method not implemented.");
+    async submitProof(proofPath: string, pisPath: string, circuitId: Keccak256Hash, proofType: ProofType): Promise<Keccak256Hash> {
+        const proof = this.checkPathAndReadJsonFile(proofPath);
+        const proofEncoded = this.serializeProof(proof, proofType);
+
+        const pubInput = this.checkPathAndReadJsonFile(pisPath);
+        const pubInputEncoded = this.serializePubInputs(pubInput, proofType);
+
+        let proofId = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitId.asString(), proofType);
+        return Keccak256Hash.fromString(proofId);
     }
+
     getProofData(proofId: Keccak256Hash): ProofStatus {
         throw new Error("Method not implemented.");
     }
