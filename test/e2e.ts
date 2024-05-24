@@ -1,3 +1,4 @@
+import { ProofStatus } from "../src/enum/proof_status";
 import { ProofType } from "../src/enum/proof_type";
 import { Quantum } from "../src/quantum";
 
@@ -10,11 +11,14 @@ async function main() {
     let circuitHash = await q.registerCircuit("test/dump/gnark_2/vkey.json", 2, ProofType.GNARK_GROTH16)
     console.log(circuitHash.asString());
 
-    let status = await q.isCircuitRegistered(circuitHash);
+    let status = await q.isCircuitRegistered(circuitHash.asString());
     console.log(status);
 
-    let proof_id = await q.submitProof("test/dump/gnark_2/proof.json", "test/dump/gnark_2/pub_input.json", circuitHash, ProofType.GNARK_GROTH16);
+    let proof_id = await q.submitProof("test/dump/gnark_2/proof.json", "test/dump/gnark_2/pub_input.json", circuitHash.asString(), ProofType.GNARK_GROTH16);
     console.log(proof_id);
+
+    let proof_status = await q.getProofData(proof_id.asString());
+    console.log(proof_status);
 }   
 
 main().then(() => {

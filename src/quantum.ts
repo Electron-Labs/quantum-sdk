@@ -1,13 +1,16 @@
 import { checkServerConnection } from "./api_handler/check_server_connection";
 import { getCircuitRegistrationStatus, registerCircuit } from "./api_handler/register_circuit";
-import { submitProof } from "./api_handler/submit_proof";
+import { ProofDataResponse } from "./api_handler/response/proof_data_response";
+import { get_proof_status, submitProof } from "./api_handler/submit_proof";
 import { CircuitRegistrationStatus } from "./enum/circuit_registration_status";
+import { getProofStatusFromString } from "./enum/proof_status";
 import { ProofType } from "./enum/proof_type";
 import QuantumInterface from "./interface/quantum_interface";
 import { getGnarkProofSchema, getGnarkPubInputsSchema, getGnarkVKeySchema } from "./types/borsh_schema/gnark";
 import { getSnarkJSProofSchema, getSnarkJSPubInputSchema, getSnarkJSVkeySchema } from "./types/borsh_schema/SnarkJS";
+import { ContractAddress } from "./types/contract";
 import { Keccak256Hash } from "./types/keccak256_hash";
-import { ProofStatus } from "./types/proof_status";
+import { ProofData } from "./types/proof_status";
 import { borshSerialize } from "./utils/borsh";
 import { checkIfPathExist, readJsonFile } from "./utils/file";
 
@@ -87,8 +90,9 @@ export class Quantum implements QuantumInterface {
         return Keccak256Hash.fromString(circuitHashString);
     }
 
+    // TODO: handle error from node
     async submitProof(proofPath: string, pisPath: string, circuitId: string, proofType: ProofType): Promise<Keccak256Hash> {
-        const circuitHash = Keccak256Hash.fromString(circuitId);
+        Keccak256Hash.fromString(circuitId);
         const proof = this.checkPathAndReadJsonFile(proofPath);
         const proofEncoded = this.serializeProof(proof, proofType);
 
@@ -99,7 +103,21 @@ export class Quantum implements QuantumInterface {
         return Keccak256Hash.fromString(proofId);
     }
 
-    getProofData(proofId: Keccak256Hash): ProofStatus {
-        throw new Error("Method not implemented.");
+    async getProofData(proofId: string): Promise<ProofData> {
+        Keccak256Hash.fromString(proofId);
+        let proofStatusResponse = await get_proof_status(this.rpcEndPoint, proofId);
+        return this.getProofStatusFromResponse(proofStatusResponse);
+    }
+
+    private getProofStatusFromResponse(resp: ProofDataResponse) {
+        let transactionHash = resp.transaction_hash != null ? Keccak256Hash.fromString(resp.transaction_hash) : null;
+        let contractAddress = ContractAddress.fromString(resp.verification_contract);
+        let proofStatus = getProofStatusFromString(resp.status);
+        return new ProofData({
+            status: proofStatus,
+            superproofId: resp.superproof_id,
+            transactionHash,
+            verificationContract: contractAddress
+        })
     }
 }
