@@ -2,6 +2,7 @@ import axios from "axios";
 import { SubmitProof } from "./request/submit_proof_request";
 import { SubmitProofResponse } from "./response/submit_proof_response";
 import { ProofType } from "../enum/proof_type";
+import { ProofDataResponse } from "./response/proof_data_response";
 
 export async function submitProof(rpcEndPoint: string, proofEncoded: Uint8Array, publicInputsEncoded: Uint8Array, circuitId: String, proofType: ProofType) {
     const requestBody = getSubmitProofRequest(proofEncoded, publicInputsEncoded, circuitId, proofType);
@@ -16,6 +17,21 @@ export async function submitProof(rpcEndPoint: string, proofEncoded: Uint8Array,
         throw new Error("error in submit proof api " + JSON.stringify(e));
     }
 }
+
+export async function get_proof_status(rpcEndPoint: string, proof_id: string) {
+    try {
+        const response = await axios.get(`${rpcEndPoint}/proof/${proof_id}`,);
+        const responseData: ProofDataResponse = response.data;
+        console.log({responseData});
+        return responseData;
+    } catch(e) {
+        // console.log(e);
+        // TODO: throw different error based on different error code and message
+        throw new Error("error in proof status api " + JSON.stringify(e));
+    }
+}
+
+
 
 function getSubmitProofRequest(proofEncoded: Uint8Array, publicInputsEncoded: Uint8Array, circuitId: String, proofType: ProofType) {
     return new SubmitProof({
