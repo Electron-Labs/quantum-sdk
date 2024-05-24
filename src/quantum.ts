@@ -86,14 +86,15 @@ export class Quantum implements QuantumInterface {
         return Keccak256Hash.fromString(circuitHashString);
     }
 
-    async submitProof(proofPath: string, pisPath: string, circuitId: Keccak256Hash, proofType: ProofType): Promise<Keccak256Hash> {
+    async submitProof(proofPath: string, pisPath: string, circuitId: string, proofType: ProofType): Promise<Keccak256Hash> {
+        const circuitHash = Keccak256Hash.fromString(circuitId);
         const proof = this.checkPathAndReadJsonFile(proofPath);
         const proofEncoded = this.serializeProof(proof, proofType);
 
         const pubInput = this.checkPathAndReadJsonFile(pisPath);
         const pubInputEncoded = this.serializePubInputs(pubInput, proofType);
 
-        let proofId = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitId.asString(), proofType);
+        let proofId = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitId, proofType);
         return Keccak256Hash.fromString(proofId);
     }
 

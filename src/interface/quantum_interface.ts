@@ -7,6 +7,6 @@ export default interface QuantumInterface {
     checkServerConnection(): Promise<boolean>;
     registerCircuit(vkeyPath: string, publicInputsCount: number, proofType: ProofType): Promise<Keccak256Hash>;
     isCircuitRegistered(circuitId: Keccak256Hash): Promise<CircuitRegistrationStatus>
-    submitProof(proofPath: string, pisPath: string, circuitId: Keccak256Hash, proofType: ProofType): Promise<Keccak256Hash>;  
+    submitProof(proofPath: string, pisPath: string, circuitId: string, proofType: ProofType): Promise<Keccak256Hash>;  
     getProofData(proofId: Keccak256Hash): ProofStatus;
 }
