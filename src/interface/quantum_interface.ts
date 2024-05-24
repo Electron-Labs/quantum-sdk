@@ -6,7 +6,7 @@ import { ProofStatus } from "../types/proof_status";
 export default interface QuantumInterface {
     checkServerConnection(): Promise<boolean>;
     registerCircuit(vkeyPath: string, publicInputsCount: number, proofType: ProofType): Promise<Keccak256Hash>;
-    isCircuitRegistered(circuitId: Keccak256Hash): Promise<CircuitRegistrationStatus>
+    isCircuitRegistered(circuitId: string): Promise<CircuitRegistrationStatus>
     submitProof(proofPath: string, pisPath: string, circuitId: string, proofType: ProofType): Promise<Keccak256Hash>;  
     getProofData(proofId: Keccak256Hash): ProofStatus;
 }

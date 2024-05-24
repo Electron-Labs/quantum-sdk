@@ -16,8 +16,9 @@ export class Quantum implements QuantumInterface {
     constructor(rpcEndPoint: string) {
         this.rpcEndPoint = rpcEndPoint;
     }
-    async isCircuitRegistered(circuitId: Keccak256Hash): Promise<CircuitRegistrationStatus> {
-       const circuitRegistrationStatus = await getCircuitRegistrationStatus(circuitId.asString(), this.rpcEndPoint);
+    async isCircuitRegistered(circuitId: string): Promise<CircuitRegistrationStatus> {
+       const circuit_hash = Keccak256Hash.fromString(circuitId);
+       const circuitRegistrationStatus = await getCircuitRegistrationStatus(circuitId, this.rpcEndPoint);
        return circuitRegistrationStatus;
     }
 
