@@ -10,7 +10,7 @@ describe("proof status", () => {
         const verificationContract = "0xDF11C90D1882257690Dca8f6b5013CFd75aBf347"
 
         let fields = {
-            state : ProofStatus.VERIFIED,
+            status : ProofStatus.VERIFIED,
             superproofId,
             transactionHash,
             verificationContract

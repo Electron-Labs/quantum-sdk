@@ -13,7 +13,7 @@ describe("register circuit", () => {
     const correctCircuitId = "0x80dd52f677011d7b745fbb13675357cdb4418ca663c039124a22361b85f3b1a4";
     beforeEach(() => {
         rpcEndPoint = "http://localhost:8000";
-        quantum = new Quantum(rpcEndPoint);
+        quantum = new Quantum(rpcEndPoint, "auth");
     })
 
     it("should fail when vkey path is not valid", async () => {

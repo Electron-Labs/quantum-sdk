@@ -16,12 +16,14 @@ import { checkIfPathExist, readJsonFile } from "./utils/file";
 
 export class Quantum implements QuantumInterface {
     private rpcEndPoint: string;
-    constructor(rpcEndPoint: string) {
+    private authToken: string;
+    constructor(rpcEndPoint: string, authToken:  string) {
         this.rpcEndPoint = rpcEndPoint;
+        this.authToken = authToken;
     }
     async isCircuitRegistered(circuitId: string): Promise<CircuitRegistrationStatus> {
        const circuit_hash = Keccak256Hash.fromString(circuitId);
-       const circuitRegistrationStatus = await getCircuitRegistrationStatus(circuitId, this.rpcEndPoint);
+       const circuitRegistrationStatus = await getCircuitRegistrationStatus(circuitId, this.rpcEndPoint, this.authToken);
        return circuitRegistrationStatus;
     }
 
@@ -32,7 +34,7 @@ export class Quantum implements QuantumInterface {
     async checkServerConnection(){
         let isConnectionEstablished = false;
         try {
-            let response = await checkServerConnection(this.rpcEndPoint);
+            let response = await checkServerConnection(this.rpcEndPoint, this.authToken);
             isConnectionEstablished = response == "pong" ? true : false;
         } catch(e) {
             isConnectionEstablished = false;
@@ -86,7 +88,7 @@ export class Quantum implements QuantumInterface {
         const vkeyJson = this.checkPathAndReadJsonFile(vkeyPath);
         const serializedVKey = this.serializeVKey(vkeyJson, proofType);
 
-        const circuitHashString = await registerCircuit(this.rpcEndPoint, serializedVKey, publicInputsCount, proofType);
+        const circuitHashString = await registerCircuit(this.rpcEndPoint, serializedVKey, publicInputsCount, proofType, this.authToken);
         return Keccak256Hash.fromString(circuitHashString);
     }
 
@@ -99,13 +101,13 @@ export class Quantum implements QuantumInterface {
         const pubInput = this.checkPathAndReadJsonFile(pisPath);
         const pubInputEncoded = this.serializePubInputs(pubInput, proofType);
 
-        let proofId = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitId, proofType);
+        let proofId = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitId, proofType, this.authToken);
         return Keccak256Hash.fromString(proofId);
     }
 
     async getProofData(proofId: string): Promise<ProofData> {
         Keccak256Hash.fromString(proofId);
-        let proofStatusResponse = await get_proof_status(this.rpcEndPoint, proofId);
+        let proofStatusResponse = await get_proof_status(this.rpcEndPoint, proofId, this.authToken);
         return this.getProofStatusFromResponse(proofStatusResponse);
     }
 

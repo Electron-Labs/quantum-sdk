@@ -1,8 +1,12 @@
 import axios from "axios";
 
-export async function checkServerConnection(rpcEndPoint: string) {
+export async function checkServerConnection(rpcEndPoint: string, authToken: string) {
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`,
+    };
     try {
-        const response = await axios.get(`${rpcEndPoint}/ping`);
+        const response = await axios.get(`${rpcEndPoint}/ping`, {headers});
         if(response.status != 200) {
             throw new Error("error in check server connection api");
         }

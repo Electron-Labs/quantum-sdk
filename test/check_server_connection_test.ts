@@ -8,7 +8,7 @@ describe("check server connection", () => {
     let rpcEndPoint = "http://localhost:8000"
     beforeEach(() => {
         rpcEndPoint = "http://localhost:8000";
-        quantum = new Quantum(rpcEndPoint);
+        quantum = new Quantum(rpcEndPoint, "auth");
     })
     it("should return false when status code is not 200 from server", async () => {
         const scope = nock(rpcEndPoint).get("/ping").reply(500);
