@@ -30,13 +30,24 @@ export class Quantum implements QuantumInterface {
     public getRpcEndPoint() {
         return this.rpcEndPoint;
     }
+    
+    public getAuthToken() {
+        return this.authToken;
+    }
 
-    async checkServerConnection(){
+    public updateAuthToken(authToken: string) {
+        this.authToken = authToken;
+    }
+
+    async checkServerConnection() {
         let isConnectionEstablished = false;
         try {
             let response = await checkServerConnection(this.rpcEndPoint, this.authToken);
             isConnectionEstablished = response == "pong" ? true : false;
-        } catch(e) {
+        } catch(e: any) {
+            if(e.message == "Unauthorized"){
+                throw e;
+            }
             isConnectionEstablished = false;
         }
         return isConnectionEstablished;

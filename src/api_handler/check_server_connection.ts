@@ -11,8 +11,12 @@ export async function checkServerConnection(rpcEndPoint: string, authToken: stri
             throw new Error("error in check server connection api");
         }
         return response.data;
-    } catch(e) {
-        console.log(e);
+    } catch(e: any) {
+        // console.log(e);
+        if (e.response && e.response.status) {
+            console.log("Error status:", e.response.status);
+            throw new Error("Unauthorized");
+        }
         throw new Error("error in check server connection api " + JSON.stringify(e));
     }
 }
