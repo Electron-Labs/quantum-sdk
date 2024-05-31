@@ -1,3 +1,5 @@
+import { borshSerialize } from "../../utils/borsh";
+
 const fq = {struct : {
     X: 'string',
     Y: 'string'
@@ -54,4 +56,15 @@ export function getGnarkPubInputsSchema(){
 
 export function getGnarkProofSchema() {
     return gnarkProof;
+}
+
+export function serializeGnarkProof(proof: any) {
+    if (proof.CommitmentPok.X === 0) {
+        proof.CommitmentPok.X = "0";
+    }
+    if (proof.CommitmentPok.Y === 0) {
+        proof.CommitmentPok.Y = "0";
+    }
+    console.log(proof);
+    return borshSerialize(getGnarkProofSchema(), proof);
 }

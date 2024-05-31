@@ -6,8 +6,8 @@ import { CircuitRegistrationStatus } from "./enum/circuit_registration_status";
 import { getProofStatusFromString } from "./enum/proof_status";
 import { ProofType } from "./enum/proof_type";
 import QuantumInterface from "./interface/quantum_interface";
-import { getGnarkProofSchema, getGnarkPubInputsSchema, getGnarkVKeySchema } from "./types/borsh_schema/gnark";
-import { getSnarkJSProofSchema, getSnarkJSPubInputSchema, getSnarkJSVkeySchema } from "./types/borsh_schema/SnarkJS";
+import { getGnarkPubInputsSchema, getGnarkVKeySchema, serializeGnarkProof } from "./types/borsh_schema/gnark";
+import { getSnarkJSPubInputSchema, getSnarkJSVkeySchema, serializeSnarkProof } from "./types/borsh_schema/SnarkJS";
 import { ContractAddress } from "./types/contract";
 import { Keccak256Hash } from "./types/keccak256_hash";
 import { ProofData } from "./types/proof_status";
@@ -66,14 +66,13 @@ export class Quantum implements QuantumInterface {
 
     // TODO: handle this serialize based on proving schemes in better way
     private serializeProof(proofJson: any, proofType: ProofType) {
-        let proofSchema;
         if (proofType == ProofType.GNARK_GROTH16) {
-            proofSchema = getGnarkProofSchema();
+            return serializeGnarkProof(proofJson);
         } else if (proofType == ProofType.GROTH16) {
-            proofSchema = getSnarkJSProofSchema();
+            return serializeSnarkProof(proofJson);
+        } else {
+            throw new Error("unsupported proof scheme")
         }
-        const serializedVkey= borshSerialize(proofSchema, proofJson);
-        return serializedVkey;
     }
 
     private serializePubInputs(pubInputsJson: any, proofType: ProofType) {
@@ -87,7 +86,7 @@ export class Quantum implements QuantumInterface {
         return serializedVkey;
     }
 
-    public checkPathAndReadJsonFile(vkeyPath: string) {
+    private checkPathAndReadJsonFile(vkeyPath: string) {
         let isPathExist = checkIfPathExist(vkeyPath);
         if(!isPathExist) {
             throw new Error(`VkeyPath does not exist : ${vkeyPath}.`);
