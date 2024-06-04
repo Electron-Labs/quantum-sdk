@@ -20,4 +20,23 @@ export namespace ProofType {
                 throw new Error('Unknown proof type');
         }
     }
+
+    export function fromString(type: string) {
+        switch (type.toLocaleLowerCase()) {
+            case "Groth16".toLowerCase():
+                return ProofType.GROTH16;
+            case 'Gnark_Groth16'.toLowerCase():
+                return  ProofType.GNARK_GROTH16;
+            case  'Plonky2'.toLowerCase():
+                return ProofType.PLONKY2;
+            case 'Halo2_KZG'.toLowerCase():
+                return ProofType.HALO2_KZG;
+            case 'GnarkGroth16'.toLowerCase():
+                return  ProofType.GNARK_GROTH16;
+            case  'Halo2KZG' :
+                return ProofType.HALO2_KZG;
+            default:
+                throw new Error('Unknown proof type');
+        }
+    }
 }
