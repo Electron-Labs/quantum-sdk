@@ -86,12 +86,12 @@ export class Quantum implements QuantumInterface {
         return serializedVkey;
     }
 
-    private checkPathAndReadJsonFile(vkeyPath: string) {
-        let isPathExist = checkIfPathExist(vkeyPath);
+    private checkPathAndReadJsonFile(filePath: string) {
+        let isPathExist = checkIfPathExist(filePath);
         if(!isPathExist) {
-            throw new Error(`VkeyPath does not exist : ${vkeyPath}.`);
+            throw new Error(`filePath does not exist : ${filePath}.`);
         }
-        return readJsonFile(vkeyPath);
+        return readJsonFile(filePath);
     }
 
     async registerCircuit(vkeyPath: string, publicInputsCount: number, proofType: ProofType): Promise<Keccak256Hash> {
