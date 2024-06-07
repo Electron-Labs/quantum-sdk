@@ -4,7 +4,7 @@ import { Quantum } from "../src/quantum";
 
 const url = "http://127.0.0.1:8000";
 async function main() {
-    const q = new Quantum(url);
+    const q = new Quantum(url, "5f16f4c7f149ac4f9510d9cf8cf384038ad348b3bcdc0191");
     let r = await q.checkServerConnection();
     console.log(r);
 

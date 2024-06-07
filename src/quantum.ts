@@ -6,8 +6,8 @@ import { CircuitRegistrationStatus } from "./enum/circuit_registration_status";
 import { getProofStatusFromString } from "./enum/proof_status";
 import { ProofType } from "./enum/proof_type";
 import QuantumInterface from "./interface/quantum_interface";
-import { getGnarkProofSchema, getGnarkPubInputsSchema, getGnarkVKeySchema } from "./types/borsh_schema/gnark";
-import { getSnarkJSProofSchema, getSnarkJSPubInputSchema, getSnarkJSVkeySchema } from "./types/borsh_schema/SnarkJS";
+import { getGnarkPubInputsSchema, getGnarkVKeySchema, serializeGnarkProof } from "./types/borsh_schema/gnark";
+import { getSnarkJSPubInputSchema, getSnarkJSVkeySchema, serializeSnarkProof } from "./types/borsh_schema/SnarkJS";
 import { ContractAddress } from "./types/contract";
 import { Keccak256Hash } from "./types/keccak256_hash";
 import { ProofData } from "./types/proof_status";
@@ -16,25 +16,38 @@ import { checkIfPathExist, readJsonFile } from "./utils/file";
 
 export class Quantum implements QuantumInterface {
     private rpcEndPoint: string;
-    constructor(rpcEndPoint: string) {
+    private authToken: string;
+    constructor(rpcEndPoint: string, authToken:  string) {
         this.rpcEndPoint = rpcEndPoint;
+        this.authToken = authToken;
     }
     async isCircuitRegistered(circuitId: string): Promise<CircuitRegistrationStatus> {
        const circuit_hash = Keccak256Hash.fromString(circuitId);
-       const circuitRegistrationStatus = await getCircuitRegistrationStatus(circuitId, this.rpcEndPoint);
+       const circuitRegistrationStatus = await getCircuitRegistrationStatus(circuitId, this.rpcEndPoint, this.authToken);
        return circuitRegistrationStatus;
     }
 
     public getRpcEndPoint() {
         return this.rpcEndPoint;
     }
+    
+    public getAuthToken() {
+        return this.authToken;
+    }
 
-    async checkServerConnection(){
+    public updateAuthToken(authToken: string) {
+        this.authToken = authToken;
+    }
+
+    async checkServerConnection() {
         let isConnectionEstablished = false;
         try {
-            let response = await checkServerConnection(this.rpcEndPoint);
+            let response = await checkServerConnection(this.rpcEndPoint, this.authToken);
             isConnectionEstablished = response == "pong" ? true : false;
-        } catch(e) {
+        } catch(e: any) {
+            if(e.message == "Unauthorized"){
+                throw e;
+            }
             isConnectionEstablished = false;
         }
         return isConnectionEstablished;
@@ -53,14 +66,13 @@ export class Quantum implements QuantumInterface {
 
     // TODO: handle this serialize based on proving schemes in better way
     private serializeProof(proofJson: any, proofType: ProofType) {
-        let proofSchema;
         if (proofType == ProofType.GNARK_GROTH16) {
-            proofSchema = getGnarkProofSchema();
+            return serializeGnarkProof(proofJson);
         } else if (proofType == ProofType.GROTH16) {
-            proofSchema = getSnarkJSProofSchema();
+            return serializeSnarkProof(proofJson);
+        } else {
+            throw new Error("unsupported proof scheme")
         }
-        const serializedVkey= borshSerialize(proofSchema, proofJson);
-        return serializedVkey;
     }
 
     private serializePubInputs(pubInputsJson: any, proofType: ProofType) {
@@ -74,19 +86,19 @@ export class Quantum implements QuantumInterface {
         return serializedVkey;
     }
 
-    public checkPathAndReadJsonFile(vkeyPath: string) {
-        let isPathExist = checkIfPathExist(vkeyPath);
+    private checkPathAndReadJsonFile(filePath: string) {
+        let isPathExist = checkIfPathExist(filePath);
         if(!isPathExist) {
-            throw new Error(`VkeyPath does not exist : ${vkeyPath}.`);
+            throw new Error(`filePath does not exist : ${filePath}.`);
         }
-        return readJsonFile(vkeyPath);
+        return readJsonFile(filePath);
     }
 
     async registerCircuit(vkeyPath: string, publicInputsCount: number, proofType: ProofType): Promise<Keccak256Hash> {
         const vkeyJson = this.checkPathAndReadJsonFile(vkeyPath);
         const serializedVKey = this.serializeVKey(vkeyJson, proofType);
 
-        const circuitHashString = await registerCircuit(this.rpcEndPoint, serializedVKey, publicInputsCount, proofType);
+        const circuitHashString = await registerCircuit(this.rpcEndPoint, serializedVKey, publicInputsCount, proofType, this.authToken);
         return Keccak256Hash.fromString(circuitHashString);
     }
 
@@ -99,13 +111,13 @@ export class Quantum implements QuantumInterface {
         const pubInput = this.checkPathAndReadJsonFile(pisPath);
         const pubInputEncoded = this.serializePubInputs(pubInput, proofType);
 
-        let proofId = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitId, proofType);
+        let proofId = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitId, proofType, this.authToken);
         return Keccak256Hash.fromString(proofId);
     }
 
     async getProofData(proofId: string): Promise<ProofData> {
         Keccak256Hash.fromString(proofId);
-        let proofStatusResponse = await get_proof_status(this.rpcEndPoint, proofId);
+        let proofStatusResponse = await get_proof_status(this.rpcEndPoint, proofId, this.authToken);
         return this.getProofStatusFromResponse(proofStatusResponse);
     }
 

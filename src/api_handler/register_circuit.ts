@@ -5,10 +5,15 @@ import { RegisterCircuitResponse } from "./response/register_circuit_response";
 import { CircuitRegistrationStatusResponse } from "./response/circuit_registration_status_response";
 import { getCircuitRegistrationStatusFromString } from "../enum/circuit_registration_status";
 
-export async function registerCircuit(rpcEndPoint: string, vkeySerialized: Uint8Array, publicInputsCount: number, proofType: ProofType) {
+export async function registerCircuit(rpcEndPoint: string, vkeySerialized: Uint8Array, publicInputsCount: number, proofType: ProofType, authToken: string) {
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`,
+    };
+    
     const requestBody = getRegisterCircuitRequest(vkeySerialized, publicInputsCount, proofType);
     try {
-        const response = await axios.post(`${rpcEndPoint}/register_circuit`, requestBody);
+        const response = await axios.post(`${rpcEndPoint}/register_circuit`, requestBody, {headers});
         const responseData: RegisterCircuitResponse = response.data;
         return responseData.circuit_hash;
     } catch(e) {
@@ -18,9 +23,14 @@ export async function registerCircuit(rpcEndPoint: string, vkeySerialized: Uint8
     }
 }
 
-export async function getCircuitRegistrationStatus(circuitId: string, rpcEndPoint: string) {
+export async function getCircuitRegistrationStatus(circuitId: string, rpcEndPoint: string, authToken: string) {
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`,
+    };
+    
     try {
-        const response = await axios.get(`${rpcEndPoint}/circuit/${circuitId}/status`,);
+        const response = await axios.get(`${rpcEndPoint}/circuit/${circuitId}/status`,{headers});
         const responseData: CircuitRegistrationStatusResponse = response.data;
         return getCircuitRegistrationStatusFromString(responseData.circuit_registration_status);
     } catch(e) {

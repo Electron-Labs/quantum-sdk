@@ -1,3 +1,5 @@
+import { borshSerialize } from "../../utils/borsh";
+
 const nestedArrayOfStringType = { array: { type : { array : {type: 'string'}}}}
 
 const snarkJSVkey = {struct : {
@@ -32,4 +34,8 @@ export function getSnarkJSPubInputSchema() {
 
 export function getSnarkJSVkeySchema() {
     return snarkJSVkey;
+}
+
+export function serializeSnarkProof(proof: any) {
+    return borshSerialize(getSnarkJSProofSchema(), proof);
 }
