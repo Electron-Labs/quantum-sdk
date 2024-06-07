@@ -4,6 +4,14 @@ export function checkIfPathExist(folderPath: string) {
     return fs.existsSync(folderPath)
 }
 
+export function checkPathAndReadJsonFile(filePath: string) {
+    let isPathExist = checkIfPathExist(filePath);
+    if(!isPathExist) {
+        throw new Error(`filePath does not exist : ${filePath}.`);
+    }
+    return readJsonFile(filePath);
+}
+
 export function createFolder(fodlerPath: string) {
     return fs.mkdirSync(fodlerPath);
 }

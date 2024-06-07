@@ -4,13 +4,10 @@ import { RegisterCircuitRequest } from "./request/register_circuit_request";
 import { RegisterCircuitResponse } from "./response/register_circuit_response";
 import { CircuitRegistrationStatusResponse } from "./response/circuit_registration_status_response";
 import { getCircuitRegistrationStatusFromString } from "../enum/circuit_registration_status";
+import { getRequestheader } from "./api_utils";
 
 export async function registerCircuit(rpcEndPoint: string, vkeySerialized: Uint8Array, publicInputsCount: number, proofType: ProofType, authToken: string) {
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`,
-    };
-    
+    const headers = getRequestheader(authToken);
     const requestBody = getRegisterCircuitRequest(vkeySerialized, publicInputsCount, proofType);
     try {
         const response = await axios.post(`${rpcEndPoint}/register_circuit`, requestBody, {headers});
@@ -24,11 +21,7 @@ export async function registerCircuit(rpcEndPoint: string, vkeySerialized: Uint8
 }
 
 export async function getCircuitRegistrationStatus(circuitId: string, rpcEndPoint: string, authToken: string) {
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`,
-    };
-    
+    const headers = getRequestheader(authToken);
     try {
         const response = await axios.get(`${rpcEndPoint}/circuit/${circuitId}/status`,{headers});
         const responseData: CircuitRegistrationStatusResponse = response.data;
