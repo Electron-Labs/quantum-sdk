@@ -1,10 +1,11 @@
 import { checkServerConnection } from "./api_handler/check_server_connection";
 import { getCircuitRegistrationStatus, registerCircuit } from "./api_handler/register_circuit";
 import { get_proof_status, getProtocolProof, submitProof } from "./api_handler/submit_proof";
-import { CircuitRegistrationStatus } from "./enum/circuit_registration_status";
+import { CircuitRegistrationStatus, getCircuitRegistrationStatusFromString } from "./enum/circuit_registration_status";
 import { ProofType } from "./enum/proof_type";
 import QuantumInterface from "./interface/quantum_interface";
 import { getProofStatusFromResponse, getProtocolProofFromResponse, serializeProof, serializePubInputs, serializeVKey } from "./quantum_helper";
+import { IsCircuitRegistered } from "./types/is_circuit_registered";
 import { Keccak256Hash } from "./types/keccak256_hash";
 import { ProofData } from "./types/proof_status";
 import { GetProofDataResponse } from "./types/quantum-response/get_proof_data_response";
@@ -22,9 +23,13 @@ export class Quantum implements QuantumInterface {
         this.authToken = authToken;
     }
     async isCircuitRegistered(circuitHash: string): Promise<IsCircuitResgisteredResponse> {
-       const circuit_hash = Keccak256Hash.fromString(circuitHash);
-       const circuitRegistrationStatus = await getCircuitRegistrationStatus(circuitHash, this.rpcEndPoint, this.authToken);
-       return new IsCircuitResgisteredResponse(circuitRegistrationStatus);
+        const circuit_hash = Keccak256Hash.fromString(circuitHash);
+        const isCircuitRegistrationResponse = await getCircuitRegistrationStatus(circuitHash, this.rpcEndPoint, this.authToken);
+        const isCircuitRegistered = new IsCircuitRegistered({
+            circuitRegistrationStatus: getCircuitRegistrationStatusFromString(isCircuitRegistrationResponse.circuit_registration_status),
+            reductionCircuitHash: isCircuitRegistrationResponse.reduction_circuit_hash
+        })
+        return new IsCircuitResgisteredResponse(isCircuitRegistered);
     }
 
     public getRpcEndPoint() {

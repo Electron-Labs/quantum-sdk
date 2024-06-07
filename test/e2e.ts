@@ -8,21 +8,21 @@ async function main() {
     let r = await q.checkServerConnection();
     console.log(r);
 
-    let circuitHash = await q.registerCircuit("test/dump/gnark/circuit/3/vkey.json", 3, ProofType.GNARK_GROTH16)
+    let circuitHash = await q.registerCircuit("/Users/adityabansal/workspace/electron/repo/quantum-proof-generator/dump/gnark/circuit/7/vkey.json", 7, ProofType.GNARK_GROTH16)
     console.log({circuitHash})
     console.log(circuitHash.circuitHash.asString());
 
-    let status = await q.isCircuitRegistered("0x988b45d046b7d24e768e3f2749c2e622c73f958376883edd13704360bb2178c9");
+    let status = await q.isCircuitRegistered(circuitHash.circuitHash.asString());
     console.log(status);
 
-    let proofHash = await q.submitProof("test/dump/gnark_2/proof.json", "test/dump/gnark_2/pub_input.json", circuitHash.circuitHash.asString(), ProofType.GNARK_GROTH16);
-    console.log(proofHash);
+    // let proofHash = await q.submitProof("test/dump/gnark_2/proof.json", "test/dump/gnark_2/pub_input.json", circuitHash.circuitHash.asString(), ProofType.GNARK_GROTH16);
+    // console.log(proofHash);
 
-    let proof_status = await q.getProofData("0x55efc9dce7850312afe32f166cf4b3370a3a1544e81386539a5c4a6a2f700aaa");
-    console.log(proof_status.proofData);
+    // let proof_status = await q.getProofData("0x55efc9dce7850312afe32f166cf4b3370a3a1544e81386539a5c4a6a2f700aaa");
+    // console.log(proof_status.proofData);
 
-    let response = await q.getProtocolProof("0x55efc9dce7850312afe32f166cf4b3370a3a1544e81386539a5c4a6a2f700aaa");
-    console.log({response});
+    // let response = await q.getProtocolProof("0x55efc9dce7850312afe32f166cf4b3370a3a1544e81386539a5c4a6a2f700aaa");
+    // console.log({response});
 }   
 
 main().then(() => {
