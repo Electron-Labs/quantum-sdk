@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe } from "mocha";
 import { Quantum } from "../src/quantum";
 import nock from "nock";
-import { assert } from "chai";
+import { assert, expect } from "chai";
 
 describe("check server connection", () => {
     let quantum: Quantum;
@@ -12,8 +12,7 @@ describe("check server connection", () => {
     })
     it("should return false when status code is not 200 from server", async () => {
         const scope = nock(rpcEndPoint).get("/ping").reply(500);
-        const response = await quantum.checkServerConnection();
-        assert.equal(response, false, "should fail when incorrect status code is returned");
+        return expect(quantum.checkServerConnection()).to.be.rejectedWith(/^Unauthorized*/);
     })
 
     it("should return false when wrong data is returned from server", async () => {

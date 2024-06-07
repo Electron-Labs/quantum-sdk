@@ -1,10 +1,8 @@
 import axios from "axios";
+import { getRequestheader } from "./api_utils";
 
 export async function checkServerConnection(rpcEndPoint: string, authToken: string) {
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`,
-    };
+    const headers = getRequestheader(authToken);
     try {
         const response = await axios.get(`${rpcEndPoint}/ping`, {headers});
         if(response.status != 200) {
