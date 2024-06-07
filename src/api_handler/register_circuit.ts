@@ -20,10 +20,10 @@ export async function registerCircuit(rpcEndPoint: string, vkeySerialized: Uint8
     }
 }
 
-export async function getCircuitRegistrationStatus(circuitId: string, rpcEndPoint: string, authToken: string) {
+export async function getCircuitRegistrationStatus(circuitHash: string, rpcEndPoint: string, authToken: string) {
     const headers = getRequestheader(authToken);
     try {
-        const response = await axios.get(`${rpcEndPoint}/circuit/${circuitId}/status`,{headers});
+        const response = await axios.get(`${rpcEndPoint}/circuit/${circuitHash}/status`,{headers});
         const responseData: CircuitRegistrationStatusResponse = response.data;
         return getCircuitRegistrationStatusFromString(responseData.circuit_registration_status);
     } catch(e) {

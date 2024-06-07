@@ -6,9 +6,9 @@ import { ProofDataResponse } from "./response/proof_data_response";
 import { getRequestheader } from "./api_utils";
 import { ProtocolProofResponse } from "./response/protocol_proof_response";
 
-export async function submitProof(rpcEndPoint: string, proofEncoded: Uint8Array, publicInputsEncoded: Uint8Array, circuitId: String, proofType: ProofType, authToken: string) {
+export async function submitProof(rpcEndPoint: string, proofEncoded: Uint8Array, publicInputsEncoded: Uint8Array, circuitHash: String, proofType: ProofType, authToken: string) {
     const headers = getRequestheader(authToken);
-    const requestBody = getSubmitProofRequest(proofEncoded, publicInputsEncoded, circuitId, proofType);
+    const requestBody = getSubmitProofRequest(proofEncoded, publicInputsEncoded, circuitHash, proofType);
     console.log({requestBody});
     try {
         const response = await axios.post(`${rpcEndPoint}/proof`, requestBody, {headers});
@@ -35,19 +35,19 @@ export async function get_proof_status(rpcEndPoint: string, proof_id: string, au
     }
 }
 
-function getSubmitProofRequest(proofEncoded: Uint8Array, publicInputsEncoded: Uint8Array, circuitId: String, proofType: ProofType) {
+function getSubmitProofRequest(proofEncoded: Uint8Array, publicInputsEncoded: Uint8Array, circuitHash: String, proofType: ProofType) {
     return new SubmitProof({
         proof: Array.from(proofEncoded),
         pis: Array.from(publicInputsEncoded),
-        circuit_hash: circuitId,
+        circuit_hash: circuitHash,
         proof_type: ProofType.asString(proofType)
     })
 }
 
-export async function getProtocolProof(rpcEndPoint: string, authToken: string, proofId: string) {
+export async function getProtocolProof(rpcEndPoint: string, authToken: string, proofHash: string) {
     const headers = getRequestheader(authToken);
     try {
-        const response = await axios.get(`${rpcEndPoint}/protocol_proof/merkle/${proofId}`,{headers});
+        const response = await axios.get(`${rpcEndPoint}/protocol_proof/merkle/${proofHash}`,{headers});
         const responseData: ProtocolProofResponse = response.data;
         console.log({responseData});
         return responseData;

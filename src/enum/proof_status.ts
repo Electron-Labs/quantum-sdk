@@ -14,6 +14,7 @@ export enum ProofStatus {
 export function getProofStatusFromString(value: string) {
     switch(value) {
         case "NotFound" :
+            
             return ProofStatus.NOT_FOUND;
         case "Registered":
             return ProofStatus.REGISTERED;
