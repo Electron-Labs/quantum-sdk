@@ -2,7 +2,7 @@
   "name": "quantum-sdk",
   "version": "1.0.0",
   "description": "SDK to interact seamlessly with quantum node",
-  "main": "index.js",
+  "main": "dist/src/quantum.js",
   "scripts": {
     "build": "tsc",
     "start": "tsc && node dist/src/index.js",
