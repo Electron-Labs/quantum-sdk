@@ -11,7 +11,7 @@ import { ProtocolProof } from "./types/protocol_proof";
 import { borshSerialize } from "./utils/borsh";
 
 export function getProtocolProofFromResponse(resp: ProtocolProofResponse) {
-    return new ProtocolProof({proof: resp.proof, proofHelper: resp.proof_helper})
+    return new ProtocolProof({...resp})
 }
 
 export function getProofStatusFromResponse(resp: ProofDataResponse) {
