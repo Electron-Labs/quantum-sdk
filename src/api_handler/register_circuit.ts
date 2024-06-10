@@ -25,7 +25,7 @@ export async function getCircuitRegistrationStatus(circuitHash: string, rpcEndPo
     try {
         const response = await axios.get(`${rpcEndPoint}/circuit/${circuitHash}/status`,{headers});
         const responseData: CircuitRegistrationStatusResponse = response.data;
-        return getCircuitRegistrationStatusFromString(responseData.circuit_registration_status);
+        return responseData;
     } catch(e) {
         // console.log(e);
         // TODO: throw different error based on different error code and message
