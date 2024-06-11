@@ -10,23 +10,25 @@ describe("ProtocolVerifier", () => {
     const initState = DATA.state
     quantum = await hre.ethers.getContractAt("Quantum", await deployQuantum(initState))
 
-    protocol = await hre.ethers.getContractAt("Protocol", await deployProtocol(DATA.vKeyHash));
+    const Protocol = await hre.ethers.getContractFactory("Protocol_2");
+    protocol = await hre.upgrades.deployProxy(Protocol, [DATA.vKeyHash]);
+    await protocol.waitForDeployment();
   })
 
   it("verifyPubInputs", async function () {
     let quantumProof = {}
     let merkleProof = DATA.merkleProof
     for (let i = 0; i < merkleProof.length; i++) {
-      merkleProof[i] = hre.ethers.getBytes(Uint8Array.from(merkleProof[i]))
+      merkleProof[i] = Uint8Array.from(merkleProof[i])
     }
     quantumProof["protocolVKeyHash"] = DATA.protocolVKeyHash
     quantumProof["reductionVKeyHash"] = DATA.reductionVKeyHash
     quantumProof["leafNextValue"] = DATA.leafNextValue
-    quantumProof["leafNextIdx"] = hre.ethers.getBytes(Uint8Array.from(DATA.leafNextIdx))
+    quantumProof["leafNextIdx"] = Uint8Array.from(DATA.leafNextIdx)
 
     const pubInputs = DATA.pubInputs
     for (let i = 0; i < pubInputs.length; i++) {
-      pubInputs[i] = hre.ethers.getBytes(Uint8Array.from(pubInputs[i]))
+      pubInputs[i] = Uint8Array.from(pubInputs[i])
     }
     quantumProof["pubInputs"] = pubInputs
 

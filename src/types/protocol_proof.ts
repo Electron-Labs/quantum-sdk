@@ -2,11 +2,12 @@ export class ProtocolProof {
 
         public protocolVkeyHash: string
         public reductionVkeyHash: string
-        public merkleProofPosition: number[]
-        public merkleProof: number[][]
+        public merkleProofPosition: number
+        public merkleProof: string[]
         public leafNextValue: string
-        public leafNextIndex: number[]
-    
+        public leafNextIndex: string
+        public superproof_root: string
+
         constructor(fields: any) {
             this.protocolVkeyHash =  fields.protocol_vkey_hash;
             this.reductionVkeyHash = fields.reduction_vkey_hash
@@ -14,5 +15,6 @@ export class ProtocolProof {
             this.merkleProof = fields.merkle_proof
             this.leafNextValue = fields.leaf_next_value
             this.leafNextIndex = fields.leaf_next_index
+            this.superproof_root = fields.superproof_root
         }
 }

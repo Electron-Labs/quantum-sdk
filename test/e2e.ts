@@ -23,7 +23,7 @@ async function main() {
 
     // let response = await q.getProtocolProof("0x55efc9dce7850312afe32f166cf4b3370a3a1544e81386539a5c4a6a2f700aaa");
     // console.log({response});
-}   
+}
 
 main().then(() => {
     console.log("done");
