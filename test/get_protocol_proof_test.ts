@@ -15,8 +15,12 @@ describe("get protocol proof testing", () =>{
     let rpcEndPoint: string;
     let correctProofHash = "0xa4896a3f93bf4bf58378e579f3cf193bb4af1022af7d2089f37d8bae7157b85f"; 
     let correctProtocolProof = new ProtocolProof({
-        proof: [[1,2,3], [2,4,4]],
-        proofHelper: [1,23]
+        protocolVkeyHash: "0x80dd52f677011d7b745fbb13675357cdb4418ca663c039124a22361b85f3b1a4",
+        reductionVkeyHash: "0xa4896a3f93bf4bf58378e579f3cf193bb4af1022af7d2089f37d8bae7157b85f",
+        merkleProofPosition: [13],
+        merkleProof: [1,23,63,131],
+        leafNextValue: "nextVal",
+        leafNextIndex: [14],
     })
     beforeEach(() => {
         rpcEndPoint = "http://localhost:8000";
@@ -44,10 +48,14 @@ describe("get protocol proof testing", () =>{
         const scope = nock(rpcEndPoint).get(apiEndpoint)
                                        .reply(200, 
                                             {
-                                                 proof: [[1,2,3], [2,4,4]],
-                                                 proof_helper: [1,23]
-                                             }
-                                            );
+                                                protocolVkeyHash: "0x80dd52f677011d7b745fbb13675357cdb4418ca663c039124a22361b85f3b1a4",
+                                                reductionVkeyHash: "0xa4896a3f93bf4bf58378e579f3cf193bb4af1022af7d2089f37d8bae7157b85f",
+                                                merkleProofPosition: [13],
+                                                merkleProof: [1,23,63,131],
+                                                leafNextValue: "nextVal",
+                                                leafNextIndex: [14],
+                                            }
+                                        );
         let protocolProofRes = await quantum.getProtocolProof(correctProofHash);
         console.log(protocolProofRes);
         assert.deepEqual(protocolProofRes.protocolProof, correctProtocolProof);

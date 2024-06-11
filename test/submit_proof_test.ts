@@ -39,8 +39,20 @@ describe("submit proof test", () => {
         const scope = nock(rpcEndPoint).post("/proof");
         let invalidPisPath = "test/dump/wrong_public.json";
         return expect(quantum.submitProof(correctProofPath, invalidPisPath, circuitHash, ProofType.GROTH16))
-        .to.be.rejectedWith(/^Error in serializing*/);;
+        .to.be.rejectedWith(/^Error in serializing*/);
     });
+
+    it("should fail when correct proof and pis is passed with wrong Proof Type", () =>{
+        const scope = nock(rpcEndPoint).post("/proof");
+        return expect(quantum.submitProof(correctProofPath, correctPisPath, circuitHash, ProofType.PLONKY2))
+        .to.be.rejectedWith("unsupported proof scheme");
+    });
+
+    it("should fail when given invalid circuit hash", () => {
+        let invalidHash = "0x80dd52f677011d7b745fbb13675357cdb4418ca663c039124a22361b85f";
+        return expect(quantum.submitProof(correctProofPath, correctPisPath, invalidHash, ProofType.GROTH16))
+        .to.be.rejectedWith("hash is not valid");
+    })
 
     it("should return valid proof_hash when valid proof and pub inputs are provided", async() => {
         const scope = nock(rpcEndPoint).post("/proof").reply(200, {proof_id: "0xa4896a3f93bf4bf58378e579f3cf193bb4af1022af7d2089f37d8bae7157b85f"});
