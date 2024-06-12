@@ -14,11 +14,14 @@ import { IsCircuitResgisteredResponse } from "./types/quantum-response/is_circui
 import { RegisterCircuitResponse } from "./types/quantum-response/register_circuit_resposne";
 import { SubmitProofResponse } from "./types/quantum-response/submit_proof_response";
 import { checkPathAndReadJsonFile } from "./utils/file";
+import { ProtocolProof } from "../src/types/protocol_proof";
+import { ProtocolInclusionProof } from "../src/types/protocol_inclusion_proof";
+import { toLeBytes32 } from "./utils/biginteger";
 
 export class Quantum implements QuantumInterface {
     private rpcEndPoint: string;
     private authToken: string;
-    constructor(rpcEndPoint: string, authToken:  string) {
+    constructor(rpcEndPoint: string, authToken: string) {
         this.rpcEndPoint = rpcEndPoint;
         this.authToken = authToken;
     }
@@ -35,7 +38,7 @@ export class Quantum implements QuantumInterface {
     public getRpcEndPoint() {
         return this.rpcEndPoint;
     }
-    
+
     public getAuthToken() {
         return this.authToken;
     }
@@ -49,9 +52,9 @@ export class Quantum implements QuantumInterface {
         try {
             let response = await checkServerConnection(this.rpcEndPoint, this.authToken);
             isConnectionEstablished = response == "pong" ? true : false;
-        } catch(e: any) {
+        } catch (e: any) {
             console.log(e.message)
-            if(e.message == "Unauthorized"){
+            if (e.message == "Unauthorized") {
                 throw e;
             }
             isConnectionEstablished = false;
@@ -78,7 +81,7 @@ export class Quantum implements QuantumInterface {
         const pubInputEncoded = serializePubInputs(pubInput, proofType);
 
         let proofHashString = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitHash, proofType, this.authToken);
-        let proofHash =  Keccak256Hash.fromString(proofHashString);
+        let proofHash = Keccak256Hash.fromString(proofHashString);
         return new SubmitProofResponse(proofHash)
     }
 
@@ -92,9 +95,23 @@ export class Quantum implements QuantumInterface {
     async getProtocolProof(proofHash: string): Promise<GetProtocolProofResponse> {
         Keccak256Hash.fromString(proofHash);
         let response = await getProtocolProof(this.rpcEndPoint, this.authToken, proofHash);
-        let protocolProof =  getProtocolProofFromResponse(response);
+        let protocolProof = getProtocolProofFromResponse(response);
         return new GetProtocolProofResponse(protocolProof)
     }
 
-   
+    getProtocolInclusionProof(protocolProof: ProtocolProof, pubInputs: string[]): ProtocolInclusionProof {
+        let pubInputsBytes = new Array<Uint8Array>(pubInputs.length)
+        for (let i = 0; i < pubInputsBytes.length; i++) {
+            pubInputsBytes[i] = toLeBytes32(pubInputs[i])
+        }
+        return {
+            protocolVKeyHash: protocolProof.protocolVkeyHash,
+            reductionVKeyHash: protocolProof.reductionVkeyHash,
+            merkleProofPosition: protocolProof.merkleProofPosition,
+            merkleProof: protocolProof.merkleProof,
+            leafNextValue: protocolProof.leafNextValue,
+            leafNextIdx: protocolProof.leafNextIndex,
+            pubInputs: pubInputs.length ? pubInputsBytes : undefined,
+        };
+    }
 }
