@@ -23,7 +23,7 @@ const B = (nPub, quantumVerifier) => {
 }
 
 const C = (nPub) => {
-  let code = `struct QuantumProof {
+  let code = `struct ProtocolInclusionProof {
     bytes32 protocolVKeyHash;
     bytes32 reductionVKeyHash;
     uint256 merkleProofPosition;
@@ -44,7 +44,7 @@ const C = (nPub) => {
 
 const D = (nPub) => {
   let code = `function verifyPubInputs(
-  QuantumProof calldata quantumProof,
+  ProtocolInclusionProof calldata protocolInclusionProof,
   bytes32 vKeyHash
 ) internal {
   assembly {

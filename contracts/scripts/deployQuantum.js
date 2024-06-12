@@ -9,9 +9,9 @@ async function deployQuantum(initState) {
 }
 
 async function main() {
-  const initState = "0x851b17914fe4e0e307ad561560cad44c6d000a6d9e405c2ed3ba74693c162a76" // depth=10
-  const verifierAddress = await deployVerifier()
-  await deployQuantum(verifierAddress, initState)
+  // TODO: 0x851b17914fe4e0e307ad561560cad44c6d000a6d9e405c2ed3ba74693c162a76 // depth=10
+  const initState = "0x66e38aa0112684bcd2a7770c172fab689e40ecb2424f6a2ab9012976af7f41e3"
+  await deployQuantum(initState)
 }
 
 if (require.main == module) {

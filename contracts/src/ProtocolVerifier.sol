@@ -7,7 +7,7 @@ library ProtocolVerifier_0 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -17,7 +17,7 @@ library ProtocolVerifier_0 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -188,7 +188,7 @@ library ProtocolVerifier_1 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -199,7 +199,7 @@ library ProtocolVerifier_1 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -371,7 +371,7 @@ library ProtocolVerifier_2 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -382,7 +382,7 @@ library ProtocolVerifier_2 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -555,7 +555,7 @@ library ProtocolVerifier_3 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -566,7 +566,7 @@ library ProtocolVerifier_3 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -740,7 +740,7 @@ library ProtocolVerifier_4 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -751,7 +751,7 @@ library ProtocolVerifier_4 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -926,7 +926,7 @@ library ProtocolVerifier_5 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -937,7 +937,7 @@ library ProtocolVerifier_5 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -1113,7 +1113,7 @@ library ProtocolVerifier_6 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -1124,7 +1124,7 @@ library ProtocolVerifier_6 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -1301,7 +1301,7 @@ library ProtocolVerifier_7 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -1312,7 +1312,7 @@ library ProtocolVerifier_7 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -1490,7 +1490,7 @@ library ProtocolVerifier_8 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -1501,7 +1501,7 @@ library ProtocolVerifier_8 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -1680,7 +1680,7 @@ library ProtocolVerifier_9 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -1691,7 +1691,7 @@ library ProtocolVerifier_9 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -1871,7 +1871,7 @@ library ProtocolVerifier_10 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -1882,7 +1882,7 @@ library ProtocolVerifier_10 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -2063,7 +2063,7 @@ library ProtocolVerifier_11 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -2074,7 +2074,7 @@ library ProtocolVerifier_11 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -2256,7 +2256,7 @@ library ProtocolVerifier_12 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -2267,7 +2267,7 @@ library ProtocolVerifier_12 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -2450,7 +2450,7 @@ library ProtocolVerifier_13 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -2461,7 +2461,7 @@ library ProtocolVerifier_13 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -2645,7 +2645,7 @@ library ProtocolVerifier_14 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -2656,7 +2656,7 @@ library ProtocolVerifier_14 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {
@@ -2841,7 +2841,7 @@ library ProtocolVerifier_15 {
     address constant QUANTUM_VERIFIER =
         0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
-    struct QuantumProof {
+    struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
         bytes32 reductionVKeyHash;
         uint256 merkleProofPosition;
@@ -2852,7 +2852,7 @@ library ProtocolVerifier_15 {
     }
 
     function verifyPubInputs(
-        QuantumProof calldata quantumProof,
+        ProtocolInclusionProof calldata protocolInclusionProof,
         bytes32 vKeyHash
     ) internal {
         assembly {

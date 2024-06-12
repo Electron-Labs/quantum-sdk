@@ -14,9 +14,9 @@ contract Protocol_2 is Initializable {
     }
 
     function verifyPubInputs(
-        ProtocolVerifier_2.QuantumProof calldata quantumProof
+        ProtocolVerifier_2.ProtocolInclusionProof calldata protocolInclusionProof
     ) external {
-        ProtocolVerifier_2.verifyPubInputs(quantumProof, vKeyHash);
+        ProtocolVerifier_2.verifyPubInputs(protocolInclusionProof, vKeyHash);
     }
 }
 
@@ -28,8 +28,8 @@ contract Protocol_4 is Initializable {
     }
 
     function verifyPubInputs(
-        ProtocolVerifier_4.QuantumProof calldata quantumProof
+        ProtocolVerifier_4.ProtocolInclusionProof calldata protocolInclusionProof
     ) external {
-        ProtocolVerifier_4.verifyPubInputs(quantumProof, vKeyHash);
+        ProtocolVerifier_4.verifyPubInputs(protocolInclusionProof, vKeyHash);
     }
 }

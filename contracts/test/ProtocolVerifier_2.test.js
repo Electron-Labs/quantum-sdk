@@ -16,27 +16,27 @@ describe("ProtocolVerifier", () => {
   })
 
   it("verifyPubInputs", async function () {
-    let quantumProof = {}
+    let protocolInclusionProof = {}
     let merkleProof = DATA.merkleProof
     for (let i = 0; i < merkleProof.length; i++) {
       merkleProof[i] = Uint8Array.from(merkleProof[i])
     }
-    quantumProof["protocolVKeyHash"] = DATA.protocolVKeyHash
-    quantumProof["reductionVKeyHash"] = DATA.reductionVKeyHash
-    quantumProof["leafNextValue"] = DATA.leafNextValue
-    quantumProof["leafNextIdx"] = Uint8Array.from(DATA.leafNextIdx)
+    protocolInclusionProof["protocolVKeyHash"] = DATA.protocolVKeyHash
+    protocolInclusionProof["reductionVKeyHash"] = DATA.reductionVKeyHash
+    protocolInclusionProof["leafNextValue"] = DATA.leafNextValue
+    protocolInclusionProof["leafNextIdx"] = Uint8Array.from(DATA.leafNextIdx)
 
     const pubInputs = DATA.pubInputs
     for (let i = 0; i < pubInputs.length; i++) {
       pubInputs[i] = Uint8Array.from(pubInputs[i])
     }
-    quantumProof["pubInputs"] = pubInputs
+    protocolInclusionProof["pubInputs"] = pubInputs
 
 
-    quantumProof["merkleProof"] = merkleProof
-    quantumProof["merkleProofPosition"] = DATA.merkleProofPosition
+    protocolInclusionProof["merkleProof"] = merkleProof
+    protocolInclusionProof["merkleProofPosition"] = DATA.merkleProofPosition
 
-    const tx = await protocol.verifyPubInputs(quantumProof);
+    const tx = await protocol.verifyPubInputs(protocolInclusionProof);
     const receipt = await tx.wait()
     console.log("gasUsed", Number(receipt.gasUsed))
   });
