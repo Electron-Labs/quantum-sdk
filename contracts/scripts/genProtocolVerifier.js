@@ -12,12 +12,10 @@ pragma solidity ^0.8.24;
 `
 }
 
-const B = (nPub, quantumVerifier) => {
+const B = (nPub) => {
   return `library ProtocolVerifier_${nPub} {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        ${quantumVerifier};
 
 `
 }
@@ -45,7 +43,8 @@ const C = (nPub) => {
 const D = (nPub) => {
   let code = `function verifyPubInputs(
   ProtocolInclusionProof calldata protocolInclusionProof,
-  bytes32 vKeyHash
+  bytes32 vKeyHash,
+  address quantum_verifier
 ) internal {
   assembly {
       let p := mload(0x40)
@@ -207,7 +206,7 @@ const E = () => {
   mstore(p, SIGNATURE)
   let ok := staticcall(
       gas(),
-      QUANTUM_VERIFIER,
+      quantum_verifier,
       add(p, 0x1c),
       0x4,
       add(p, 0x20),
@@ -225,11 +224,9 @@ const E = () => {
 
 async function main() {
   const nPubInputsRange = 15
-  const QUANTUM_VERIFIER = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
-
   let code = A()
   for (let nPub = 0; nPub <= nPubInputsRange; nPub++) {
-    code += B(nPub, QUANTUM_VERIFIER) + C(nPub) + D(nPub) + E()
+    code += B(nPub) + C(nPub) + D(nPub) + E()
   }
 
   fs.writeFile('./src/ProtocolVerifier.sol', code, (err) => {

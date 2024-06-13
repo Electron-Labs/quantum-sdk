@@ -4,8 +4,6 @@ pragma solidity ^0.8.24;
 library ProtocolVerifier_0 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -18,7 +16,8 @@ library ProtocolVerifier_0 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -169,7 +168,7 @@ library ProtocolVerifier_0 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -185,8 +184,6 @@ library ProtocolVerifier_0 {
 library ProtocolVerifier_1 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -200,7 +197,8 @@ library ProtocolVerifier_1 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -352,7 +350,7 @@ library ProtocolVerifier_1 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -368,8 +366,6 @@ library ProtocolVerifier_1 {
 library ProtocolVerifier_2 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -383,7 +379,8 @@ library ProtocolVerifier_2 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -536,7 +533,7 @@ library ProtocolVerifier_2 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -552,8 +549,6 @@ library ProtocolVerifier_2 {
 library ProtocolVerifier_3 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -567,7 +562,8 @@ library ProtocolVerifier_3 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -721,7 +717,7 @@ library ProtocolVerifier_3 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -737,8 +733,6 @@ library ProtocolVerifier_3 {
 library ProtocolVerifier_4 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -752,7 +746,8 @@ library ProtocolVerifier_4 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -907,7 +902,7 @@ library ProtocolVerifier_4 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -923,8 +918,6 @@ library ProtocolVerifier_4 {
 library ProtocolVerifier_5 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -938,7 +931,8 @@ library ProtocolVerifier_5 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -1094,7 +1088,7 @@ library ProtocolVerifier_5 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -1110,8 +1104,6 @@ library ProtocolVerifier_5 {
 library ProtocolVerifier_6 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -1125,7 +1117,8 @@ library ProtocolVerifier_6 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -1282,7 +1275,7 @@ library ProtocolVerifier_6 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -1298,8 +1291,6 @@ library ProtocolVerifier_6 {
 library ProtocolVerifier_7 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -1313,7 +1304,8 @@ library ProtocolVerifier_7 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -1471,7 +1463,7 @@ library ProtocolVerifier_7 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -1487,8 +1479,6 @@ library ProtocolVerifier_7 {
 library ProtocolVerifier_8 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -1502,7 +1492,8 @@ library ProtocolVerifier_8 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -1661,7 +1652,7 @@ library ProtocolVerifier_8 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -1677,8 +1668,6 @@ library ProtocolVerifier_8 {
 library ProtocolVerifier_9 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -1692,7 +1681,8 @@ library ProtocolVerifier_9 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -1852,7 +1842,7 @@ library ProtocolVerifier_9 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -1868,8 +1858,6 @@ library ProtocolVerifier_9 {
 library ProtocolVerifier_10 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -1883,7 +1871,8 @@ library ProtocolVerifier_10 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -2044,7 +2033,7 @@ library ProtocolVerifier_10 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -2060,8 +2049,6 @@ library ProtocolVerifier_10 {
 library ProtocolVerifier_11 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -2075,7 +2062,8 @@ library ProtocolVerifier_11 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -2237,7 +2225,7 @@ library ProtocolVerifier_11 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -2253,8 +2241,6 @@ library ProtocolVerifier_11 {
 library ProtocolVerifier_12 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -2268,7 +2254,8 @@ library ProtocolVerifier_12 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -2431,7 +2418,7 @@ library ProtocolVerifier_12 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -2447,8 +2434,6 @@ library ProtocolVerifier_12 {
 library ProtocolVerifier_13 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -2462,7 +2447,8 @@ library ProtocolVerifier_13 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -2626,7 +2612,7 @@ library ProtocolVerifier_13 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -2642,8 +2628,6 @@ library ProtocolVerifier_13 {
 library ProtocolVerifier_14 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -2657,7 +2641,8 @@ library ProtocolVerifier_14 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -2822,7 +2807,7 @@ library ProtocolVerifier_14 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
@@ -2838,8 +2823,6 @@ library ProtocolVerifier_14 {
 library ProtocolVerifier_15 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE = 0xc19d93fb;
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
 
     struct ProtocolInclusionProof {
         bytes32 protocolVKeyHash;
@@ -2853,7 +2836,8 @@ library ProtocolVerifier_15 {
 
     function verifyPubInputs(
         ProtocolInclusionProof calldata protocolInclusionProof,
-        bytes32 vKeyHash
+        bytes32 vKeyHash,
+        address quantum_verifier
     ) internal {
         assembly {
             let p := mload(0x40)
@@ -3019,7 +3003,7 @@ library ProtocolVerifier_15 {
             mstore(p, SIGNATURE)
             let ok := staticcall(
                 gas(),
-                QUANTUM_VERIFIER,
+                quantum_verifier,
                 add(p, 0x1c),
                 0x4,
                 add(p, 0x20),
