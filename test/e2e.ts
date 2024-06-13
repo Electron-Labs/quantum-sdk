@@ -25,8 +25,8 @@ async function main() {
 
 
     // * contract calling *
-//     let protocolProofResponse = await q.getProtocolProof("0xfa6df811a48f4a3f6966545cf1c914295146a707dc84e5a1c1c39b6b485d2d2a");
-//     console.log({protocolProofResponse});
+    // let protocolProofResponse = await q.getProtocolProof("0xfa6df811a48f4a3f6966545cf1c914295146a707dc84e5a1c1c39b6b485d2d2a");
+    // console.log({protocolProofResponse});
 //     const abi = [
 //         "function verifyPubInputs((bytes32 protocolVKeyHash,bytes32 reductionVKeyHash,uint256 merkleProofPosition,bytes32[10] merkleProof,bytes32 leafNextValue,bytes8 leafNextIdx,bytes32[4] pubInputs)) external",
 //     ];
@@ -38,7 +38,7 @@ async function main() {
 //     const protocolInclusionProof = q.getProtocolInclusionProof(protocolProofResponse.protocolProof, pubInputs)
 //     let tx = await contract.verifyPubInputs(protocolInclusionProof)
 //     console.log("tx", tx)
-// }
+}
 
 main().then(() => {
     console.log("done");

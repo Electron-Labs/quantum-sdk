@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { ProofDataResponse } from "./api_handler/response/proof_data_response";
 import { ProtocolProofResponse } from "./api_handler/response/protocol_proof_response";
 import { getProofStatusFromString } from "./enum/proof_status";
@@ -9,9 +10,10 @@ import { Keccak256Hash } from "./types/keccak256_hash";
 import { ProofData } from "./types/proof_status";
 import { ProtocolProof } from "./types/protocol_proof";
 import { borshSerialize } from "./utils/borsh";
+import { hexToBytes } from "./utils/bytes";
 
 export function getProtocolProofFromResponse(resp: ProtocolProofResponse) {
-    return new ProtocolProof({...resp})
+    return new ProtocolProof({ ...resp })
 }
 
 export function getProofStatusFromResponse(resp: ProofDataResponse) {
@@ -33,7 +35,7 @@ export function serializeVKey(vkeyJson: any, proofType: ProofType) {
     } else if (proofType == ProofType.GROTH16) {
         vkeySchema = getSnarkJSVkeySchema();
     }
-    const serializedVkey= borshSerialize(vkeySchema, vkeyJson);
+    const serializedVkey = borshSerialize(vkeySchema, vkeyJson);
     return serializedVkey;
 }
 
@@ -55,6 +57,13 @@ export function serializePubInputs(pubInputsJson: any, proofType: ProofType) {
     } else if (proofType == ProofType.GROTH16) {
         pubInputsSchema = getSnarkJSPubInputSchema();
     }
-    const serializedVkey= borshSerialize(pubInputsSchema, pubInputsJson);
+    const serializedVkey = borshSerialize(pubInputsSchema, pubInputsJson);
     return serializedVkey;
+}
+
+export function getVKeyHash(protocolVkeyHash: string, reductionVkeyHash: string): string {
+    const concat = new Uint8Array(64)
+    concat.set(hexToBytes(protocolVkeyHash.slice(2)))
+    concat.set(hexToBytes(reductionVkeyHash.slice(2)), 32)
+    return ethers.keccak256(concat)
 }

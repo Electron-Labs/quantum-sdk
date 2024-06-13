@@ -16,7 +16,7 @@ import { SubmitProofResponse } from "./types/quantum-response/submit_proof_respo
 import { checkPathAndReadJsonFile } from "./utils/file";
 import { ProtocolProof } from "../src/types/protocol_proof";
 import { ProtocolInclusionProof } from "../src/types/protocol_inclusion_proof";
-import { toLeBytes32 } from "./utils/biginteger";
+import { toLeBytes32 } from "./utils/bytes";
 
 export class Quantum implements QuantumInterface {
     private rpcEndPoint: string;

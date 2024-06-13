@@ -14,3 +14,12 @@ export function toLeBytes32(value: string): Uint8Array {
   }
   return result;
 }
+
+// without `0x` prefix
+export function hexToBytes(hex: string): Uint8Array {
+  let bytes = [];
+  for (let c = 0; c < hex.length; c += 2)
+    bytes.push(parseInt(hex.substring(c, c + 2), 16));
+  return Uint8Array.from(bytes);
+}
+
