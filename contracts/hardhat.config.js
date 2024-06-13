@@ -40,6 +40,6 @@ module.exports = {
     }
   },
   paths: {
-    sources: "./src",
+    sources: "./lib",
   }
 };
