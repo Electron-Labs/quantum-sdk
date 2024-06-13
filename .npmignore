@@ -4,3 +4,8 @@ src
 node_modules
 dist/test
 tsconfig.json
+.openzeppelin
+scripts
+contracts/test
+prettier.sh
+hardhat.config.js  
