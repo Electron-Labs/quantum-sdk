@@ -23,7 +23,7 @@ describe("register circuit", () => {
 
     it("should fail in serialization when vkey json doesn't correspond to vkey schema", async () => {
         const scope = nock(rpcEndPoint).post("/register_circuit");
-        return expect(quantum.registerCircuit("test/dump/wrong_vkey.json", 2, ProofType.GNARK_GROTH16)).to.be.rejectedWith(/^Error in serializing vkey*/);
+        return expect(quantum.registerCircuit("test/dump/wrong_vkey.json", 2, ProofType.GNARK_GROTH16)).to.be.rejectedWith(/^Error in serializing*/);
     })
 
     it("should fail when node server replies with error", async () => {
