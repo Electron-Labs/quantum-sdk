@@ -1,51 +1,60 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import {ProtocolVerifier_2} from "./ProtocolVerifier.sol";
-import {ProtocolVerifier_4} from "./ProtocolVerifier.sol";
+import {IQuantum} from "./interfaces/IQuantum.sol";
 
 // application contract
-contract Protocol_2 is Initializable {
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
+contract Protocol_4 {
+    bytes32 vKHash;
+    address constant QUANTUM = 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0;
 
-    bytes32 vKeyHash;
+    uint256 constant SIGNATURE = 0x70e8daf7;
 
-    function initialize(bytes32 vKeyHash_) public initializer {
-        vKeyHash = vKeyHash_;
+    constructor(bytes32 vKHash_) {
+        vKHash = vKHash_;
     }
 
-    function verifyPubInputs(
-        ProtocolVerifier_2.ProtocolInclusionProof
-            calldata protocolInclusionProof
-    ) external {
-        ProtocolVerifier_2.verifyPubInputs(
-            protocolInclusionProof,
-            vKeyHash,
-            QUANTUM_VERIFIER
-        );
+    function verifyPubInputs(uint256[4] calldata pubInputs) external {
+        assembly {
+            let p := mload(0x40)
+            mstore(add(p, 0x40), calldataload(0x4))
+            mstore(add(p, 0x60), calldataload(0x24))
+            mstore(add(p, 0x80), calldataload(0x44))
+            mstore(add(p, 0xa0), calldataload(0x64))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x80))
+            mstore(add(p, 0x20), sload(vKHash.slot))
+            mstore(p, SIGNATURE)
+            let ok := staticcall(gas(), QUANTUM, add(p, 0x1c), 0x24, p, 0x20)
+            if iszero(eq(mload(p), mload(add(p, 0x40)))) {
+                revert(0, 0)
+            }
+        }
     }
 }
 
-contract Protocol_4 is Initializable {
-    address constant QUANTUM_VERIFIER =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
+// application contract
+contract Protocol_2 {
+    bytes32 vKHash;
+    address constant QUANTUM = 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0;
 
-    bytes32 vKeyHash;
+    uint256 constant SIGNATURE = 0x70e8daf7;
 
-    function initialize(bytes32 vKeyHash_) public initializer {
-        vKeyHash = vKeyHash_;
+    constructor(bytes32 vKHash_) {
+        vKHash = vKHash_;
     }
 
-    function verifyPubInputs(
-        ProtocolVerifier_4.ProtocolInclusionProof
-            calldata protocolInclusionProof
-    ) external {
-        ProtocolVerifier_4.verifyPubInputs(
-            protocolInclusionProof,
-            vKeyHash,
-            QUANTUM_VERIFIER
-        );
+    function verifyPubInputs(uint256[2] calldata pubInputs) external {
+        assembly {
+            let p := mload(0x40)
+            mstore(add(p, 0x40), calldataload(0x4))
+            mstore(add(p, 0x60), calldataload(0x24))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
+            mstore(add(p, 0x20), sload(vKHash.slot))
+            mstore(p, SIGNATURE)
+            let ok := staticcall(gas(), QUANTUM, add(p, 0x1c), 0x24, p, 0x20)
+            if iszero(eq(mload(p), mload(add(p, 0x40)))) {
+                revert(0, 0)
+            }
+        }
     }
 }
