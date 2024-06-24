@@ -1,30 +1,23 @@
 const hre = require("hardhat")
-const DATA = require("./data/verifyPubInputs_2.json")
-const { deployQuantum } = require("../scripts/deployQuantum");
-const { deployProtocol } = require("../scripts/deployProtocol");
+const { deployQuantum } = require("../../scripts/deployQuantum");
+const DATA = require("../../test/data/verifyPubInputs_4.json");
 
-describe("ProtocolVerifier", () => {
-  let protocol
+describe("ProtocolVerifier_4", () => {
+  let protocol, quantum
 
   before("", async () => {
-    const initState = DATA.state
-    quantum = await hre.ethers.getContractAt("Quantum", await deployQuantum(initState))
-
-    const Protocol = await hre.ethers.getContractFactory("Protocol_2");
+    quantum = await hre.ethers.getContractAt("Quantum", await deployQuantum(DATA.state))
+    const Protocol = await hre.ethers.getContractFactory("Protocol_4");
     protocol = await hre.upgrades.deployProxy(Protocol, [DATA.vKeyHash]);
     await protocol.waitForDeployment();
   })
 
   it("verifyPubInputs", async function () {
     let protocolInclusionProof = {}
-    let merkleProof = DATA.merkleProof
-    for (let i = 0; i < merkleProof.length; i++) {
-      merkleProof[i] = Uint8Array.from(merkleProof[i])
-    }
     protocolInclusionProof["protocolVKeyHash"] = DATA.protocolVKeyHash
     protocolInclusionProof["reductionVKeyHash"] = DATA.reductionVKeyHash
     protocolInclusionProof["leafNextValue"] = DATA.leafNextValue
-    protocolInclusionProof["leafNextIdx"] = Uint8Array.from(DATA.leafNextIdx)
+    protocolInclusionProof["leafNextIdx"] = DATA.leafNextIdx
 
     const pubInputs = DATA.pubInputs
     for (let i = 0; i < pubInputs.length; i++) {
@@ -32,8 +25,7 @@ describe("ProtocolVerifier", () => {
     }
     protocolInclusionProof["pubInputs"] = pubInputs
 
-
-    protocolInclusionProof["merkleProof"] = merkleProof
+    protocolInclusionProof["merkleProof"] = DATA.merkleProof
     protocolInclusionProof["merkleProofPosition"] = DATA.merkleProofPosition
 
     const tx = await protocol.verifyPubInputs(protocolInclusionProof);

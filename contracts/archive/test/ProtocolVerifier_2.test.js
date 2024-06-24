@@ -1,23 +1,29 @@
 const hre = require("hardhat")
-const { deployQuantum } = require("../scripts/deployQuantum");
-const DATA = require("./data/verifyPubInputs_4.json");
+const DATA = require("../../test/data/verifyPubInputs_2.json")
+const { deployQuantum } = require("../../scripts/deployQuantum");
 
-describe("ProtocolVerifier_4", () => {
-  let protocol, quantum
+describe("ProtocolVerifier", () => {
+  let protocol
 
   before("", async () => {
-    quantum = await hre.ethers.getContractAt("Quantum", await deployQuantum(DATA.state))
-    const Protocol = await hre.ethers.getContractFactory("Protocol_4");
+    const initState = DATA.state
+    quantum = await hre.ethers.getContractAt("lib/QuantumNonU.sol:Quantum", await deployQuantum(initState))
+
+    const Protocol = await hre.ethers.getContractFactory("Protocol_2");
     protocol = await hre.upgrades.deployProxy(Protocol, [DATA.vKeyHash]);
     await protocol.waitForDeployment();
   })
 
   it("verifyPubInputs", async function () {
     let protocolInclusionProof = {}
+    let merkleProof = DATA.merkleProof
+    for (let i = 0; i < merkleProof.length; i++) {
+      merkleProof[i] = Uint8Array.from(merkleProof[i])
+    }
     protocolInclusionProof["protocolVKeyHash"] = DATA.protocolVKeyHash
     protocolInclusionProof["reductionVKeyHash"] = DATA.reductionVKeyHash
     protocolInclusionProof["leafNextValue"] = DATA.leafNextValue
-    protocolInclusionProof["leafNextIdx"] = DATA.leafNextIdx
+    protocolInclusionProof["leafNextIdx"] = Uint8Array.from(DATA.leafNextIdx)
 
     const pubInputs = DATA.pubInputs
     for (let i = 0; i < pubInputs.length; i++) {
@@ -25,7 +31,8 @@ describe("ProtocolVerifier_4", () => {
     }
     protocolInclusionProof["pubInputs"] = pubInputs
 
-    protocolInclusionProof["merkleProof"] = DATA.merkleProof
+
+    protocolInclusionProof["merkleProof"] = merkleProof.slice(0, 10)
     protocolInclusionProof["merkleProofPosition"] = DATA.merkleProofPosition
 
     const tx = await protocol.verifyPubInputs(protocolInclusionProof);
