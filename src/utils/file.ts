@@ -24,6 +24,15 @@ export function createFile(path: string, data: Object) {
     fs.writeFileSync(path, JSON.stringify(data, (_, v) => typeof v === 'bigint' ? v.toString() : v, 2));
 }
 
+export function checkPathAndReadFile(path: string) {
+    let isPathExist = checkIfPathExist(path);
+    if(!isPathExist) {
+        throw new Error(`filePath does not exist : ${path}.`);
+    }
+    const data = fs.readFileSync(path);
+    return new Uint8Array(data);
+}
+
 export function readJsonFile(path: string) {
     try {
         const data = fs.readFileSync(path, 'utf8');

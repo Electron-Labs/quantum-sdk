@@ -11,6 +11,8 @@ import { ProofData } from "./types/proof_status";
 import { ProtocolProof } from "./types/protocol_proof";
 import { borshSerialize } from "./utils/borsh";
 import { hexToBytes } from "./utils/bytes";
+import { getHalo2PubInputSchema, getHaloVKeySchema, serializeHaloProof } from "./types/borsh_schema/halo2";
+import { checkPathAndReadFile, checkPathAndReadJsonFile } from "./utils/file";
 
 export function getProtocolProofFromResponse(resp: ProtocolProofResponse) {
     return new ProtocolProof({ ...resp })
@@ -34,6 +36,8 @@ export function serializeVKey(vkeyJson: any, proofType: ProofType) {
         vkeySchema = getGnarkVKeySchema();
     } else if (proofType == ProofType.GROTH16) {
         vkeySchema = getSnarkJSVkeySchema();
+    } else if (proofType == ProofType.HALO2_PLONK) {
+        vkeySchema = getHaloVKeySchema();
     }
     const serializedVkey = borshSerialize(vkeySchema, vkeyJson);
     return serializedVkey;
@@ -45,6 +49,8 @@ export function serializeProof(proofJson: any, proofType: ProofType) {
         return serializeGnarkProof(proofJson);
     } else if (proofType == ProofType.GROTH16) {
         return serializeSnarkProof(proofJson);
+    } else if (proofType == ProofType.HALO2_PLONK) {
+        return serializeHaloProof(proofJson);
     } else {
         throw new Error("unsupported proof scheme")
     }
@@ -56,9 +62,32 @@ export function serializePubInputs(pubInputsJson: any, proofType: ProofType) {
         pubInputsSchema = getGnarkPubInputsSchema();
     } else if (proofType == ProofType.GROTH16) {
         pubInputsSchema = getSnarkJSPubInputSchema();
+    } else if (proofType == ProofType.HALO2_PLONK) {
+        pubInputsSchema = getHalo2PubInputSchema();
     }
     const serializedVkey = borshSerialize(pubInputsSchema, pubInputsJson);
     return serializedVkey;
+}
+
+export function getProof(proofPath: string, proofType: ProofType): any {
+    let proof: any;
+    if(proofType == ProofType.HALO2_PLONK) {
+        const proofBytes = Array.from(checkPathAndReadFile(proofPath));
+        proof = { proof_bytes: proofBytes }
+    } else {
+        proof = checkPathAndReadJsonFile(proofPath);
+    }
+    return proof;
+}
+
+export function getPis(pisPath: string, proofType: ProofType): any {
+    let pis: any;
+    if(proofType == ProofType.HALO2_PLONK) {
+        pis = Array.from(checkPathAndReadFile(pisPath));
+    } else {
+        pis = checkPathAndReadJsonFile(pisPath);
+    }
+    return pis;
 }
 
 export function getVKeyHash(protocolVkeyHash: string, reductionVkeyHash: string): string {

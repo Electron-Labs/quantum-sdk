@@ -4,7 +4,7 @@ import { get_proof_status, getProtocolProof, submitProof } from "./api_handler/s
 import { CircuitRegistrationStatus, getCircuitRegistrationStatusFromString } from "./enum/circuit_registration_status";
 import { ProofType } from "./enum/proof_type";
 import QuantumInterface from "./interface/quantum_interface";
-import { getProofStatusFromResponse, getProtocolProofFromResponse, serializeProof, serializePubInputs, serializeVKey } from "./quantum_helper";
+import { getPis, getProof, getProofStatusFromResponse, getProtocolProofFromResponse, serializeProof, serializePubInputs, serializeVKey } from "./quantum_helper";
 import { IsCircuitRegistered } from "./types/is_circuit_registered";
 import { Keccak256Hash } from "./types/keccak256_hash";
 import { ProofData } from "./types/proof_status";
@@ -13,7 +13,7 @@ import { GetProtocolProofResponse } from "./types/quantum-response/get_protocol_
 import { IsCircuitResgisteredResponse } from "./types/quantum-response/is_circuit_registered_response";
 import { RegisterCircuitResponse } from "./types/quantum-response/register_circuit_resposne";
 import { SubmitProofResponse } from "./types/quantum-response/submit_proof_response";
-import { checkPathAndReadJsonFile } from "./utils/file";
+import { checkPathAndReadFile, checkPathAndReadJsonFile } from "./utils/file";
 import { ProtocolProof } from "../src/types/protocol_proof";
 import { ProtocolInclusionProof } from "../src/types/protocol_inclusion_proof";
 import { toLeBytes32 } from "./utils/bytes";
@@ -71,15 +71,35 @@ export class Quantum implements QuantumInterface {
         return new RegisterCircuitResponse(cirucitHash);
     }
 
+    async registerHalo2Circuit(proofFilePath: string, sg2FilePath: string, instanceFilePath: string, protocolFilePath: string) {
+        const proofBytes = checkPathAndReadFile(proofFilePath);
+        const sg2FileBytes = checkPathAndReadFile(sg2FilePath)
+        const instanceFileBytes = checkPathAndReadFile(instanceFilePath)
+        const protocolFileBytes = checkPathAndReadFile(protocolFilePath);
+        
+        const halo2Vkey = {
+            protocol_bytes: Array.from(protocolFileBytes),
+            sg2_bytes: Array.from(sg2FileBytes),
+            proof_bytes: Array.from(proofBytes),
+            instance_bytes: Array.from(instanceFileBytes)
+        }
+        const serializedVKey = serializeVKey(halo2Vkey, ProofType.HALO2_PLONK);
+
+        const circuitHashString = await registerCircuit(this.rpcEndPoint, serializedVKey, 0, ProofType.HALO2_PLONK, this.authToken);
+        let cirucitHash = Keccak256Hash.fromString(circuitHashString);
+        return new RegisterCircuitResponse(cirucitHash);
+    }
+
     // TODO: handle error from node
     async submitProof(proofPath: string, pisPath: string, circuitHash: string, proofType: ProofType): Promise<SubmitProofResponse> {
         Keccak256Hash.fromString(circuitHash);
-        const proof = checkPathAndReadJsonFile(proofPath);
+
+        const proof = getProof(proofPath, proofType);
         const proofEncoded = serializeProof(proof, proofType);
-
-        const pubInput = checkPathAndReadJsonFile(pisPath);
+        
+        const pubInput = getPis(pisPath, proofType);
         const pubInputEncoded = serializePubInputs(pubInput, proofType);
-
+        
         let proofHashString = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitHash, proofType, this.authToken);
         let proofHash = Keccak256Hash.fromString(proofHashString);
         return new SubmitProofResponse(proofHash)
