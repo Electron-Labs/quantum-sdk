@@ -2,7 +2,8 @@ export enum CircuitRegistrationStatus {
     IN_PROGRESS = "InProgress",
     Completed = "Completed",
     NOT_PICKED = "NotPicked",
-    FAILED = "Failed"
+    FAILED = "Failed",
+    SMART_CONTRACT_REGISTRATION_PENDING = "SmartContractRegistrationPending"
 }
 
 export function getCircuitRegistrationStatusFromString(value: string) {
@@ -15,6 +16,8 @@ export function getCircuitRegistrationStatusFromString(value: string) {
             return CircuitRegistrationStatus.NOT_PICKED;
         case "Failed": 
             return CircuitRegistrationStatus.FAILED;
+        case "SmartContractRgistrationPending":
+            return CircuitRegistrationStatus.SMART_CONTRACT_REGISTRATION_PENDING;
         default:
             throw new Error("invalid string for enum CircuitRegistrationStatus");
     }
