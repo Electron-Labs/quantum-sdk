@@ -33,7 +33,7 @@ export namespace ProofType {
                 return ProofType.HALO2_PLONK;
             case 'GnarkGroth16'.toLowerCase():
                 return  ProofType.GNARK_GROTH16;
-            case  'Halo2Plonk' :
+            case  'Halo2Plonk'.toLowerCase() :
                 return ProofType.HALO2_PLONK;
             default:
                 throw new Error('Unknown proof type');
