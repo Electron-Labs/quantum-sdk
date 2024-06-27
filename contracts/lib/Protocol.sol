@@ -6,8 +6,6 @@ contract Protocol {
     bytes32 vkHash;
     address constant QUANTUM = 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0;
 
-    uint256 constant SIGNATURE = 0x70e8daf7;
-
     constructor(bytes32 vkHash_) {
         vkHash = vkHash_;
     }
