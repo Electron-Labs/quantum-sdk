@@ -20,8 +20,7 @@ describe("Protocol", () => {
     quantum = await Quantum.deploy(await deployVerifier());
     console.log("quantum deployed at:", await quantum.getAddress())
 
-    const Protocol = await hre.ethers.getContractFactory('lib/Protocol.sol:Protocol_2');
-    protocolContract = await Protocol.deploy(vkHashes[0]);
+    protocolContract = await hre.ethers.getContractAt('Protocol', await deployProtocol(vkHashes[0]));
   })
 
   it("verifySuperproof", async function () {
@@ -50,7 +49,7 @@ describe("Protocol", () => {
 
 
     const pubInputs = [243542, 494]
-    tx = await protocolContract.verifyPubInputs(pubInputs);
+    tx = await protocolContract.verifyPubInputs_2(pubInputs);
     receipt = await tx.wait()
     console.log("verifyPubInputs::gasUsed", Number(receipt.gasUsed))
   });

@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 
 async function deployProtocol(vKeyHash) {
-  const Protocol = await hre.ethers.getContractFactory('lib/Protocol.sol:Protocol_2');
+  const Protocol = await hre.ethers.getContractFactory('Protocol');
   const protocol = await Protocol.deploy(vKeyHash);
   console.log("protocol deployed at:", await protocol.getAddress())
   return await protocol.getAddress()

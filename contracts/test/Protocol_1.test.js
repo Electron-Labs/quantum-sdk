@@ -1,5 +1,6 @@
 const hre = require("hardhat")
 const DATA = require("./data/protocol.json");
+const { deployProtocol } = require("../scripts/deployProtocol");
 
 describe("Protocol", () => {
   let quantum, protocolContract, vkHashes, protocolPisHashes, n
@@ -22,8 +23,7 @@ describe("Protocol", () => {
     quantum = await Quantum.deploy(await verifier.getAddress());
     console.log("quantum deployed at:", await quantum.getAddress())
 
-    const Protocol = await hre.ethers.getContractFactory('lib/Protocol.sol:Protocol_4');
-    protocolContract = await Protocol.deploy(vkHashes[0]);
+    protocolContract = await hre.ethers.getContractAt('Protocol', await deployProtocol(vkHashes[0]));
   })
 
   it("verifySuperproof", async function () {
@@ -53,7 +53,7 @@ describe("Protocol", () => {
 
 
     const pubInputs = ["2496000", "40", "40", "40"]
-    tx = await protocolContract.verifyPubInputs(pubInputs);
+    tx = await protocolContract.verifyPubInputs_4(pubInputs);
     receipt = await tx.wait()
     console.log("verifyPubInputs::gasUsed", Number(receipt.gasUsed))
   });
