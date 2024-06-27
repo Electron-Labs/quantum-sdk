@@ -1,6 +1,6 @@
 {
   "name": "quantum-sdk",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "SDK to interact seamlessly with quantum node",
   "main": "dist/src/quantum.js",
   "scripts": {
