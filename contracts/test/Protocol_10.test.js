@@ -1,7 +1,6 @@
 const hre = require("hardhat")
 const DATA = require("./data/protocol_10.json");
 const { deployProtocol } = require("../scripts/deployProtocol");
-const { deployVerifier } = require("../scripts/deployVerifier");
 
 describe("Protocol", () => {
   let quantum, protocolContract, vkHashes, protocolPisHashes, n
@@ -16,8 +15,12 @@ describe("Protocol", () => {
       protocolPisHashes[i] = Uint8Array.from(protocolPisHashes[i])
     }
 
-    const Quantum = await hre.ethers.getContractFactory('lib/Quantum.sol:Quantum');
-    quantum = await Quantum.deploy(await deployVerifier());
+    const Verifier = await hre.ethers.getContractFactory("lib/Verifier_10.sol:Verifier");
+    const verifier = await hre.upgrades.deployProxy(Verifier);
+    await verifier.waitForDeployment();
+
+    const Quantum = await hre.ethers.getContractFactory('lib/Quantum_*.sol:Quantum_10');
+    quantum = await Quantum.deploy(await verifier.getAddress());
     console.log("quantum deployed at:", await quantum.getAddress())
 
     protocolContract = await hre.ethers.getContractAt('Protocol', await deployProtocol(vkHashes[0]));
