@@ -6,6 +6,10 @@ dist/test
 tsconfig.json
 .openzeppelin
 scripts
-contracts/test
+.env
 prettier.sh
-hardhat.config.js  
+hardhat.config.js
+contracts/test
+contracts/artifacts
+contracts/cache
+contracts/deployed.txt
