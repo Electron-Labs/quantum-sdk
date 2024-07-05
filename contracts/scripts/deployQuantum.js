@@ -8,7 +8,7 @@ async function deployQuantum(verifierAddress) {
 }
 
 async function main() {
-  const verifierAddress = "0x0661a639856E97c58dd2768E215526bBaA12B4A8"
+  const verifierAddress = "0x4dA325019a3499A3baA80E13a72724CBAaCAd53A"
   await deployQuantum(verifierAddress)
 }
 
