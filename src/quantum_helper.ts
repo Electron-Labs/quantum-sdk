@@ -3,15 +3,15 @@ import { ProofDataResponse } from "./api_handler/response/proof_data_response";
 import { ProtocolProofResponse } from "./api_handler/response/protocol_proof_response";
 import { getProofStatusFromString } from "./enum/proof_status";
 import { ProofType } from "./enum/proof_type";
-import { getGnarkPubInputsSchema, getGnarkVKeySchema, serializeGnarkProof } from "./types/borsh_schema/gnark";
-import { getSnarkJSPubInputSchema, getSnarkJSVkeySchema, serializeSnarkProof } from "./types/borsh_schema/SnarkJS";
+import { getGnarkProofSchema, getGnarkPubInputsSchema, getGnarkVKeySchema, serializeGnarkProof } from "./types/borsh_schema/gnark";
+import { getSnarkJSProofSchema, getSnarkJSPubInputSchema, getSnarkJSVkeySchema, serializeSnarkProof } from "./types/borsh_schema/SnarkJS";
 import { ContractAddress } from "./types/contract";
 import { Keccak256Hash } from "./types/keccak256_hash";
 import { ProofData } from "./types/proof_status";
 import { ProtocolProof } from "./types/protocol_proof";
-import { borshSerialize } from "./utils/borsh";
+import { borshDeserialize, borshSerialize } from "./utils/borsh";
 import { hexToBytes } from "./utils/bytes";
-import { getHalo2PubInputSchema, getHaloVKeySchema, serializeHaloProof } from "./types/borsh_schema/halo2";
+import { getHalo2ProofSchema, getHalo2PubInputSchema, getHaloVKeySchema, serializeHaloProof } from "./types/borsh_schema/halo2";
 import { checkPathAndReadFile, checkPathAndReadJsonFile } from "./utils/file";
 
 export function getProtocolProofFromResponse(resp: ProtocolProofResponse) {
@@ -95,4 +95,30 @@ export function getVKeyHash(protocolVkeyHash: string, reductionVkeyHash: string)
     concat.set(hexToBytes(protocolVkeyHash.slice(2)))
     concat.set(hexToBytes(reductionVkeyHash.slice(2)), 32)
     return ethers.keccak256(concat)
+}
+
+export function deserializeVkey(bytes: Uint8Array, proofType: ProofType) {
+    let vkeySchema;
+    if (proofType == ProofType.GNARK_GROTH16) {
+        vkeySchema = getGnarkVKeySchema();
+    } else if (proofType == ProofType.GROTH16) {
+        vkeySchema = getSnarkJSVkeySchema();
+    } else if (proofType == ProofType.HALO2_PLONK) {
+        vkeySchema = getHaloVKeySchema();
+    }
+    const decodedValue = borshDeserialize(vkeySchema, bytes);
+    return decodedValue;
+}
+
+export function deserializeProof(bytes: Uint8Array, proofType: ProofType) {
+    let pkeySchema;
+    if (proofType == ProofType.GNARK_GROTH16) {
+        pkeySchema = getGnarkProofSchema();
+    } else if (proofType == ProofType.GROTH16) {
+        pkeySchema = getSnarkJSProofSchema();
+    } else if (proofType == ProofType.HALO2_PLONK) {
+        pkeySchema = getHalo2ProofSchema();
+    }
+    const decodedValue = borshDeserialize(pkeySchema, bytes);
+    return decodedValue;
 }
