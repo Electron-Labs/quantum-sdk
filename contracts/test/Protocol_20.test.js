@@ -17,10 +17,10 @@ describe("Protocol", () => {
     }
 
     const Quantum = await hre.ethers.getContractFactory('lib/Quantum.sol:Quantum');
-    quantum = await Quantum.deploy(await deployVerifier());
+    quantum = await Quantum.deploy(await deployVerifier(), Uint8Array.from(DATA.oldRoot));
     console.log("quantum deployed at:", await quantum.getAddress())
 
-    protocolContract = await hre.ethers.getContractAt('Protocol', await deployProtocol(vkHashes[3]));
+    protocolContract = await hre.ethers.getContractAt('Protocol', await deployProtocol(vkHashes[0]));
   })
 
   it("verifySuperproof", async function () {
@@ -43,13 +43,15 @@ describe("Protocol", () => {
       batch["protocols"].push(protocol)
     }
 
-    tx = await quantum.verifySuperproof(DATA.proof, batch);
+    let treeUpdate = {}
+    treeUpdate["newRoot"] = Uint8Array.from(DATA.newRoot)
+
+    tx = await quantum.verifySuperproof(DATA.proof, batch, treeUpdate);
     receipt = await tx.wait()
     console.log("verifySuperproof::gasUsed", Number(receipt.gasUsed))
 
 
-    const pubInputs = [484416, 696]
-    tx = await protocolContract.verifyPubInputs_2(pubInputs);
+    tx = await protocolContract.verifyPubInputs_5(DATA.protocolPubInputs["0"]);
     receipt = await tx.wait()
     console.log("verifyPubInputs::gasUsed", Number(receipt.gasUsed))
   });

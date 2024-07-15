@@ -17,7 +17,9 @@ const B = (nProtocol) => {
   return `contract Quantum_${nProtocol} {
     address public verifier;
     address public owner;
+
     mapping(bytes32 => bytes32) public pubInputsHashes;
+    bytes32 public treeRoot;
 
     uint256 constant SIGNATURE = 0xb2ff0a36;
 
@@ -33,10 +35,14 @@ const B = (nProtocol) => {
         uint256[2] commitments;
         uint256[2] commitmentPok;
     }
+    struct TreeUpdate {
+        bytes32 newRoot;
+    }
 
-    constructor(address verifier_) {
+    constructor(address verifier_, bytes32 initRoot) {
         owner = msg.sender;
         verifier = verifier_;
+        treeRoot = initRoot;
     }
 
     function registerProtocol(bytes32 vkHash) external {
@@ -51,7 +57,8 @@ const B = (nProtocol) => {
 const C = (nProtocol) => {
   let code = `function verifySuperproof(
     Proof calldata proof,
-    Batch calldata batch
+    Batch calldata batch,
+    TreeUpdate calldata treeUpdate
 ) external {
     assembly {
         let p := mload(0x40)
@@ -69,7 +76,15 @@ const C = (nProtocol) => {
     `
   }
 
-  code += `\nmstore(p, keccak256(p, ${intToHexString(nProtocol * 32 * 2)}))\n\n`
+  code += `// store old root
+  mstore(add(p, ${intToHexString(2 * nProtocol * 32)}), sload(treeRoot.slot))
+  `
+
+  code += `// store new root
+  mstore(add(p, ${intToHexString((2 * nProtocol + 1) * 32)}), calldataload(${intToHexString(388 + 2 * nProtocol * 32)}))`
+
+  code += `\n// pub inputs serialized
+  mstore(p, keccak256(p, ${intToHexString(nProtocol * 32 * 2 + 32 + 32)}))\n\n`
 
 
   code += `// store public inputs just after the proof stored in the next step
@@ -108,6 +123,9 @@ const C = (nProtocol) => {
   if iszero(ok) {
       revert(0, 0)
   }
+
+  // update state - treeRoot
+  sstore(treeRoot.slot, calldataload(${intToHexString(388 + 2 * nProtocol * 32)}))
 }\n\n`
 
   for (let i = 0; i < nProtocol; i++) {
@@ -136,7 +154,7 @@ const D = () => {
 }
 
 async function main() {
-  const nProtocols = 10
+  const nProtocols = 20
   let code = A() + B(nProtocols) + C(nProtocols) + D()
 
   fs.writeFile(`./lib/Quantum_${nProtocols}.sol`, code, (err) => {

@@ -5,7 +5,9 @@ import {IQuantum} from "./interfaces/IQuantum.sol";
 contract Quantum {
     address public verifier;
     address public owner;
+
     mapping(bytes32 => bytes32) public pubInputsHashes;
+    bytes32 public treeRoot;
 
     uint256 constant SIGNATURE = 0xb2ff0a36;
 
@@ -21,10 +23,14 @@ contract Quantum {
         uint256[2] commitments;
         uint256[2] commitmentPok;
     }
+    struct TreeUpdate {
+        bytes32 newRoot;
+    }
 
-    constructor(address verifier_) {
+    constructor(address verifier_, bytes32 initRoot) {
         owner = msg.sender;
         verifier = verifier_;
+        treeRoot = initRoot;
     }
 
     function registerProtocol(bytes32 vkHash) external {
@@ -35,7 +41,8 @@ contract Quantum {
 
     function verifySuperproof(
         Proof calldata proof,
-        Batch calldata batch
+        Batch calldata batch,
+        TreeUpdate calldata treeUpdate
     ) external {
         assembly {
             let p := mload(0x40)
@@ -81,8 +88,12 @@ contract Quantum {
             mstore(add(p, 0x4a0), calldataload(0x624))
             mstore(add(p, 0x4c0), calldataload(0x644))
             mstore(add(p, 0x4e0), calldataload(0x664))
-
-            mstore(p, keccak256(p, 0x500))
+            // store old root
+            mstore(add(p, 0x500), sload(treeRoot.slot))
+            // store new root
+            mstore(add(p, 0x520), calldataload(0x684))
+            // pub inputs serialized
+            mstore(p, keccak256(p, 0x540))
 
             // store public inputs just after the proof stored in the next step
             mstore(add(p, 0x1a0), shr(128, mload(p))) // pub1
@@ -120,6 +131,9 @@ contract Quantum {
             if iszero(ok) {
                 revert(0, 0)
             }
+
+            // update state - treeRoot
+            sstore(treeRoot.slot, calldataload(0x684))
         }
 
         pubInputsHashes[batch.protocols[0].vkHash] = batch

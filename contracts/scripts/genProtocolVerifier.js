@@ -1,6 +1,7 @@
 const fs = require('fs')
 const { exec } = require('child_process');
 
+const MAX_PUB_INPUTS = 20
 const intToHexString = (n) => {
   return "0x" + n.toString(16)
 }
@@ -26,14 +27,23 @@ const C = (nPub) => {
     address quantum_verifier
 ) internal {
     assembly {
-        let p := mload(0x40)\n`
+        let p := mload(0x40)
+        let zero := mload(0x60)\n
+        `
 
+  code += `// store public inputs\n`
   for (let i = 0; i < nPub; i++) {
     code += `mstore(add(p, ${intToHexString((i + 2) * 32)}), calldataload(${intToHexString(4 + i * 32)}))\n`
   }
-  code += `mstore(add(p, 0x40), keccak256(add(p, 0x40), ${intToHexString(nPub * 32)}))\n`
+  code += `// padd public inputs\n`
+  for (let i = nPub; i < MAX_PUB_INPUTS; i++) {
+    code += `mstore(add(p, ${intToHexString((i + 2) * 32)}), zero)\n`
+  }
+  code += `// public inputs hash
+  mstore(add(p, 0x40), keccak256(add(p, 0x40), ${intToHexString(MAX_PUB_INPUTS * 32)}))\n\n`
 
-  code += `mstore(add(p, 0x20), vkHash)
+  code += `// verify on quantum
+  mstore(add(p, 0x20), vkHash)
   mstore(p, SIGNATURE)
   let ok := staticcall(
       gas(),

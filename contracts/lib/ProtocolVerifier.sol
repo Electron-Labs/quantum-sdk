@@ -11,8 +11,34 @@ library ProtocolVerifier_1 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x20))
+            // padd public inputs
+            mstore(add(p, 0x60), zero)
+            mstore(add(p, 0x80), zero)
+            mstore(add(p, 0xa0), zero)
+            mstore(add(p, 0xc0), zero)
+            mstore(add(p, 0xe0), zero)
+            mstore(add(p, 0x100), zero)
+            mstore(add(p, 0x120), zero)
+            mstore(add(p, 0x140), zero)
+            mstore(add(p, 0x160), zero)
+            mstore(add(p, 0x180), zero)
+            mstore(add(p, 0x1a0), zero)
+            mstore(add(p, 0x1c0), zero)
+            mstore(add(p, 0x1e0), zero)
+            mstore(add(p, 0x200), zero)
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(
@@ -40,9 +66,34 @@ library ProtocolVerifier_2 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
+            // padd public inputs
+            mstore(add(p, 0x80), zero)
+            mstore(add(p, 0xa0), zero)
+            mstore(add(p, 0xc0), zero)
+            mstore(add(p, 0xe0), zero)
+            mstore(add(p, 0x100), zero)
+            mstore(add(p, 0x120), zero)
+            mstore(add(p, 0x140), zero)
+            mstore(add(p, 0x160), zero)
+            mstore(add(p, 0x180), zero)
+            mstore(add(p, 0x1a0), zero)
+            mstore(add(p, 0x1c0), zero)
+            mstore(add(p, 0x1e0), zero)
+            mstore(add(p, 0x200), zero)
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(
@@ -70,10 +121,34 @@ library ProtocolVerifier_3 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x60))
+            // padd public inputs
+            mstore(add(p, 0xa0), zero)
+            mstore(add(p, 0xc0), zero)
+            mstore(add(p, 0xe0), zero)
+            mstore(add(p, 0x100), zero)
+            mstore(add(p, 0x120), zero)
+            mstore(add(p, 0x140), zero)
+            mstore(add(p, 0x160), zero)
+            mstore(add(p, 0x180), zero)
+            mstore(add(p, 0x1a0), zero)
+            mstore(add(p, 0x1c0), zero)
+            mstore(add(p, 0x1e0), zero)
+            mstore(add(p, 0x200), zero)
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(
@@ -101,11 +176,34 @@ library ProtocolVerifier_4 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
             mstore(add(p, 0xa0), calldataload(0x64))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x80))
+            // padd public inputs
+            mstore(add(p, 0xc0), zero)
+            mstore(add(p, 0xe0), zero)
+            mstore(add(p, 0x100), zero)
+            mstore(add(p, 0x120), zero)
+            mstore(add(p, 0x140), zero)
+            mstore(add(p, 0x160), zero)
+            mstore(add(p, 0x180), zero)
+            mstore(add(p, 0x1a0), zero)
+            mstore(add(p, 0x1c0), zero)
+            mstore(add(p, 0x1e0), zero)
+            mstore(add(p, 0x200), zero)
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(
@@ -133,12 +231,34 @@ library ProtocolVerifier_5 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
             mstore(add(p, 0xa0), calldataload(0x64))
             mstore(add(p, 0xc0), calldataload(0x84))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0xa0))
+            // padd public inputs
+            mstore(add(p, 0xe0), zero)
+            mstore(add(p, 0x100), zero)
+            mstore(add(p, 0x120), zero)
+            mstore(add(p, 0x140), zero)
+            mstore(add(p, 0x160), zero)
+            mstore(add(p, 0x180), zero)
+            mstore(add(p, 0x1a0), zero)
+            mstore(add(p, 0x1c0), zero)
+            mstore(add(p, 0x1e0), zero)
+            mstore(add(p, 0x200), zero)
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(
@@ -166,13 +286,34 @@ library ProtocolVerifier_6 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
             mstore(add(p, 0xa0), calldataload(0x64))
             mstore(add(p, 0xc0), calldataload(0x84))
             mstore(add(p, 0xe0), calldataload(0xa4))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0xc0))
+            // padd public inputs
+            mstore(add(p, 0x100), zero)
+            mstore(add(p, 0x120), zero)
+            mstore(add(p, 0x140), zero)
+            mstore(add(p, 0x160), zero)
+            mstore(add(p, 0x180), zero)
+            mstore(add(p, 0x1a0), zero)
+            mstore(add(p, 0x1c0), zero)
+            mstore(add(p, 0x1e0), zero)
+            mstore(add(p, 0x200), zero)
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(
@@ -200,6 +341,9 @@ library ProtocolVerifier_7 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
@@ -207,7 +351,24 @@ library ProtocolVerifier_7 {
             mstore(add(p, 0xc0), calldataload(0x84))
             mstore(add(p, 0xe0), calldataload(0xa4))
             mstore(add(p, 0x100), calldataload(0xc4))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0xe0))
+            // padd public inputs
+            mstore(add(p, 0x120), zero)
+            mstore(add(p, 0x140), zero)
+            mstore(add(p, 0x160), zero)
+            mstore(add(p, 0x180), zero)
+            mstore(add(p, 0x1a0), zero)
+            mstore(add(p, 0x1c0), zero)
+            mstore(add(p, 0x1e0), zero)
+            mstore(add(p, 0x200), zero)
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(
@@ -235,6 +396,9 @@ library ProtocolVerifier_8 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
@@ -243,7 +407,23 @@ library ProtocolVerifier_8 {
             mstore(add(p, 0xe0), calldataload(0xa4))
             mstore(add(p, 0x100), calldataload(0xc4))
             mstore(add(p, 0x120), calldataload(0xe4))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x100))
+            // padd public inputs
+            mstore(add(p, 0x140), zero)
+            mstore(add(p, 0x160), zero)
+            mstore(add(p, 0x180), zero)
+            mstore(add(p, 0x1a0), zero)
+            mstore(add(p, 0x1c0), zero)
+            mstore(add(p, 0x1e0), zero)
+            mstore(add(p, 0x200), zero)
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(
@@ -271,6 +451,9 @@ library ProtocolVerifier_9 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
@@ -280,7 +463,22 @@ library ProtocolVerifier_9 {
             mstore(add(p, 0x100), calldataload(0xc4))
             mstore(add(p, 0x120), calldataload(0xe4))
             mstore(add(p, 0x140), calldataload(0x104))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x120))
+            // padd public inputs
+            mstore(add(p, 0x160), zero)
+            mstore(add(p, 0x180), zero)
+            mstore(add(p, 0x1a0), zero)
+            mstore(add(p, 0x1c0), zero)
+            mstore(add(p, 0x1e0), zero)
+            mstore(add(p, 0x200), zero)
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(
@@ -308,6 +506,9 @@ library ProtocolVerifier_10 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
@@ -318,7 +519,21 @@ library ProtocolVerifier_10 {
             mstore(add(p, 0x120), calldataload(0xe4))
             mstore(add(p, 0x140), calldataload(0x104))
             mstore(add(p, 0x160), calldataload(0x124))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x140))
+            // padd public inputs
+            mstore(add(p, 0x180), zero)
+            mstore(add(p, 0x1a0), zero)
+            mstore(add(p, 0x1c0), zero)
+            mstore(add(p, 0x1e0), zero)
+            mstore(add(p, 0x200), zero)
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(
@@ -346,6 +561,9 @@ library ProtocolVerifier_11 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
@@ -357,7 +575,20 @@ library ProtocolVerifier_11 {
             mstore(add(p, 0x140), calldataload(0x104))
             mstore(add(p, 0x160), calldataload(0x124))
             mstore(add(p, 0x180), calldataload(0x144))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x160))
+            // padd public inputs
+            mstore(add(p, 0x1a0), zero)
+            mstore(add(p, 0x1c0), zero)
+            mstore(add(p, 0x1e0), zero)
+            mstore(add(p, 0x200), zero)
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(
@@ -385,6 +616,9 @@ library ProtocolVerifier_12 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
@@ -397,7 +631,19 @@ library ProtocolVerifier_12 {
             mstore(add(p, 0x160), calldataload(0x124))
             mstore(add(p, 0x180), calldataload(0x144))
             mstore(add(p, 0x1a0), calldataload(0x164))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x180))
+            // padd public inputs
+            mstore(add(p, 0x1c0), zero)
+            mstore(add(p, 0x1e0), zero)
+            mstore(add(p, 0x200), zero)
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(
@@ -425,6 +671,9 @@ library ProtocolVerifier_13 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
@@ -438,7 +687,18 @@ library ProtocolVerifier_13 {
             mstore(add(p, 0x180), calldataload(0x144))
             mstore(add(p, 0x1a0), calldataload(0x164))
             mstore(add(p, 0x1c0), calldataload(0x184))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x1a0))
+            // padd public inputs
+            mstore(add(p, 0x1e0), zero)
+            mstore(add(p, 0x200), zero)
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(
@@ -466,6 +726,9 @@ library ProtocolVerifier_14 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
@@ -480,7 +743,17 @@ library ProtocolVerifier_14 {
             mstore(add(p, 0x1a0), calldataload(0x164))
             mstore(add(p, 0x1c0), calldataload(0x184))
             mstore(add(p, 0x1e0), calldataload(0x1a4))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x1c0))
+            // padd public inputs
+            mstore(add(p, 0x200), zero)
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(
@@ -508,6 +781,9 @@ library ProtocolVerifier_15 {
     ) internal {
         assembly {
             let p := mload(0x40)
+            let zero := mload(0x60)
+
+            // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
@@ -523,7 +799,16 @@ library ProtocolVerifier_15 {
             mstore(add(p, 0x1c0), calldataload(0x184))
             mstore(add(p, 0x1e0), calldataload(0x1a4))
             mstore(add(p, 0x200), calldataload(0x1c4))
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x1e0))
+            // padd public inputs
+            mstore(add(p, 0x220), zero)
+            mstore(add(p, 0x240), zero)
+            mstore(add(p, 0x260), zero)
+            mstore(add(p, 0x280), zero)
+            mstore(add(p, 0x2a0), zero)
+            // public inputs hash
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+
+            // verify on quantum
             mstore(add(p, 0x20), vkHash)
             mstore(p, SIGNATURE)
             let ok := staticcall(

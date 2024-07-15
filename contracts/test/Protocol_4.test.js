@@ -1,12 +1,12 @@
 const hre = require("hardhat")
-const DATA = require("./data/protocol_1.json");
+const DATA = require("./data/protocol_4.json");
 const { deployProtocol } = require("../scripts/deployProtocol");
 
 describe("Protocol", () => {
   let quantum, protocolContract, vkHashes, protocolPisHashes, n
 
   before("", async () => {
-    n = 1
+    n = 4
 
     vkHashes = DATA.vkHashes
     protocolPisHashes = DATA.protocolPisHashes
@@ -15,12 +15,12 @@ describe("Protocol", () => {
       protocolPisHashes[i] = Uint8Array.from(protocolPisHashes[i])
     }
 
-    const Verifier = await hre.ethers.getContractFactory("lib/Verifier_1.sol:Verifier");
+    const Verifier = await hre.ethers.getContractFactory("lib/Verifier_4.sol:Verifier");
     const verifier = await hre.upgrades.deployProxy(Verifier);
     await verifier.waitForDeployment();
 
-    const Quantum = await hre.ethers.getContractFactory('lib/Quantum_*.sol:Quantum_1');
-    quantum = await Quantum.deploy(await verifier.getAddress());
+    const Quantum = await hre.ethers.getContractFactory('lib/Quantum_*.sol:Quantum_4');
+    quantum = await Quantum.deploy(await verifier.getAddress(), Uint8Array.from(DATA.oldRoot));
     console.log("quantum deployed at:", await quantum.getAddress())
 
     protocolContract = await hre.ethers.getContractAt('Protocol', await deployProtocol(vkHashes[0]));
@@ -30,10 +30,10 @@ describe("Protocol", () => {
     let tx, receipt
 
     // circuit registration
-    tx = await quantum.registerProtocol(vkHashes[0]);
-    // await quantum.registerProtocol(vkHashes[2]);
-    // await quantum.registerProtocol(vkHashes[6]);
-    // tx = await quantum.registerProtocol(vkHashes[7]);
+    await quantum.registerProtocol(vkHashes[0]);
+    await quantum.registerProtocol(vkHashes[1]);
+    await quantum.registerProtocol(vkHashes[2]);
+    tx = await quantum.registerProtocol(vkHashes[3]);
     receipt = await tx.wait()
     console.log("registerProtocol::gasUsed", Number(receipt.gasUsed))
 
@@ -46,15 +46,16 @@ describe("Protocol", () => {
       batch["protocols"].push(protocol)
     }
 
-    // batch["protocols"][0]["pubInputsHash"] = "0xc7097c499dc5ab8144fb8fc0b5f3d6df062dae105e17ee7cbab77be75cd13714"
-    tx = await quantum.verifySuperproof(DATA.proof, batch);
+    let treeUpdate = {}
+    treeUpdate["newRoot"] = Uint8Array.from(DATA.newRoot)
+
+    tx = await quantum.verifySuperproof(DATA.proof, batch, treeUpdate);
     receipt = await tx.wait()
     console.log("verifySuperproof::gasUsed", Number(receipt.gasUsed))
 
-
-    const pubInputs = ["2496000", "40", "40", "40"]
-    tx = await protocolContract.verifyPubInputs_4(pubInputs);
-    receipt = await tx.wait()
-    console.log("verifyPubInputs::gasUsed", Number(receipt.gasUsed))
+    // const pubInputs = [243542, 494]
+    // tx = await protocolContract.verifyPubInputs_2(pubInputs);
+    // receipt = await tx.wait()
+    // console.log("verifyPubInputs::gasUsed", Number(receipt.gasUsed))
   });
 });

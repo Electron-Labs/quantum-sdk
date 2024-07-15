@@ -13,3 +13,5 @@ contracts/test
 contracts/artifacts
 contracts/cache
 contracts/deployed.txt
+contracts/archive
+contracts/cache
