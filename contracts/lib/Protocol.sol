@@ -11,9 +11,16 @@ contract Protocol {
     }
 
     function verifyPubInputs_2(uint256[2] calldata pubInputs) external {
-        ProtocolVerifier_2.verifyPubInputs(pubInputs, vkHash, QUANTUM);
+        ProtocolVerifier_2.verifyLatestPubInputs(pubInputs, vkHash, QUANTUM);
     }
-    function verifyPubInputs_5(uint256[5] calldata pubInputs) external {
-        ProtocolVerifier_5.verifyPubInputs(pubInputs, vkHash, QUANTUM);
+
+    function verifyLatestPubInputs_5(uint256[5] calldata pubInputs) external {
+        ProtocolVerifier_5.verifyLatestPubInputs(pubInputs, vkHash, QUANTUM);
+    }
+
+    function verifyOldPubInputs_5(
+        ProtocolVerifier_5.ProtocolInclusionProof calldata protocolInclusionProof, uint256[5] calldata pubInputs
+    ) external {
+        ProtocolVerifier_5.verifyOldPubInputs(protocolInclusionProof, pubInputs, vkHash, QUANTUM);
     }
 }

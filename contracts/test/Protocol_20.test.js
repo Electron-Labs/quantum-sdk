@@ -46,13 +46,26 @@ describe("Protocol", () => {
     let treeUpdate = {}
     treeUpdate["newRoot"] = Uint8Array.from(DATA.newRoot)
 
+    let protocolInclusionProof = {}
+    protocolInclusionProof["merkleProofPosition"] = DATA.merkleProofPosition
+    protocolInclusionProof["merkleProof"] = []
+    for (let i = 0; i < DATA.merkleProof.length; i++) {
+      protocolInclusionProof["merkleProof"].push(DATA.merkleProof[i])
+    }
+    protocolInclusionProof["leafNextValue"] = DATA.leafNextValue
+    protocolInclusionProof["leafNextIdx"] = DATA.leafNextIdx
+
     tx = await quantum.verifySuperproof(DATA.proof, batch, treeUpdate);
     receipt = await tx.wait()
     console.log("verifySuperproof::gasUsed", Number(receipt.gasUsed))
 
 
-    tx = await protocolContract.verifyPubInputs_5(DATA.protocolPubInputs["0"]);
+    tx = await protocolContract.verifyLatestPubInputs_5(DATA.protocolPubInputs["0"]);
     receipt = await tx.wait()
     console.log("verifyPubInputs::gasUsed", Number(receipt.gasUsed))
+
+    tx = await protocolContract.verifyOldPubInputs_5(protocolInclusionProof, DATA.protocolPubInputs["0"]);
+    receipt = await tx.wait()
+    console.log("verifyPubInputsTreeInclusion::gasUsed", Number(receipt.gasUsed))
   });
 });

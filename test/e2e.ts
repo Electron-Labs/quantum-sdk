@@ -25,7 +25,7 @@ async function main() {
 
 
     // * contract calling *
-    // let protocolProofResponse = await q.getProtocolProof("0xfa6df811a48f4a3f6966545cf1c914295146a707dc84e5a1c1c39b6b485d2d2a");
+    // let protocolProofResponse = await q.getProtocolProof("0x39d5d58e66e0e9243d701971e43f6e9e41e33e128290cecf9bc6f86c2382f40f");
     // console.log({protocolProofResponse});
 //     const abi = [
 //         "function verifyPubInputs((bytes32 protocolVKeyHash,bytes32 reductionVKeyHash,uint256 merkleProofPosition,bytes32[10] merkleProof,bytes32 leafNextValue,bytes8 leafNextIdx,bytes32[4] pubInputs)) external",

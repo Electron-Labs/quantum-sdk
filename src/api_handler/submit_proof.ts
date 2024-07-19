@@ -49,7 +49,6 @@ export async function getProtocolProof(rpcEndPoint: string, authToken: string, p
     try {
         const response = await axios.get(`${rpcEndPoint}/protocol_proof/merkle/${proofHash}`,{headers});
         const responseData: ProtocolProofResponse = response.data;
-        console.log({responseData});
         return responseData;
     } catch(e) {
         // console.log(e);

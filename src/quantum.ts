@@ -76,7 +76,7 @@ export class Quantum implements QuantumInterface {
         const sg2FileBytes = checkPathAndReadFile(sg2FilePath)
         const instanceFileBytes = checkPathAndReadFile(instanceFilePath)
         const protocolFileBytes = checkPathAndReadFile(protocolFilePath);
-        
+
         const halo2Vkey = {
             protocol_bytes: Array.from(protocolFileBytes),
             sg2_bytes: Array.from(sg2FileBytes),
@@ -96,10 +96,10 @@ export class Quantum implements QuantumInterface {
 
         const proof = getProof(proofPath, proofType);
         const proofEncoded = serializeProof(proof, proofType);
-        
+
         const pubInput = getPis(pisPath, proofType);
         const pubInputEncoded = serializePubInputs(pubInput, proofType);
-        
+
         let proofHashString = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitHash, proofType, this.authToken);
         let proofHash = Keccak256Hash.fromString(proofHashString);
         return new SubmitProofResponse(proofHash)
@@ -125,13 +125,11 @@ export class Quantum implements QuantumInterface {
             pubInputsBytes[i] = toLeBytes32(pubInputs[i])
         }
         return {
-            protocolVKeyHash: protocolProof.protocolVkeyHash,
-            reductionVKeyHash: protocolProof.reductionVkeyHash,
             merkleProofPosition: protocolProof.merkleProofPosition,
             merkleProof: protocolProof.merkleProof,
             leafNextValue: protocolProof.leafNextValue,
             leafNextIdx: protocolProof.leafNextIndex,
-            pubInputs: pubInputs.length ? pubInputsBytes : undefined,
+            pubInputs: pubInputsBytes,
         };
     }
 }

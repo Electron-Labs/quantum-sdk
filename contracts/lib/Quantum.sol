@@ -204,4 +204,12 @@ contract Quantum {
         }
         verifier = verifierAddress;
     }
+
+    // TODO: remove
+    function setTreeRoot(bytes32 treeRoot_) external {
+        if (msg.sender != owner) {
+            revert("!owner");
+        }
+        treeRoot = treeRoot_;
+    }
 }
