@@ -4,10 +4,11 @@ const { deployProtocol } = require("../scripts/deployProtocol");
 const { deployVerifier } = require("../scripts/deployVerifier");
 
 describe("Protocol", () => {
-  let quantum, protocolContract, vkHashes, protocolPisHashes, n
+  let quantum, protocolContract, vkHashes, protocolPisHashes, n, nthProtocol
 
   before("", async () => {
     n = 20
+    nthProtocol = 1
 
     vkHashes = DATA.vkHashes
     protocolPisHashes = DATA.protocolPisHashes
@@ -20,7 +21,7 @@ describe("Protocol", () => {
     quantum = await Quantum.deploy(await deployVerifier(), Uint8Array.from(DATA.oldRoot));
     console.log("quantum deployed at:", await quantum.getAddress())
 
-    protocolContract = await hre.ethers.getContractAt('Protocol', await deployProtocol(vkHashes[0]));
+    protocolContract = await hre.ethers.getContractAt('Protocol', await deployProtocol(vkHashes[nthProtocol]));
   })
 
   it("verifySuperproof", async function () {
@@ -59,12 +60,12 @@ describe("Protocol", () => {
     receipt = await tx.wait()
     console.log("verifySuperproof::gasUsed", Number(receipt.gasUsed))
 
-
-    tx = await protocolContract.verifyLatestPubInputs_5(DATA.protocolPubInputs["0"]);
+    // TODO: need to update test data
+    tx = await protocolContract.verifyLatestPubInputs_2(DATA.protocolPubInputs[nthProtocol.toString()]);
     receipt = await tx.wait()
     console.log("verifyPubInputs::gasUsed", Number(receipt.gasUsed))
 
-    tx = await protocolContract.verifyOldPubInputs_5(protocolInclusionProof, DATA.protocolPubInputs["0"]);
+    tx = await protocolContract.verifyOldPubInputs_2(protocolInclusionProof, DATA.protocolPubInputs[nthProtocol.toString()]);
     receipt = await tx.wait()
     console.log("verifyPubInputsTreeInclusion::gasUsed", Number(receipt.gasUsed))
   });

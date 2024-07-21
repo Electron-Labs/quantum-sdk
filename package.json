@@ -1,13 +1,14 @@
 {
   "name": "quantum-sdk",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "SDK to interact seamlessly with quantum node",
   "main": "dist/src/quantum.js",
   "scripts": {
     "build": "tsc",
     "start": "tsc && node dist/src/index.js",
     "test": "nyc mocha --require ts-node/register test/*_test.ts",
-    "test_e2e": "tsc && node dist/test/e2e.js"
+    "test_e2e": "tsc && node dist/test/e2e.js",
+    "node:sepolia": "cd contracts; npx --no-install hardhat node --fork https://rpc.ankr.com/eth_sepolia --fork-block-number 6338972 --port 8545"
   },
   "author": "",
   "license": "ISC",

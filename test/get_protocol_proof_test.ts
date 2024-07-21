@@ -13,14 +13,14 @@ chai.use(chaiAsPromised);
 describe("get protocol proof testing", () =>{
     let quantum: Quantum;
     let rpcEndPoint: string;
-    let correctProofHash = "0xa4896a3f93bf4bf58378e579f3cf193bb4af1022af7d2089f37d8bae7157b85f"; 
+    let correctProofHash = "0xa4896a3f93bf4bf58378e579f3cf193bb4af1022af7d2089f37d8bae7157b85f";
     let correctProtocolProof = new ProtocolProof({
         protocolVkeyHash: "0x80dd52f677011d7b745fbb13675357cdb4418ca663c039124a22361b85f3b1a4",
         reductionVkeyHash: "0xa4896a3f93bf4bf58378e579f3cf193bb4af1022af7d2089f37d8bae7157b85f",
         merkleProofPosition: [13],
         merkleProof: [1,23,63,131],
         leafNextValue: "nextVal",
-        leafNextIndex: [14],
+        leafNextIdx: [14],
     })
     beforeEach(() => {
         rpcEndPoint = "http://localhost:8000";
@@ -46,14 +46,14 @@ describe("get protocol proof testing", () =>{
     it("should return protocol proof response for correct proof hash", async() =>{
         let apiEndpoint = `/protocol_proof/merkle/${correctProofHash}`;
         const scope = nock(rpcEndPoint).get(apiEndpoint)
-                                       .reply(200, 
+                                       .reply(200,
                                             {
                                                 protocolVkeyHash: "0x80dd52f677011d7b745fbb13675357cdb4418ca663c039124a22361b85f3b1a4",
                                                 reductionVkeyHash: "0xa4896a3f93bf4bf58378e579f3cf193bb4af1022af7d2089f37d8bae7157b85f",
                                                 merkleProofPosition: [13],
                                                 merkleProof: [1,23,63,131],
                                                 leafNextValue: "nextVal",
-                                                leafNextIndex: [14],
+                                                leafNextIdx: [14],
                                             }
                                         );
         let protocolProofRes = await quantum.getProtocolProof(correctProofHash);

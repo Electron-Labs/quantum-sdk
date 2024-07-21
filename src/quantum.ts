@@ -119,17 +119,12 @@ export class Quantum implements QuantumInterface {
         return new GetProtocolProofResponse(protocolProof)
     }
 
-    getProtocolInclusionProof(protocolProof: ProtocolProof, pubInputs: string[]): ProtocolInclusionProof {
-        let pubInputsBytes = new Array<Uint8Array>(pubInputs.length)
-        for (let i = 0; i < pubInputsBytes.length; i++) {
-            pubInputsBytes[i] = toLeBytes32(pubInputs[i])
-        }
+    getProtocolInclusionProof(protocolProof: ProtocolProof): ProtocolInclusionProof {
         return {
             merkleProofPosition: protocolProof.merkleProofPosition,
             merkleProof: protocolProof.merkleProof,
             leafNextValue: protocolProof.leafNextValue,
-            leafNextIdx: protocolProof.leafNextIndex,
-            pubInputs: pubInputsBytes,
+            leafNextIdx: protocolProof.leafNextIdx,
         };
     }
 }

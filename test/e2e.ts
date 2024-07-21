@@ -3,6 +3,7 @@ import { ProofStatus } from "../src/enum/proof_status";
 import { ProofType } from "../src/enum/proof_type";
 import { Quantum } from "../src/quantum";
 import hre from "hardhat"
+import { getVKeyHash } from "../src/quantum_helper";
 
 const url = "http://3.133.25.95:8000";
 async function main() {
@@ -24,20 +25,27 @@ async function main() {
     // console.log(proof_status.proofData);
 
 
+    // let vkHash = getVKeyHash("0x5dd6e2c9ccf9746c738d6806882b2304dd0686ff75760fed8040e79fa1059290", "0x4b4b13969117f5b7ed8816572a16a748cfc96491e3170c6f12e1f76470141f82")
+    // console.log("vkHash", vkHash)
     // * contract calling *
-    // let protocolProofResponse = await q.getProtocolProof("0x39d5d58e66e0e9243d701971e43f6e9e41e33e128290cecf9bc6f86c2382f40f");
-    // console.log({protocolProofResponse});
-//     const abi = [
-//         "function verifyPubInputs((bytes32 protocolVKeyHash,bytes32 reductionVKeyHash,uint256 merkleProofPosition,bytes32[10] merkleProof,bytes32 leafNextValue,bytes8 leafNextIdx,bytes32[4] pubInputs)) external",
-//     ];
-//     const provider = new ethers.JsonRpcProvider("http://127.0.0.1:8545/")
-//     let privateKey = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80';
-//     let wallet = new ethers.Wallet(privateKey, provider);
-//     const contract = new ethers.Contract("0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9", abi, wallet);
-//     const pubInputs = ["4", "4", "4", "3"]
-//     const protocolInclusionProof = q.getProtocolInclusionProof(protocolProofResponse.protocolProof, pubInputs)
-//     let tx = await contract.verifyPubInputs(protocolInclusionProof)
-//     console.log("tx", tx)
+    // let protocolProofResponse = await q.getProtocolProof("0x603edbccd841d232108368695e26a1c008499c4bba446fb33ddc37ef9ce818eb");
+    // console.log("protocolProofResponse", protocolProofResponse)
+    // const abi = [
+    //     "function verifyOldPubInputs_2((uint256 merkleProofPosition,bytes32[10] merkleProof,bytes32 leafNextValue,bytes8 leafNextIdx),uint256[2] pubInputs) external",
+    //     "function verifyLatestPubInputs_2(uint256[2] pubInputs) external",
+    // ];
+    // const provider = new ethers.JsonRpcProvider("http://127.0.0.1:8545/")
+    // let privateKey = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80';
+    // let wallet = new ethers.Wallet(privateKey, provider);
+    // const contract = new ethers.Contract("0x9cfdF6EAb414ae15D18207451ddC617e3eb29Adb", abi, wallet);
+    // const pubInputs = ["2518569","1587"]
+    // let tx
+    // tx = await contract.verifyOldPubInputs_2(protocolProofResponse.protocolProof, pubInputs)
+    // await tx.wait()
+    // console.log("tx", tx)
+    // tx = await contract.verifyLatestPubInputs_2(pubInputs)
+    // await tx.wait()
+    // console.log("tx", tx)
 }
 
 main().then(() => {

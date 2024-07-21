@@ -8,7 +8,7 @@ async function deployProtocol(vKeyHash) {
 }
 
 async function main() {
-  const vKeyHash = "0x87a5b3814d26dbf2d74832e65c4230a3ce33b39438c036ae09c20e97e20a5671"
+  const vKeyHash = "0x6f1ed928259d5825233e8b7be624b3968154993c7f7575d1e0451f61883400e2"
   await deployProtocol(vKeyHash)
 }
 

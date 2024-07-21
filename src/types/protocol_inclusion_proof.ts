@@ -3,5 +3,4 @@ export interface ProtocolInclusionProof {
   merkleProof: string[];
   leafNextValue: string;
   leafNextIdx: string;
-  pubInputs: Uint8Array[];
 };

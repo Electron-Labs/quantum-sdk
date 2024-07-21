@@ -8,9 +8,12 @@ async function deployQuantum(verifierAddress, initRoot) {
 }
 
 async function main() {
-  const verifierAddress = "0x90b2d5A113da90EC4637B9a095e4d037B6D699Be"
-  const initRoot = "0x851b17914fe4e0e307ad561560cad44c6d000a6d9e405c2ed3ba74693c162a76"
+  const verifierAddress = "0x747eA4AEC7Cea38872b47C1eADf67497E52a76e2"
+  const initRoot = "0x8897fc2084ca305a7d637e9cdae101c6847fb76b1b2e67f04144f517a75da890"
   await deployQuantum(verifierAddress, initRoot)
+
+  // const quantum = await hre.ethers.getContractAt('lib/Quantum.sol:Quantum', "0xd6aD4d6D83803f56032170a9d2ce71b030A1f4BC");
+  // console.log("treeRoot:", await quantum.treeRoot());
 }
 
 if (require.main == module) {

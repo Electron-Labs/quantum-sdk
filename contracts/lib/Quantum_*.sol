@@ -10,6 +10,8 @@ contract Quantum_4 {
     bytes32 public treeRoot;
 
     uint256 constant SIGNATURE = 0xb2ff0a36;
+    uint256 constant IMT_VK_HASH =
+        0x399f477806f16166806eb587b11fcb62ce0e4f613e508edd566a576a2b75fbdc;
 
     struct Protocol {
         bytes32 vkHash;
@@ -60,8 +62,10 @@ contract Quantum_4 {
             mstore(add(p, 0x100), sload(treeRoot.slot))
             // store new root
             mstore(add(p, 0x120), calldataload(0x284))
+            // store IMT vk hash
+            mstore(add(p, 0x140), IMT_VK_HASH)
             // pub inputs serialized
-            mstore(p, keccak256(p, 0x140))
+            mstore(p, keccak256(p, 0x160))
 
             // store public inputs just after the proof stored in the next step
             mstore(add(p, 0x1a0), shr(128, mload(p))) // pub1

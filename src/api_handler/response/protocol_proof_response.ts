@@ -6,7 +6,6 @@ export class ProtocolProofResponse {
     public merkle_proof: string[]
     public leaf_next_value: string
     public leaf_next_index: string
-    public superproof_root: string
 
     constructor(fields: any) {
         this.protocol_vkey_hash =  fields.protocol_vkey_hash;
@@ -15,6 +14,5 @@ export class ProtocolProofResponse {
         this.merkle_proof = fields.merkle_proof
         this.leaf_next_value = fields.leaf_next_value
         this.leaf_next_index = fields.leaf_next_index
-        this.superproof_root = fields.superproof_root
     }
 }

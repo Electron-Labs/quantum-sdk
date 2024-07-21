@@ -37,7 +37,10 @@ module.exports = {
     sepolia: {
       url: SEPOLIA_RPC,
       accounts: [SEPOLIA_PRIVATE_KEY],
-    }
+    },
+    localhost_sepolia: {
+      url: `http://localhost:8545`,
+    },
   },
   paths: {
     sources: "./lib",

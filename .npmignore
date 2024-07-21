@@ -1,3 +1,4 @@
+.nyc_output
 package-lock.json
 test
 src
@@ -13,5 +14,4 @@ contracts/test
 contracts/artifacts
 contracts/cache
 contracts/deployed.txt
-contracts/archive
 contracts/cache

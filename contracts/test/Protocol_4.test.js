@@ -53,9 +53,9 @@ describe("Protocol", () => {
     receipt = await tx.wait()
     console.log("verifySuperproof::gasUsed", Number(receipt.gasUsed))
 
-    // const pubInputs = [243542, 494]
-    // tx = await protocolContract.verifyPubInputs_2(pubInputs);
-    // receipt = await tx.wait()
-    // console.log("verifyPubInputs::gasUsed", Number(receipt.gasUsed))
+    const pubInputs = ["1482", "1482"]
+    tx = await protocolContract.verifyLatestPubInputs_2(pubInputs);
+    receipt = await tx.wait()
+    console.log("verifyPubInputs::gasUsed", Number(receipt.gasUsed))
   });
 });

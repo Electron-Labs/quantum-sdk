@@ -13,7 +13,7 @@ const A = () => {
 `
 }
 
-const B = (nProtocol) => {
+const B = (nProtocol, IMT_VK_HASH) => {
   return `contract Quantum_${nProtocol} {
     address public verifier;
     address public owner;
@@ -22,6 +22,7 @@ const B = (nProtocol) => {
     bytes32 public treeRoot;
 
     uint256 constant SIGNATURE = 0xb2ff0a36;
+    uint256 constant IMT_VK_HASH = ${IMT_VK_HASH};
 
     struct Protocol {
         bytes32 vkHash;
@@ -83,8 +84,11 @@ const C = (nProtocol) => {
   code += `// store new root
   mstore(add(p, ${intToHexString((2 * nProtocol + 1) * 32)}), calldataload(${intToHexString(388 + 2 * nProtocol * 32)}))`
 
+  code += `\n// store IMT vk hash
+            mstore(add(p, ${intToHexString((2 * nProtocol + 2) * 32)}), IMT_VK_HASH)`
+
   code += `\n// pub inputs serialized
-  mstore(p, keccak256(p, ${intToHexString(nProtocol * 32 * 2 + 32 + 32)}))\n\n`
+  mstore(p, keccak256(p, ${intToHexString(nProtocol * 32 * 2 + 32 + 32 + 32)}))\n\n`
 
 
   code += `// store public inputs just after the proof stored in the next step
@@ -155,7 +159,8 @@ const D = () => {
 
 async function main() {
   const nProtocols = 20
-  let code = A() + B(nProtocols) + C(nProtocols) + D()
+  const IMT_VK_HASH = "0xa8be9d622bc3bc1bb49c7682a4a74c85a3cc937e52ff7aac5fd1369bff86044f"
+  let code = A() + B(nProtocols, IMT_VK_HASH) + C(nProtocols) + D()
 
   fs.writeFile(`./lib/Quantum_${nProtocols}.sol`, code, (err) => {
     if (err) throw err;
