@@ -11,7 +11,7 @@ contract Quantum {
 
     uint256 constant SIGNATURE = 0xb2ff0a36;
     uint256 constant IMT_VK_HASH =
-        0xa8be9d622bc3bc1bb49c7682a4a74c85a3cc937e52ff7aac5fd1369bff86044f;
+        0xe38701443380bca28bbd2a78d160abc5820f0e1a3182c0a00db6bca02f27c095;
 
     struct Protocol {
         bytes32 vkHash;
