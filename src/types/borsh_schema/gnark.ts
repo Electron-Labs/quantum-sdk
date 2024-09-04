@@ -1,16 +1,16 @@
 import { borshSerialize } from "../../utils/borsh";
 
-const fq = {struct : {
+export const fq = {struct : {
     X: 'string',
     Y: 'string'
 }}
 
-const fq_2 = {struct : {
+export const fq_2 = {struct : {
     A0: 'string',
     A1: 'string'
 }}
 
-const fq2 = { struct : {
+export const fq2 = { struct : {
     X : fq_2,
     Y: fq_2
 }}
@@ -19,7 +19,7 @@ const gnarkVKey = { struct: {
     G1: { struct: {
         Alpha: fq,
         Beta: fq,
-        Delta: fq, 
+        Delta: fq,
         K: {array: { type: fq} }
     }},
     G2: {struct: {
