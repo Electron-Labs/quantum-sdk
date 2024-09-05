@@ -25,9 +25,9 @@ const gnarkPlonkVKey = {
   }
 }
 
-const gnarkPlonkSolidityProof = {
+const gnarkPlonkSolidityProof = {struct: {
   ProofBytes: { array: { type: 'u8' } }
-}
+}}
 
 const gnarkPlonkPubInputs = { array: { type: 'string' } };
 
