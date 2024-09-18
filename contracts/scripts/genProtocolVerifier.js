@@ -1,7 +1,6 @@
 const fs = require('fs')
 const { exec } = require('child_process');
 
-const MAX_PUB_INPUTS = 20
 const intToHexString = (n) => {
   return "0x" + n.toString(16)
 }
@@ -44,12 +43,8 @@ const C = (nPub) => {
   for (let i = 0; i < nPub; i++) {
     code += `mstore(add(p, ${intToHexString((i + 2) * 32)}), calldataload(${intToHexString(4 + i * 32)}))\n`
   }
-  code += `// extend public inputs\n`
-  for (let i = nPub; i < MAX_PUB_INPUTS; i++) {
-    code += `mstore(add(p, ${intToHexString((i + 2) * 32)}), zero)\n`
-  }
   code += `// public inputs hash
-  mstore(add(p, 0x40), keccak256(add(p, 0x40), ${intToHexString(MAX_PUB_INPUTS * 32)}))\n\n`
+  mstore(add(p, 0x40), keccak256(add(p, 0x40), ${intToHexString(nPub * 32)}))\n\n`
 
   code += `// verify on quantum
   mstore(add(p, 0x20), vkHash)
@@ -89,12 +84,8 @@ const D = (nPub) => {
   for (let i = 1; i < nPub; i++) {
     code += `mstore(add(p, ${intToHexString(i * 32)}), calldataload(${intToHexString(420 + i * 32)}))\n`
   }
-  code += `// extend public inputs\n`
-  for (let i = nPub; i < MAX_PUB_INPUTS; i++) {
-    code += `mstore(add(p, ${intToHexString(i * 32)}), zero)\n`
-  }
   code += `\n// keccak(extend(pubInputs)))
-  mstore(add(p, 0x20), keccak256(p, 0x280))
+  mstore(add(p, 0x20), keccak256(p, ${intToHexString(nPub * 32)}))
 
   // vKeyHash
   mstore(p, vKeyHash)

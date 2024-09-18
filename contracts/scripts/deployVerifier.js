@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 
 async function deployVerifier() {
-  const Verifier = await hre.ethers.getContractFactory("lib/Verifier_20.sol:Verifier");
+  const Verifier = await hre.ethers.getContractFactory("lib/Verifier.sol:Verifier");
   const verifier = await Verifier.deploy();
   await verifier.waitForDeployment();
   console.log("Verifier deployed to:", await verifier.getAddress());

@@ -24,28 +24,8 @@ library ProtocolVerifier_1 {
 
             // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
-            // extend public inputs
-            mstore(add(p, 0x60), zero)
-            mstore(add(p, 0x80), zero)
-            mstore(add(p, 0xa0), zero)
-            mstore(add(p, 0xc0), zero)
-            mstore(add(p, 0xe0), zero)
-            mstore(add(p, 0x100), zero)
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x20))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -77,29 +57,9 @@ library ProtocolVerifier_1 {
             // ** computer leaf value = keccak(vKeyHash || keccak(extend(pubInputs))) **
             // store pub inputs
             mstore(p, calldataload(0x1a4))
-            // extend public inputs
-            mstore(add(p, 0x20), zero)
-            mstore(add(p, 0x40), zero)
-            mstore(add(p, 0x60), zero)
-            mstore(add(p, 0x80), zero)
-            mstore(add(p, 0xa0), zero)
-            mstore(add(p, 0xc0), zero)
-            mstore(add(p, 0xe0), zero)
-            mstore(add(p, 0x100), zero)
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0x20))
 
             // vKeyHash
             mstore(p, vKeyHash)
@@ -264,27 +224,8 @@ library ProtocolVerifier_2 {
             // store public inputs
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
-            // extend public inputs
-            mstore(add(p, 0x80), zero)
-            mstore(add(p, 0xa0), zero)
-            mstore(add(p, 0xc0), zero)
-            mstore(add(p, 0xe0), zero)
-            mstore(add(p, 0x100), zero)
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -317,28 +258,9 @@ library ProtocolVerifier_2 {
             // store pub inputs
             mstore(p, calldataload(0x1a4))
             mstore(add(p, 0x20), calldataload(0x1c4))
-            // extend public inputs
-            mstore(add(p, 0x40), zero)
-            mstore(add(p, 0x60), zero)
-            mstore(add(p, 0x80), zero)
-            mstore(add(p, 0xa0), zero)
-            mstore(add(p, 0xc0), zero)
-            mstore(add(p, 0xe0), zero)
-            mstore(add(p, 0x100), zero)
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0x40))
 
             // vKeyHash
             mstore(p, vKeyHash)
@@ -504,26 +426,8 @@ library ProtocolVerifier_3 {
             mstore(add(p, 0x40), calldataload(0x4))
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
-            // extend public inputs
-            mstore(add(p, 0xa0), zero)
-            mstore(add(p, 0xc0), zero)
-            mstore(add(p, 0xe0), zero)
-            mstore(add(p, 0x100), zero)
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x60))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -557,27 +461,9 @@ library ProtocolVerifier_3 {
             mstore(p, calldataload(0x1a4))
             mstore(add(p, 0x20), calldataload(0x1c4))
             mstore(add(p, 0x40), calldataload(0x1e4))
-            // extend public inputs
-            mstore(add(p, 0x60), zero)
-            mstore(add(p, 0x80), zero)
-            mstore(add(p, 0xa0), zero)
-            mstore(add(p, 0xc0), zero)
-            mstore(add(p, 0xe0), zero)
-            mstore(add(p, 0x100), zero)
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0x60))
 
             // vKeyHash
             mstore(p, vKeyHash)
@@ -744,25 +630,8 @@ library ProtocolVerifier_4 {
             mstore(add(p, 0x60), calldataload(0x24))
             mstore(add(p, 0x80), calldataload(0x44))
             mstore(add(p, 0xa0), calldataload(0x64))
-            // extend public inputs
-            mstore(add(p, 0xc0), zero)
-            mstore(add(p, 0xe0), zero)
-            mstore(add(p, 0x100), zero)
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x80))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -797,26 +666,9 @@ library ProtocolVerifier_4 {
             mstore(add(p, 0x20), calldataload(0x1c4))
             mstore(add(p, 0x40), calldataload(0x1e4))
             mstore(add(p, 0x60), calldataload(0x204))
-            // extend public inputs
-            mstore(add(p, 0x80), zero)
-            mstore(add(p, 0xa0), zero)
-            mstore(add(p, 0xc0), zero)
-            mstore(add(p, 0xe0), zero)
-            mstore(add(p, 0x100), zero)
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0x80))
 
             // vKeyHash
             mstore(p, vKeyHash)
@@ -984,24 +836,8 @@ library ProtocolVerifier_5 {
             mstore(add(p, 0x80), calldataload(0x44))
             mstore(add(p, 0xa0), calldataload(0x64))
             mstore(add(p, 0xc0), calldataload(0x84))
-            // extend public inputs
-            mstore(add(p, 0xe0), zero)
-            mstore(add(p, 0x100), zero)
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0xa0))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -1037,25 +873,9 @@ library ProtocolVerifier_5 {
             mstore(add(p, 0x40), calldataload(0x1e4))
             mstore(add(p, 0x60), calldataload(0x204))
             mstore(add(p, 0x80), calldataload(0x224))
-            // extend public inputs
-            mstore(add(p, 0xa0), zero)
-            mstore(add(p, 0xc0), zero)
-            mstore(add(p, 0xe0), zero)
-            mstore(add(p, 0x100), zero)
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0xa0))
 
             // vKeyHash
             mstore(p, vKeyHash)
@@ -1224,23 +1044,8 @@ library ProtocolVerifier_6 {
             mstore(add(p, 0xa0), calldataload(0x64))
             mstore(add(p, 0xc0), calldataload(0x84))
             mstore(add(p, 0xe0), calldataload(0xa4))
-            // extend public inputs
-            mstore(add(p, 0x100), zero)
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0xc0))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -1277,24 +1082,9 @@ library ProtocolVerifier_6 {
             mstore(add(p, 0x60), calldataload(0x204))
             mstore(add(p, 0x80), calldataload(0x224))
             mstore(add(p, 0xa0), calldataload(0x244))
-            // extend public inputs
-            mstore(add(p, 0xc0), zero)
-            mstore(add(p, 0xe0), zero)
-            mstore(add(p, 0x100), zero)
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0xc0))
 
             // vKeyHash
             mstore(p, vKeyHash)
@@ -1464,22 +1254,8 @@ library ProtocolVerifier_7 {
             mstore(add(p, 0xc0), calldataload(0x84))
             mstore(add(p, 0xe0), calldataload(0xa4))
             mstore(add(p, 0x100), calldataload(0xc4))
-            // extend public inputs
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0xe0))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -1517,23 +1293,9 @@ library ProtocolVerifier_7 {
             mstore(add(p, 0x80), calldataload(0x224))
             mstore(add(p, 0xa0), calldataload(0x244))
             mstore(add(p, 0xc0), calldataload(0x264))
-            // extend public inputs
-            mstore(add(p, 0xe0), zero)
-            mstore(add(p, 0x100), zero)
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0xe0))
 
             // vKeyHash
             mstore(p, vKeyHash)
@@ -1704,21 +1466,8 @@ library ProtocolVerifier_8 {
             mstore(add(p, 0xe0), calldataload(0xa4))
             mstore(add(p, 0x100), calldataload(0xc4))
             mstore(add(p, 0x120), calldataload(0xe4))
-            // extend public inputs
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x100))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -1757,22 +1506,9 @@ library ProtocolVerifier_8 {
             mstore(add(p, 0xa0), calldataload(0x244))
             mstore(add(p, 0xc0), calldataload(0x264))
             mstore(add(p, 0xe0), calldataload(0x284))
-            // extend public inputs
-            mstore(add(p, 0x100), zero)
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0x100))
 
             // vKeyHash
             mstore(p, vKeyHash)
@@ -1944,20 +1680,8 @@ library ProtocolVerifier_9 {
             mstore(add(p, 0x100), calldataload(0xc4))
             mstore(add(p, 0x120), calldataload(0xe4))
             mstore(add(p, 0x140), calldataload(0x104))
-            // extend public inputs
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x120))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -1997,21 +1721,9 @@ library ProtocolVerifier_9 {
             mstore(add(p, 0xc0), calldataload(0x264))
             mstore(add(p, 0xe0), calldataload(0x284))
             mstore(add(p, 0x100), calldataload(0x2a4))
-            // extend public inputs
-            mstore(add(p, 0x120), zero)
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0x120))
 
             // vKeyHash
             mstore(p, vKeyHash)
@@ -2184,19 +1896,8 @@ library ProtocolVerifier_10 {
             mstore(add(p, 0x120), calldataload(0xe4))
             mstore(add(p, 0x140), calldataload(0x104))
             mstore(add(p, 0x160), calldataload(0x124))
-            // extend public inputs
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x140))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -2237,20 +1938,9 @@ library ProtocolVerifier_10 {
             mstore(add(p, 0xe0), calldataload(0x284))
             mstore(add(p, 0x100), calldataload(0x2a4))
             mstore(add(p, 0x120), calldataload(0x2c4))
-            // extend public inputs
-            mstore(add(p, 0x140), zero)
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0x140))
 
             // vKeyHash
             mstore(p, vKeyHash)
@@ -2424,18 +2114,8 @@ library ProtocolVerifier_11 {
             mstore(add(p, 0x140), calldataload(0x104))
             mstore(add(p, 0x160), calldataload(0x124))
             mstore(add(p, 0x180), calldataload(0x144))
-            // extend public inputs
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x160))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -2477,19 +2157,9 @@ library ProtocolVerifier_11 {
             mstore(add(p, 0x100), calldataload(0x2a4))
             mstore(add(p, 0x120), calldataload(0x2c4))
             mstore(add(p, 0x140), calldataload(0x2e4))
-            // extend public inputs
-            mstore(add(p, 0x160), zero)
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0x160))
 
             // vKeyHash
             mstore(p, vKeyHash)
@@ -2664,17 +2334,8 @@ library ProtocolVerifier_12 {
             mstore(add(p, 0x160), calldataload(0x124))
             mstore(add(p, 0x180), calldataload(0x144))
             mstore(add(p, 0x1a0), calldataload(0x164))
-            // extend public inputs
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x180))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -2717,18 +2378,9 @@ library ProtocolVerifier_12 {
             mstore(add(p, 0x120), calldataload(0x2c4))
             mstore(add(p, 0x140), calldataload(0x2e4))
             mstore(add(p, 0x160), calldataload(0x304))
-            // extend public inputs
-            mstore(add(p, 0x180), zero)
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0x180))
 
             // vKeyHash
             mstore(p, vKeyHash)
@@ -2904,16 +2556,8 @@ library ProtocolVerifier_13 {
             mstore(add(p, 0x180), calldataload(0x144))
             mstore(add(p, 0x1a0), calldataload(0x164))
             mstore(add(p, 0x1c0), calldataload(0x184))
-            // extend public inputs
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x1a0))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -2957,17 +2601,9 @@ library ProtocolVerifier_13 {
             mstore(add(p, 0x140), calldataload(0x2e4))
             mstore(add(p, 0x160), calldataload(0x304))
             mstore(add(p, 0x180), calldataload(0x324))
-            // extend public inputs
-            mstore(add(p, 0x1a0), zero)
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0x1a0))
 
             // vKeyHash
             mstore(p, vKeyHash)
@@ -3144,15 +2780,8 @@ library ProtocolVerifier_14 {
             mstore(add(p, 0x1a0), calldataload(0x164))
             mstore(add(p, 0x1c0), calldataload(0x184))
             mstore(add(p, 0x1e0), calldataload(0x1a4))
-            // extend public inputs
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x1c0))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -3197,16 +2826,9 @@ library ProtocolVerifier_14 {
             mstore(add(p, 0x160), calldataload(0x304))
             mstore(add(p, 0x180), calldataload(0x324))
             mstore(add(p, 0x1a0), calldataload(0x344))
-            // extend public inputs
-            mstore(add(p, 0x1c0), zero)
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0x1c0))
 
             // vKeyHash
             mstore(p, vKeyHash)
@@ -3384,14 +3006,8 @@ library ProtocolVerifier_15 {
             mstore(add(p, 0x1c0), calldataload(0x184))
             mstore(add(p, 0x1e0), calldataload(0x1a4))
             mstore(add(p, 0x200), calldataload(0x1c4))
-            // extend public inputs
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
-            mstore(add(p, 0x280), zero)
-            mstore(add(p, 0x2a0), zero)
             // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x280))
+            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x1e0))
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
@@ -3437,15 +3053,9 @@ library ProtocolVerifier_15 {
             mstore(add(p, 0x180), calldataload(0x324))
             mstore(add(p, 0x1a0), calldataload(0x344))
             mstore(add(p, 0x1c0), calldataload(0x364))
-            // extend public inputs
-            mstore(add(p, 0x1e0), zero)
-            mstore(add(p, 0x200), zero)
-            mstore(add(p, 0x220), zero)
-            mstore(add(p, 0x240), zero)
-            mstore(add(p, 0x260), zero)
 
             // keccak(extend(pubInputs)))
-            mstore(add(p, 0x20), keccak256(p, 0x280))
+            mstore(add(p, 0x20), keccak256(p, 0x1e0))
 
             // vKeyHash
             mstore(p, vKeyHash)
