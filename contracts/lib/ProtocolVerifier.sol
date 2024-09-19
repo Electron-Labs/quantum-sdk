@@ -2746,7 +2746,7 @@ library ProtocolVerifier_13 {
 
 library ProtocolVerifier_14 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PIS_HASHES = 0x92f6df75;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
