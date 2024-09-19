@@ -15,7 +15,7 @@ const A = () => {
 const B = (nPub) => {
   return `library ProtocolVerifier_${nPub} {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -48,7 +48,7 @@ const C = (nPub) => {
 
   code += `// verify on quantum
   mstore(add(p, 0x20), vkHash)
-  mstore(p, SIGNATURE_PIS_HASHES)
+  mstore(p, SIGNATURE_PUB_INPUTS_HASH)
   let ok := staticcall(
       gas(),
       quantum_verifier,

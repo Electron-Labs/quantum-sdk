@@ -3,7 +3,7 @@ pragma solidity ^0.8.24;
 
 library ProtocolVerifier_1 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -29,7 +29,7 @@ library ProtocolVerifier_1 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
@@ -202,7 +202,7 @@ library ProtocolVerifier_1 {
 
 library ProtocolVerifier_2 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -229,7 +229,7 @@ library ProtocolVerifier_2 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
@@ -403,7 +403,7 @@ library ProtocolVerifier_2 {
 
 library ProtocolVerifier_3 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -431,7 +431,7 @@ library ProtocolVerifier_3 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
@@ -606,7 +606,7 @@ library ProtocolVerifier_3 {
 
 library ProtocolVerifier_4 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -635,7 +635,7 @@ library ProtocolVerifier_4 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
@@ -811,7 +811,7 @@ library ProtocolVerifier_4 {
 
 library ProtocolVerifier_5 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -841,7 +841,7 @@ library ProtocolVerifier_5 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
@@ -1018,7 +1018,7 @@ library ProtocolVerifier_5 {
 
 library ProtocolVerifier_6 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -1049,7 +1049,7 @@ library ProtocolVerifier_6 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
@@ -1227,7 +1227,7 @@ library ProtocolVerifier_6 {
 
 library ProtocolVerifier_7 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -1259,7 +1259,7 @@ library ProtocolVerifier_7 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
@@ -1438,7 +1438,7 @@ library ProtocolVerifier_7 {
 
 library ProtocolVerifier_8 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -1471,7 +1471,7 @@ library ProtocolVerifier_8 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
@@ -1651,7 +1651,7 @@ library ProtocolVerifier_8 {
 
 library ProtocolVerifier_9 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -1685,7 +1685,7 @@ library ProtocolVerifier_9 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
@@ -1866,7 +1866,7 @@ library ProtocolVerifier_9 {
 
 library ProtocolVerifier_10 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -1901,7 +1901,7 @@ library ProtocolVerifier_10 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
@@ -2083,7 +2083,7 @@ library ProtocolVerifier_10 {
 
 library ProtocolVerifier_11 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -2119,7 +2119,7 @@ library ProtocolVerifier_11 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
@@ -2302,7 +2302,7 @@ library ProtocolVerifier_11 {
 
 library ProtocolVerifier_12 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -2339,7 +2339,7 @@ library ProtocolVerifier_12 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
@@ -2523,7 +2523,7 @@ library ProtocolVerifier_12 {
 
 library ProtocolVerifier_13 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -2561,7 +2561,7 @@ library ProtocolVerifier_13 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
@@ -2746,7 +2746,7 @@ library ProtocolVerifier_13 {
 
 library ProtocolVerifier_14 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x92f6df75;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -2785,7 +2785,7 @@ library ProtocolVerifier_14 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
@@ -2971,7 +2971,7 @@ library ProtocolVerifier_14 {
 
 library ProtocolVerifier_15 {
     uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PIS_HASHES = 0x70e8daf7;
+    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
     uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
 
     struct ProtocolInclusionProof {
@@ -3011,7 +3011,7 @@ library ProtocolVerifier_15 {
 
             // verify on quantum
             mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PIS_HASHES)
+            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
             let ok := staticcall(
                 gas(),
                 quantum_verifier,
