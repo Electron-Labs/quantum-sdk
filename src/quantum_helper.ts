@@ -78,11 +78,11 @@ export function serializePubInputs(pubInputsJson: any, proofType: ProofType) {
 
 export function getProof(proofPath: string, proofType: ProofType): any {
     let proof: any;
-    if(proofType == ProofType.HALO2_PLONK) {
+    if(proofType == ProofType.GROTH16) {
+        proof = checkPathAndReadJsonFile(proofPath);
+    } else {
         const proofBytes = Array.from(checkPathAndReadFile(proofPath));
         proof = { proof_bytes: proofBytes }
-    } else {
-        proof = checkPathAndReadJsonFile(proofPath);
     }
     return proof;
 }

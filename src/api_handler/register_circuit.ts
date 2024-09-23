@@ -6,9 +6,9 @@ import { CircuitRegistrationStatusResponse } from "./response/circuit_registrati
 import { getCircuitRegistrationStatusFromString } from "../enum/circuit_registration_status";
 import { getRequestheader } from "./api_utils";
 
-export async function registerCircuit(rpcEndPoint: string, vkeySerialized: Uint8Array, publicInputsCount: number, proofType: ProofType, authToken: string) {
+export async function registerCircuit(rpcEndPoint: string, vkeySerialized: Uint8Array, proofType: ProofType, authToken: string) {
     const headers = getRequestheader(authToken);
-    const requestBody = getRegisterCircuitRequest(vkeySerialized, publicInputsCount, proofType);
+    const requestBody = getRegisterCircuitRequest(vkeySerialized, proofType);
     try {
         const response = await axios.post(`${rpcEndPoint}/register_circuit`, requestBody, {headers});
         const responseData: RegisterCircuitResponse = response.data;
@@ -33,11 +33,10 @@ export async function getCircuitRegistrationStatus(circuitHash: string, rpcEndPo
     }
 }
 
-function getRegisterCircuitRequest( vkeySerialized: Uint8Array, publicInputsCount: number, proofType: ProofType) {
+function getRegisterCircuitRequest( vkeySerialized: Uint8Array, proofType: ProofType) {
     const prooftypeString = ProofType.asString(proofType);
     return new RegisterCircuitRequest({
         vkey: Array.from(vkeySerialized),
-        num_public_inputs: publicInputsCount,
         proof_type: prooftypeString
     })
 }

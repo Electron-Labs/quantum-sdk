@@ -15,39 +15,18 @@ export const fq2 = { struct : {
     Y: fq_2
 }}
 
-const gnarkVKey = { struct: {
-    G1: { struct: {
-        Alpha: fq,
-        Beta: fq,
-        Delta: fq,
-        K: {array: { type: fq} }
-    }},
-    G2: {struct: {
-        Beta: fq2,
-        Delta: fq2,
-        Gamma: fq2,
-    }},
-
-    CommitmentKey: {struct: {
-        G: fq2,
-        GRootSigmaNeg: fq2
-    }},
-
-    PublicAndCommitmentCommitted: { array: { type : { array : {type: 'u32'}}}},
-}};
+const gnarkVkey = {struct : {
+    vkey_bytes: {array: {type: 'u8'}}
+}}
 
 const gnarkPubInputs = {array: {type: 'string'}};
 
 const gnarkProof = {struct : {
-    Ar: fq,
-    Krs: fq,
-    Bs: fq2,
-    Commitments: {array: {type: fq }},
-    CommitmentPok: fq
+    proof_bytes: {array: {type: 'u8'}}
 }}
 
 export function getGnarkVKeySchema() {
-    return gnarkVKey;
+    return gnarkVkey;
 }
 
 export function getGnarkPubInputsSchema(){
@@ -59,12 +38,5 @@ export function getGnarkProofSchema() {
 }
 
 export function serializeGnarkProof(proof: any) {
-    if (proof.CommitmentPok.X === 0) {
-        proof.CommitmentPok.X = "0";
-    }
-    if (proof.CommitmentPok.Y === 0) {
-        proof.CommitmentPok.Y = "0";
-    }
-    console.log(proof);
     return borshSerialize(getGnarkProofSchema(), proof);
 }

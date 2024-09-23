@@ -10,9 +10,19 @@ import { SubmitProofResponse } from "../types/quantum-response/submit_proof_resp
 
 export default interface QuantumInterface {
     checkServerConnection(): Promise<boolean>;
-    registerCircuit(vkeyPath: string, publicInputsCount: number, proofType: ProofType): Promise<RegisterCircuitResponse>;
+    
+    registerGnarkGroth16Circuit(vkeyPath: string, proofType: ProofType): Promise<RegisterCircuitResponse>;
+    registerSnarkJSGroth16Circuit(vkeyPath: string, proofType: ProofType): Promise<RegisterCircuitResponse>;
+    registerGnarkPlonkCircuit(vkeyPath: string, proofType: ProofType): Promise<RegisterCircuitResponse>;
+    registerHalo2PlonkCircuit(sg2BinFilePath: string, protocolBinFilePath: string): Promise<RegisterCircuitResponse>;
+    
     isCircuitRegistered(circuitHash: string): Promise<IsCircuitResgisteredResponse>
-    submitProof(proofPath: string, pisPath: string, circuitHash: string, proofType: ProofType): Promise<SubmitProofResponse>;  
+    
+    submitGnarkGroth16Proof(proofPath: string, pisPath: string, circuitHash: string): Promise<SubmitProofResponse>;  
+    submitSnarkJSGroth16Proof(proofPath: string, pisPath: string, circuitHash: string): Promise<SubmitProofResponse>;  
+    submitGnarkPlonkProof(proofPath: string, pisPath: string, circuitHash: string): Promise<SubmitProofResponse>;  
+    submitHalo2PlonkProof(proofPath: string, pisPath: string, circuitHash: string): Promise<SubmitProofResponse>;  
+
     getProofData(proofHash: string): Promise<GetProofDataResponse>;
     getProtocolProof(proofHash: string): Promise<GetProtocolProofResponse>
 }
