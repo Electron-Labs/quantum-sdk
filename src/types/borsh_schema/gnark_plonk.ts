@@ -9,6 +9,10 @@ const gnarkPlonkSolidityProof = {struct: {
   proof_bytes: { array: { type: 'u8' } }
 }}
 
+const oldGnarkPlonkSolidityProof = {struct: {
+  ProofBytes: { array: { type: 'u8' } }
+}}
+
 const gnarkPlonkPubInputs = { array: { type: 'string' } };
 
 export function getGnarkPlonkVKeySchema() {
@@ -21,6 +25,10 @@ export function getGnarkPlonkPubInputsSchema() {
 
 export function getGnarkPlonkProofSchema() {
   return gnarkPlonkSolidityProof;
+}
+
+export function getOldGnarkPlonkProofSchema() {
+  return oldGnarkPlonkSolidityProof;
 }
 
 export function serializeGnarkPlonkProof(proof: any) {
