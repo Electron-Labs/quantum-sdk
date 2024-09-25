@@ -104,7 +104,7 @@ export function getCombinedVKeyHash(protocolVkeyHash: string, reductionVkeyHash:
     return ethers.keccak256(concat)
 }
 
-export function deserializeVkey(bytes: Uint8Array, proofType: ProofType) {
+export function getVkeySchema( proofType: ProofType) {
     let vkeySchema;
     if (proofType == ProofType.GNARK_GROTH16) {
         vkeySchema = getGnarkVKeySchema();
@@ -115,11 +115,16 @@ export function deserializeVkey(bytes: Uint8Array, proofType: ProofType) {
     } else if (proofType == ProofType.GNARK_PLONK) {
         vkeySchema = getGnarkPlonkVKeySchema();
     }
+    return vkeySchema
+}
+
+export function deserializeVkey(bytes: Uint8Array,  proofType: ProofType) {
+    let vkeySchema = getVkeySchema(proofType);
     const decodedValue = borshDeserialize(vkeySchema, bytes);
     return decodedValue;
 }
 
-export function deserializeProof(bytes: Uint8Array, proofType: ProofType) {
+export function getProofSchema(proofType: ProofType) {
     let pkeySchema;
     if (proofType == ProofType.GNARK_GROTH16) {
         pkeySchema = getGnarkProofSchema();
@@ -130,6 +135,11 @@ export function deserializeProof(bytes: Uint8Array, proofType: ProofType) {
     } else if (proofType == ProofType.GNARK_PLONK) {
         pkeySchema = getGnarkPlonkProofSchema();
     }
+    return pkeySchema
+}
+
+export function deserializeProof(bytes: Uint8Array, proofType: ProofType) {
+    let pkeySchema = getProofSchema(proofType);
     const decodedValue = borshDeserialize(pkeySchema, bytes);
     return decodedValue;
 }

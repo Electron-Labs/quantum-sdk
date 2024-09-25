@@ -85,9 +85,9 @@ export class Quantum implements QuantumInterface {
         return resp;
     }
 
-    async registerHalo2PlonkCircuit(sg2BinFilePath: string, protocolBinFilePath: string) {
-        const sg2FileBytes = checkPathAndReadFile(sg2BinFilePath)
-        const protocolFileBytes = checkPathAndReadFile(protocolBinFilePath);
+    async registerHalo2PlonkCircuit(sg2FilePath: string, protocolFilePath: string) {
+        const sg2FileBytes = checkPathAndReadFile(sg2FilePath)
+        const protocolFileBytes = checkPathAndReadFile(protocolFilePath);
         const halo2Vkey = {
             protocol_bytes: Array.from(protocolFileBytes),
             sg2_bytes: Array.from(sg2FileBytes),
@@ -96,7 +96,7 @@ export class Quantum implements QuantumInterface {
         return resp;
     }
 
-    async registerCircuit(vKey: any, proofType: ProofType) {
+    private async registerCircuit(vKey: any, proofType: ProofType) {
         const serializedVKey = serializeVKey(vKey, proofType);
 
         const circuitHashString = await registerCircuit(this.rpcEndPoint, serializedVKey, proofType, this.authToken);
@@ -129,15 +129,15 @@ export class Quantum implements QuantumInterface {
         return resp;
     }
 
-    async submitHalo2PlonkProof(proofBinFilePath: string, instancesBinFilepath: string, circuitHash: string): Promise<SubmitProofResponse> {
+    async submitHalo2PlonkProof(proofBinFilePath: string, instancesFilepath: string, circuitHash: string): Promise<SubmitProofResponse> {
         Keccak256Hash.fromString(circuitHash);
         const proof = getProof(proofBinFilePath, ProofType.HALO2_PLONK);
-        const pubInput = getPis(instancesBinFilepath, ProofType.HALO2_PLONK);
+        const pubInput = getPis(instancesFilepath, ProofType.HALO2_PLONK);
         let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.HALO2_PLONK);
         return resp;
     }
 
-    async submitProof(proof: any, pis: any, circuitHash: string, prooftype: ProofType) {
+    private async submitProof(proof: any, pis: any, circuitHash: string, prooftype: ProofType) {
         const proofEncoded = serializeProof(proof, prooftype);
         const pubInputEncoded = serializePubInputs(pis, prooftype);
         let proofHashString = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitHash, prooftype, this.authToken);
