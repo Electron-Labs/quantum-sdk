@@ -3,7 +3,8 @@ export enum ProofType {
     GNARK_GROTH16 = 2,
     PLONKY2 = 3,
     HALO2_PLONK = 4,
-    GNARK_PLONK = 5
+    GNARK_PLONK = 5,
+    HALO2_POSEIDON = 6,
 }
 
 export namespace ProofType {
@@ -19,6 +20,8 @@ export namespace ProofType {
                 return 'Halo2Plonk';
             case ProofType.GNARK_PLONK:
                 return 'GnarkPlonk';
+            case ProofType.HALO2_POSEIDON:
+                return 'Halo2Poseidon'
             default:
                 throw new Error('Unknown proof type');
         }
@@ -40,6 +43,10 @@ export namespace ProofType {
                 return ProofType.HALO2_PLONK;
             case  'GnarkPlonk'.toLowerCase() :
                 return ProofType.GNARK_PLONK;
+            case 'Halo2_Poseidon'.toLowerCase():
+                return ProofType.HALO2_POSEIDON
+            case 'Halo2Poseidon'.toLowerCase():
+                return ProofType.HALO2_POSEIDON
             default:
                 throw new Error('Unknown proof type');
         }

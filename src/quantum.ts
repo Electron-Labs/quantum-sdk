@@ -96,6 +96,28 @@ export class Quantum implements QuantumInterface {
         return resp;
     }
 
+    async registerHalo2PoseidonCircuit(sg2FilePath: string, protocolFilePath: string) {
+        const sg2FileBytes = checkPathAndReadFile(sg2FilePath)
+        const protocolFileBytes = checkPathAndReadFile(protocolFilePath);
+        const halo2Vkey = {
+            protocol_bytes: Array.from(protocolFileBytes),
+            sg2_bytes: Array.from(sg2FileBytes),
+        }
+        let resp = await this.registerCircuit(halo2Vkey, ProofType.HALO2_POSEIDON);
+        return resp;
+    }
+
+    async registerPlonky2Circuit(commonCircuitDataFilePath: string, verifierOnlyFilePath: string) {
+        const commonCircuitDataFileBytes = checkPathAndReadFile(commonCircuitDataFilePath)
+        const verifierOnlyFileBytes = checkPathAndReadFile(verifierOnlyFilePath);
+        const vkey = {
+            common_bytes: Array.from(commonCircuitDataFileBytes),
+            verifier_only_bytes: Array.from(verifierOnlyFileBytes),
+        }
+        let resp = await this.registerCircuit(vkey, ProofType.PLONKY2);
+        return resp;
+    }
+
     private async registerCircuit(vKey: any, proofType: ProofType) {
         const serializedVKey = serializeVKey(vKey, proofType);
 
@@ -134,6 +156,22 @@ export class Quantum implements QuantumInterface {
         const proof = getProof(proofBinFilePath, ProofType.HALO2_PLONK);
         const pubInput = getPis(instancesFilepath, ProofType.HALO2_PLONK);
         let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.HALO2_PLONK);
+        return resp;
+    }
+
+    async submitHalo2PoseidonProof(proofBinFilePath: string, instancesFilepath: string, circuitHash: string): Promise<SubmitProofResponse> {
+        Keccak256Hash.fromString(circuitHash);
+        const proof = getProof(proofBinFilePath, ProofType.HALO2_POSEIDON);
+        const pubInput = getPis(instancesFilepath, ProofType.HALO2_POSEIDON);
+        let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.HALO2_POSEIDON);
+        return resp;
+    }
+
+    async submitPlonky2Proof(proofBinFilePath: string, instancesFilepath: string, circuitHash: string): Promise<SubmitProofResponse> {
+        Keccak256Hash.fromString(circuitHash);
+        const proof = getProof(proofBinFilePath, ProofType.PLONKY2);
+        const pubInput = getPis(instancesFilepath, ProofType.PLONKY2);
+        let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.PLONKY2);
         return resp;
     }
 
