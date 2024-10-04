@@ -14,6 +14,8 @@ import { hexToBytes } from "./utils/bytes";
 import { getHalo2ProofSchema, getHalo2PubInputSchema, getHaloVKeySchema, serializeHaloProof } from "./types/borsh_schema/halo2";
 import { checkPathAndReadFile, checkPathAndReadJsonFile } from "./utils/file";
 import { getGnarkPlonkProofSchema, getGnarkPlonkPubInputsSchema, getGnarkPlonkVKeySchema, serializeGnarkPlonkProof } from "./types/borsh_schema/gnark_plonk";
+import { getHalo2PoseidonProofSchema, getHalo2PoseidonPubInputSchema, getHalo2PoseidonVKeySchema } from "./types/borsh_schema/halo2_poseidon";
+import { getPlonky2ProofSchema, getPlonky2PubInputSchema, getPlonky2VKeySchema } from "./types/borsh_schema/plonky2";
 
 export function getProtocolProofFromResponse(resp: ProtocolProofResponse) {
     return new ProtocolProof({ ...resp })
@@ -32,47 +34,20 @@ export function getProofStatusFromResponse(resp: ProofDataResponse) {
 }
 
 export function serializeVKey(vkeyJson: any, proofType: ProofType) {
-    let vkeySchema;
-    if (proofType == ProofType.GNARK_GROTH16) {
-        vkeySchema = getGnarkVKeySchema();
-    } else if (proofType == ProofType.GROTH16) {
-        vkeySchema = getSnarkJSVkeySchema();
-    } else if (proofType == ProofType.HALO2_PLONK) {
-        vkeySchema = getHaloVKeySchema();
-    } else if (proofType == ProofType.GNARK_PLONK) {
-        vkeySchema = getGnarkPlonkVKeySchema();
-    }
+    let {vkeySchema, proofSchema , pisSchema } = getBorshSchemaForProvingScheme(proofType);
     const serializedVkey = borshSerialize(vkeySchema, vkeyJson);
     return serializedVkey;
 }
 
-// TODO: handle this serialize based on proving schemes in better way
 export function serializeProof(proofJson: any, proofType: ProofType) {
-    if (proofType == ProofType.GNARK_GROTH16) {
-        return serializeGnarkProof(proofJson);
-    } else if (proofType == ProofType.GROTH16) {
-        return serializeSnarkProof(proofJson);
-    } else if (proofType == ProofType.HALO2_PLONK) {
-        return serializeHaloProof(proofJson);
-    } else if (proofType == ProofType.GNARK_PLONK) {
-        return serializeGnarkPlonkProof(proofJson);
-    } else {
-        throw new Error("unsupported proof scheme")
-    }
+    let {vkeySchema, proofSchema , pisSchema } = getBorshSchemaForProvingScheme(proofType);
+    const serializedProof = borshSerialize(proofSchema, proofJson);
+    return serializedProof
 }
 
 export function serializePubInputs(pubInputsJson: any, proofType: ProofType) {
-    let pubInputsSchema;
-    if (proofType == ProofType.GNARK_GROTH16) {
-        pubInputsSchema = getGnarkPubInputsSchema();
-    } else if (proofType == ProofType.GROTH16) {
-        pubInputsSchema = getSnarkJSPubInputSchema();
-    } else if (proofType == ProofType.HALO2_PLONK) {
-        pubInputsSchema = getHalo2PubInputSchema();
-    } else if (proofType == ProofType.GNARK_PLONK) {
-        pubInputsSchema = getGnarkPlonkPubInputsSchema();
-    }
-    const serializedVkey = borshSerialize(pubInputsSchema, pubInputsJson);
+    let {vkeySchema, proofSchema , pisSchema } = getBorshSchemaForProvingScheme(proofType);
+    const serializedVkey = borshSerialize(pisSchema, pubInputsJson);
     return serializedVkey;
 }
 
@@ -89,7 +64,7 @@ export function getProof(proofPath: string, proofType: ProofType): any {
 
 export function getPis(pisPath: string, proofType: ProofType): any {
     let pis: any;
-    if(proofType == ProofType.HALO2_PLONK) {
+    if(proofType == ProofType.HALO2_PLONK || proofType == ProofType.HALO2_POSEIDON) {
         pis = Array.from(checkPathAndReadFile(pisPath));
     } else {
         pis = checkPathAndReadJsonFile(pisPath);
@@ -104,42 +79,55 @@ export function getCombinedVKeyHash(protocolVkeyHash: string, reductionVkeyHash:
     return ethers.keccak256(concat)
 }
 
-export function getVkeySchema( proofType: ProofType) {
-    let vkeySchema;
-    if (proofType == ProofType.GNARK_GROTH16) {
-        vkeySchema = getGnarkVKeySchema();
-    } else if (proofType == ProofType.GROTH16) {
-        vkeySchema = getSnarkJSVkeySchema();
-    } else if (proofType == ProofType.HALO2_PLONK) {
-        vkeySchema = getHaloVKeySchema();
-    } else if (proofType == ProofType.GNARK_PLONK) {
-        vkeySchema = getGnarkPlonkVKeySchema();
-    }
-    return vkeySchema
-}
-
 export function deserializeVkey(bytes: Uint8Array,  proofType: ProofType) {
-    let vkeySchema = getVkeySchema(proofType);
+    let {vkeySchema, proofSchema , pisSchema } = getBorshSchemaForProvingScheme(proofType);
     const decodedValue = borshDeserialize(vkeySchema, bytes);
     return decodedValue;
 }
 
-export function getProofSchema(proofType: ProofType) {
-    let pkeySchema;
-    if (proofType == ProofType.GNARK_GROTH16) {
-        pkeySchema = getGnarkProofSchema();
-    } else if (proofType == ProofType.GROTH16) {
-        pkeySchema = getSnarkJSProofSchema();
-    } else if (proofType == ProofType.HALO2_PLONK) {
-        pkeySchema = getHalo2ProofSchema();
-    } else if (proofType == ProofType.GNARK_PLONK) {
-        pkeySchema = getGnarkPlonkProofSchema();
-    }
-    return pkeySchema
+export function deserializeProof(bytes: Uint8Array, proofType: ProofType) {
+    let {vkeySchema, proofSchema , pisSchema } = getBorshSchemaForProvingScheme(proofType);
+    const decodedValue = borshDeserialize(proofSchema, bytes);
+    return decodedValue;
 }
 
-export function deserializeProof(bytes: Uint8Array, proofType: ProofType) {
-    let pkeySchema = getProofSchema(proofType);
-    const decodedValue = borshDeserialize(pkeySchema, bytes);
-    return decodedValue;
+export function getBorshSchemaForProvingScheme(proofType: ProofType) {
+    let vkeySchema;
+    let proofSchema;
+    let pisSchema;
+    switch (proofType) {
+        case ProofType.GNARK_GROTH16:
+            vkeySchema = getGnarkVKeySchema();
+            proofSchema = getGnarkProofSchema();
+            pisSchema = getGnarkPubInputsSchema();
+            break;
+        case ProofType.GROTH16:
+            vkeySchema = getSnarkJSVkeySchema();
+            proofSchema = getSnarkJSProofSchema();
+            pisSchema = getSnarkJSPubInputSchema();
+            break;
+        case ProofType.HALO2_PLONK:
+            vkeySchema = getHaloVKeySchema();
+            proofSchema = getHalo2ProofSchema();
+            pisSchema = getHalo2PubInputSchema();
+            break;
+        case ProofType.GNARK_PLONK:
+            vkeySchema = getGnarkPlonkVKeySchema();
+            proofSchema = getGnarkPlonkProofSchema();
+            pisSchema = getGnarkPlonkPubInputsSchema();
+            break;
+        case ProofType.HALO2_POSEIDON:
+            vkeySchema = getHalo2PoseidonVKeySchema();
+            proofSchema = getHalo2PoseidonProofSchema();
+            pisSchema = getHalo2PoseidonPubInputSchema();
+            break;
+        case ProofType.PLONKY2:
+            vkeySchema = getPlonky2VKeySchema();
+            proofSchema = getPlonky2ProofSchema();
+            pisSchema = getPlonky2PubInputSchema();
+        default:
+            throw new Error("unsupported proof scheme");
+    }
+
+    return {vkeySchema, proofSchema, pisSchema}
 }
