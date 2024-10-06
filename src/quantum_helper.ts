@@ -125,6 +125,7 @@ export function getBorshSchemaForProvingScheme(proofType: ProofType) {
             vkeySchema = getPlonky2VKeySchema();
             proofSchema = getPlonky2ProofSchema();
             pisSchema = getPlonky2PubInputSchema();
+            break;
         default:
             throw new Error("unsupported proof scheme");
     }
