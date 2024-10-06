@@ -167,10 +167,10 @@ export class Quantum implements QuantumInterface {
         return resp;
     }
 
-    async submitPlonky2Proof(proofBinFilePath: string, instancesFilepath: string, circuitHash: string): Promise<SubmitProofResponse> {
+    async submitPlonky2Proof(proofBinFilePath: string, circuitHash: string): Promise<SubmitProofResponse> {
         Keccak256Hash.fromString(circuitHash);
         const proof = getProof(proofBinFilePath, ProofType.PLONKY2);
-        const pubInput = getPis(instancesFilepath, ProofType.PLONKY2);
+        const pubInput: string[] = [];
         let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.PLONKY2);
         return resp;
     }
@@ -178,6 +178,7 @@ export class Quantum implements QuantumInterface {
     private async submitProof(proof: any, pis: any, circuitHash: string, prooftype: ProofType) {
         const proofEncoded = serializeProof(proof, prooftype);
         const pubInputEncoded = serializePubInputs(pis, prooftype);
+        
         let proofHashString = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitHash, prooftype, this.authToken);
         let proofHash = Keccak256Hash.fromString(proofHashString);
         return new SubmitProofResponse(proofHash)
