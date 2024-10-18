@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
+import "hardhat/console.sol";
+
 library ProtocolVerifier_1 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
@@ -2745,227 +2747,185 @@ library ProtocolVerifier_13 {
 }
 
 library ProtocolVerifier_14 {
-    uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_PUB_INPUTS_HASH = 0x4015817b;
-    uint256 constant SIGNATURE_TREE_ROOT = 0x14dc6c14;
+    // uint256 constant ONE = 0x01;
+    uint256 constant SIGNATURE_TREE_ROOT_VERIFIED = 0x1ed591e9;
 
     struct ProtocolInclusionProof {
         uint256 merkleProofPosition;
         bytes32[10] merkleProof;
-        bytes32 leafNextValue;
-        bytes8 leafNextIdx;
     }
 
-    function verifyLatestPubInputs(
+    function verifyPubInputs_14(
         uint256[14] calldata pubInputs,
-        bytes32 vkHash,
-        address quantum_verifier
+        bytes32 combinedVKeyHash,
+        address quantum_verifier,
+        uint256 merkleProofPosition,
+        bytes32[] calldata merkleProof
     ) internal view {
+        bytes32 out;
         assembly {
             let p := mload(0x40)
-            let zero := mload(0x60)
+            // let zero := mload(0x60)
 
-            // store public inputs
-            mstore(add(p, 0x40), calldataload(0x4))
-            mstore(add(p, 0x60), calldataload(0x24))
-            mstore(add(p, 0x80), calldataload(0x44))
-            mstore(add(p, 0xa0), calldataload(0x64))
-            mstore(add(p, 0xc0), calldataload(0x84))
-            mstore(add(p, 0xe0), calldataload(0xa4))
-            mstore(add(p, 0x100), calldataload(0xc4))
-            mstore(add(p, 0x120), calldataload(0xe4))
-            mstore(add(p, 0x140), calldataload(0x104))
-            mstore(add(p, 0x160), calldataload(0x124))
-            mstore(add(p, 0x180), calldataload(0x144))
-            mstore(add(p, 0x1a0), calldataload(0x164))
-            mstore(add(p, 0x1c0), calldataload(0x184))
-            mstore(add(p, 0x1e0), calldataload(0x1a4))
-            // public inputs hash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x1c0))
-
-            // verify on quantum
-            mstore(add(p, 0x20), vkHash)
-            mstore(p, SIGNATURE_PUB_INPUTS_HASH)
-            let ok := staticcall(
-                gas(),
-                quantum_verifier,
-                add(p, 0x1c),
-                0x24,
-                p,
-                0x20
-            )
-            if iszero(eq(mload(p), mload(add(p, 0x40)))) {
-                revert(0, 0)
-            }
-        }
-    }
-
-    function verifyOldPubInputs(
-        ProtocolInclusionProof calldata protocolInclusionProof,
-        uint256[14] calldata pubInputs,
-        bytes32 vKeyHash,
-        address quantum_verifier
-    ) internal view {
-        assembly {
-            let p := mload(0x40)
-            let zero := mload(0x60)
-
-            // ** computer leaf value = keccak(vKeyHash || keccak(extend(pubInputs))) **
+            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
             // store pub inputs
-            mstore(p, calldataload(0x1a4))
-            mstore(add(p, 0x20), calldataload(0x1c4))
-            mstore(add(p, 0x40), calldataload(0x1e4))
-            mstore(add(p, 0x60), calldataload(0x204))
-            mstore(add(p, 0x80), calldataload(0x224))
-            mstore(add(p, 0xa0), calldataload(0x244))
-            mstore(add(p, 0xc0), calldataload(0x264))
-            mstore(add(p, 0xe0), calldataload(0x284))
-            mstore(add(p, 0x100), calldataload(0x2a4))
-            mstore(add(p, 0x120), calldataload(0x2c4))
-            mstore(add(p, 0x140), calldataload(0x2e4))
-            mstore(add(p, 0x160), calldataload(0x304))
-            mstore(add(p, 0x180), calldataload(0x324))
-            mstore(add(p, 0x1a0), calldataload(0x344))
+            mstore(p, calldataload(0x40))
+            mstore(add(p, 0x20), calldataload(0x60))
+            mstore(add(p, 0x40), calldataload(0x80))
+            mstore(add(p, 0x60), calldataload(0xa0))
+            mstore(add(p, 0x80), calldataload(0xc0))
+            mstore(add(p, 0xa0), calldataload(0xe0))
+            mstore(add(p, 0xc0), calldataload(0x100))
+            mstore(add(p, 0xe0), calldataload(0x120))
+            mstore(add(p, 0x100), calldataload(0x140))
+            mstore(add(p, 0x120), calldataload(0x160))
+            mstore(add(p, 0x140), calldataload(0x180))
+            mstore(add(p, 0x160), calldataload(0x1a0))
+            mstore(add(p, 0x180), calldataload(0x1c0))
+            mstore(add(p, 0x1a0), calldataload(0x1e0))
 
-            // keccak(extend(pubInputs)))
+            // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0x1c0))
 
-            // vKeyHash
-            mstore(p, vKeyHash)
+            // combinedVKeyHash
+            mstore(p, combinedVKeyHash)
 
-            // construct leaf
-            mstore(add(p, 0x40), keccak256(p, 0x40)) // leaf value
-            mstore(add(p, 0x60), calldataload(0x164)) // leaf next value
-            mstore(add(p, 0x80), calldataload(0x184)) // leaf next idx
+            // storing leaf at p+0x40; all earlier data at any memory can be discarded
+            mstore(add(p, 0x40), keccak256(p, 0x40))
 
-            // compute leafHash
-            mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x48)) //  storing leafHash at p+0x40; all earlier data at any memory can be discarded
+            // out := mload()
 
-            mstore(p, calldataload(0x4)) // load merkle-proof-position at `p`
+            // // compute leafHash
+            // mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x48)) //  storing leafHash at p+0x40; all earlier data at any memory can be discarded
 
-            // computing root (at `p+0x40`) using 10 proof elms and their position
-            switch and(mload(p), ONE)
-            case 1 {
-                mstore(add(p, 0x60), calldataload(0x24))
-                mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
-            }
-            default {
-                mstore(add(p, 0x20), calldataload(0x24))
-                mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
-            }
-            mstore(p, shr(1, mload(p))) // update next position
+            // mstore(p, calldataload(0x4)) // load merkle-proof-position at `p`
 
-            switch and(mload(p), ONE)
-            case 1 {
-                mstore(add(p, 0x60), calldataload(0x44))
-                mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
-            }
-            default {
-                mstore(add(p, 0x20), calldataload(0x44))
-                mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
-            }
-            mstore(p, shr(1, mload(p))) // update next position
+            // // computing root (at `p+0x40`) using 10 proof elms and their position
+            // switch and(mload(p), ONE)
+            // case 1 {
+            //     mstore(add(p, 0x60), calldataload(0x24))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
+            // }
+            // default {
+            //     mstore(add(p, 0x20), calldataload(0x24))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
+            // }
+            // mstore(p, shr(1, mload(p))) // update next position
 
-            switch and(mload(p), ONE)
-            case 1 {
-                mstore(add(p, 0x60), calldataload(0x64))
-                mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
-            }
-            default {
-                mstore(add(p, 0x20), calldataload(0x64))
-                mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
-            }
-            mstore(p, shr(1, mload(p))) // update next position
+            // switch and(mload(p), ONE)
+            // case 1 {
+            //     mstore(add(p, 0x60), calldataload(0x44))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
+            // }
+            // default {
+            //     mstore(add(p, 0x20), calldataload(0x44))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
+            // }
+            // mstore(p, shr(1, mload(p))) // update next position
 
-            switch and(mload(p), ONE)
-            case 1 {
-                mstore(add(p, 0x60), calldataload(0x84))
-                mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
-            }
-            default {
-                mstore(add(p, 0x20), calldataload(0x84))
-                mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
-            }
-            mstore(p, shr(1, mload(p))) // update next position
+            // switch and(mload(p), ONE)
+            // case 1 {
+            //     mstore(add(p, 0x60), calldataload(0x64))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
+            // }
+            // default {
+            //     mstore(add(p, 0x20), calldataload(0x64))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
+            // }
+            // mstore(p, shr(1, mload(p))) // update next position
 
-            switch and(mload(p), ONE)
-            case 1 {
-                mstore(add(p, 0x60), calldataload(0xa4))
-                mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
-            }
-            default {
-                mstore(add(p, 0x20), calldataload(0xa4))
-                mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
-            }
-            mstore(p, shr(1, mload(p))) // update next position
+            // switch and(mload(p), ONE)
+            // case 1 {
+            //     mstore(add(p, 0x60), calldataload(0x84))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
+            // }
+            // default {
+            //     mstore(add(p, 0x20), calldataload(0x84))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
+            // }
+            // mstore(p, shr(1, mload(p))) // update next position
 
-            switch and(mload(p), ONE)
-            case 1 {
-                mstore(add(p, 0x60), calldataload(0xc4))
-                mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
-            }
-            default {
-                mstore(add(p, 0x20), calldataload(0xc4))
-                mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
-            }
-            mstore(p, shr(1, mload(p))) // update next position
+            // switch and(mload(p), ONE)
+            // case 1 {
+            //     mstore(add(p, 0x60), calldataload(0xa4))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
+            // }
+            // default {
+            //     mstore(add(p, 0x20), calldataload(0xa4))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
+            // }
+            // mstore(p, shr(1, mload(p))) // update next position
 
-            switch and(mload(p), ONE)
-            case 1 {
-                mstore(add(p, 0x60), calldataload(0xe4))
-                mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
-            }
-            default {
-                mstore(add(p, 0x20), calldataload(0xe4))
-                mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
-            }
-            mstore(p, shr(1, mload(p))) // update next position
+            // switch and(mload(p), ONE)
+            // case 1 {
+            //     mstore(add(p, 0x60), calldataload(0xc4))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
+            // }
+            // default {
+            //     mstore(add(p, 0x20), calldataload(0xc4))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
+            // }
+            // mstore(p, shr(1, mload(p))) // update next position
 
-            switch and(mload(p), ONE)
-            case 1 {
-                mstore(add(p, 0x60), calldataload(0x104))
-                mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
-            }
-            default {
-                mstore(add(p, 0x20), calldataload(0x104))
-                mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
-            }
-            mstore(p, shr(1, mload(p))) // update next position
+            // switch and(mload(p), ONE)
+            // case 1 {
+            //     mstore(add(p, 0x60), calldataload(0xe4))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
+            // }
+            // default {
+            //     mstore(add(p, 0x20), calldataload(0xe4))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
+            // }
+            // mstore(p, shr(1, mload(p))) // update next position
 
-            switch and(mload(p), ONE)
-            case 1 {
-                mstore(add(p, 0x60), calldataload(0x124))
-                mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
-            }
-            default {
-                mstore(add(p, 0x20), calldataload(0x124))
-                mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
-            }
-            mstore(p, shr(1, mload(p))) // update next position
+            // switch and(mload(p), ONE)
+            // case 1 {
+            //     mstore(add(p, 0x60), calldataload(0x104))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
+            // }
+            // default {
+            //     mstore(add(p, 0x20), calldataload(0x104))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
+            // }
+            // mstore(p, shr(1, mload(p))) // update next position
 
-            switch and(mload(p), ONE)
-            case 1 {
-                mstore(add(p, 0x60), calldataload(0x144))
-                mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
-            }
-            default {
-                mstore(add(p, 0x20), calldataload(0x144))
-                mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
-            }
+            // switch and(mload(p), ONE)
+            // case 1 {
+            //     mstore(add(p, 0x60), calldataload(0x124))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
+            // }
+            // default {
+            //     mstore(add(p, 0x20), calldataload(0x124))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
+            // }
+            // mstore(p, shr(1, mload(p))) // update next position
 
-            mstore(p, SIGNATURE_TREE_ROOT)
-            let ok := staticcall(
-                gas(),
-                quantum_verifier,
-                add(p, 0x1c),
-                0x4,
-                add(p, 0x20),
-                0x20
-            )
-            if iszero(eq(mload(add(p, 0x20)), mload(add(p, 0x40)))) {
-                revert(0, 0)
-            }
+            // switch and(mload(p), ONE)
+            // case 1 {
+            //     mstore(add(p, 0x60), calldataload(0x144))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
+            // }
+            // default {
+            //     mstore(add(p, 0x20), calldataload(0x144))
+            //     mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
+            // }
+
+            // mstore(p, SIGNATURE_TREE_ROOT)
+            // let ok := staticcall(
+            //     gas(),
+            //     quantum_verifier,
+            //     add(p, 0x1c),
+            //     0x4,
+            //     add(p, 0x20),
+            //     0x20
+            // )
+            // if iszero(eq(mload(add(p, 0x20)), mload(add(p, 0x40)))) {
+            //     revert(0, 0)
+            // }
         }
+
+        console.log("out");
+        console.logBytes32(out);
     }
 }
 
