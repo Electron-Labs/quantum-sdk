@@ -118,6 +118,15 @@ export class Quantum implements QuantumInterface {
         return resp;
     }
 
+    async registerRisc0Circuit(vkeyJsonPath: string) {
+        const image_id = checkPathAndReadJsonFile(vkeyJsonPath);
+        const vkey = {
+            vkey_bytes: image_id 
+        }
+        let resp = await this.registerCircuit(vkey, ProofType.RISC0);
+        return resp;
+    }
+
     private async registerCircuit(vKey: any, proofType: ProofType) {
         const serializedVKey = serializeVKey(vKey, proofType);
 
@@ -172,6 +181,14 @@ export class Quantum implements QuantumInterface {
         const proof = getProof(proofBinFilePath, ProofType.PLONKY2);
         const pubInput: string[] = [];
         let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.PLONKY2);
+        return resp;
+    }
+
+    async submitRisc0Proof(receiptJsonFilePath: string, circuitHash: string): Promise<SubmitProofResponse> {
+        Keccak256Hash.fromString(circuitHash);
+        const proof = getProof(receiptJsonFilePath, ProofType.RISC0);
+        const pubInput: string[] = [];
+        let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.RISC0);
         return resp;
     }
 
