@@ -9,7 +9,7 @@ contract Quantum {
     address public owner;
     address public verifier;
 
-    mapping(bytes32 => bool) superproofRootVerified;
+    mapping(bytes32 => bool) public superRootVerified;
 
     struct Proof {
         uint256[8] proof;
@@ -30,7 +30,7 @@ contract Quantum {
         assembly {
             let p := mload(0x40)
 
-            // copy journal from calldata
+            // copy batchRoot from calldata
             mstore(p, calldataload(0x184))
 
             // store aggVerifierId at `p+0x20`
@@ -77,7 +77,8 @@ contract Quantum {
             }
         }
 
-        superproofRootVerified[batchRoot] = true;
+
+        superRootVerified[batchRoot] = true;
     }
 
     function setVerifier(address verifierAddress) external {
@@ -87,7 +88,7 @@ contract Quantum {
         verifier = verifierAddress;
     }
 
-    function setAggVerifierid(bytes32 aggVerifierId_) external {
+    function setAggVerifierId(bytes32 aggVerifierId_) external {
         if (msg.sender != owner) {
             revert("!owner");
         }

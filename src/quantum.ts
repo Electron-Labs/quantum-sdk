@@ -123,8 +123,6 @@ export class Quantum implements QuantumInterface {
         return {
             merkleProofPosition: protocolProof.merkleProofPosition,
             merkleProof: protocolProof.merkleProof,
-            leafNextValue: protocolProof.leafNextValue,
-            leafNextIdx: protocolProof.leafNextIdx,
         };
     }
 }

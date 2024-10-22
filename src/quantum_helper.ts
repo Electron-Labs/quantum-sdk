@@ -97,7 +97,7 @@ export function getPis(pisPath: string, proofType: ProofType): any {
     return pis;
 }
 
-export function getVKeyHash(protocolVkeyHash: string, reductionVkeyHash: string): string {
+export function getCombinedVKeyHash(protocolVkeyHash: string, reductionVkeyHash: string): string {
     const concat = new Uint8Array(64)
     concat.set(hexToBytes(protocolVkeyHash.slice(2)))
     concat.set(hexToBytes(reductionVkeyHash.slice(2)), 32)

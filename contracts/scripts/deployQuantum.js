@@ -10,7 +10,7 @@ async function deployQuantum(verifierAddress, aggVerifierId) {
 
 async function main() {
   const verifierAddress = "0xe33A179827d5BFDf0c58C956206197ac1098E8eD"
-  const aggVerifierId = "0xa3c2d35e3c6295ea0dc45fbc441404bc761f4b2573bec2789ed2c7e428c1cabd"
+  const aggVerifierId = "0x5de53581e9e02c82db2752ad472bb9c5cd237f67ae7414e6adebf6098b406ebc"
   await deployQuantum(verifierAddress, aggVerifierId)
 
   // const quantum = await hre.ethers.getContractAt('lib/Quantum.sol:Quantum', "0x11DFD65dDc25A73A4d3a2EcbB968F749c1190490");
