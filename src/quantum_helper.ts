@@ -17,6 +17,7 @@ import { getGnarkPlonkProofSchema, getGnarkPlonkPubInputsSchema, getGnarkPlonkVK
 import { getHalo2PoseidonProofSchema, getHalo2PoseidonPubInputSchema, getHalo2PoseidonVKeySchema } from "./types/borsh_schema/halo2_poseidon";
 import { getPlonky2ProofSchema, getPlonky2PubInputSchema, getPlonky2VKeySchema } from "./types/borsh_schema/plonky2";
 import { getRisc0ProofSchema, getRisc0PubInputSchema, getRisc0VKeySchema } from "./types/borsh_schema/risc0";
+import { getSp1ProofSchema, getSp1PubInputSchema, getSp1VKeySchema } from "./types/borsh_schema/sp1";
 
 export function getProtocolProofFromResponse(resp: ProtocolProofResponse) {
     return new ProtocolProof({ ...resp })
@@ -131,6 +132,11 @@ export function getBorshSchemaForProvingScheme(proofType: ProofType) {
             vkeySchema = getRisc0VKeySchema();
             proofSchema = getRisc0ProofSchema();
             pisSchema = getRisc0PubInputSchema();
+            break;
+        case ProofType.SP1:
+            vkeySchema = getSp1VKeySchema();
+            proofSchema = getSp1ProofSchema();
+            pisSchema = getSp1PubInputSchema();
             break;
         default:
             throw new Error("unsupported proving scheme");

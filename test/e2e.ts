@@ -39,6 +39,10 @@ async function main() {
     // console.log({circuitHash})
     // console.log(circuitHash.circuitHash.asString());
 
+    // let circuitHash = await q.registerSp1Circuit("/home/ubuntu/utkarsh_pg/risc0_test/host_sp1/vk");
+    // console.log({circuitHash})
+    // console.log(circuitHash.circuitHash.asString());
+
     // let status = await q.isCircuitRegistered("0xceeb414032c1ce1d0d9e8627bf132e49c6e528f2c60c8c8d12890d99ffdaecc3");
     // console.log(status);
 
@@ -58,6 +62,9 @@ async function main() {
     // console.log(proofHash);
 
     // let proofHash = await q.submitRisc0Proof("/home/ubuntu/utkarsh_pg/risc0_test/host_risc0/receipt", '0x92271d368782d86f4367610307a0e3d6e5b4039206f20b7636972259656409a8');
+    // console.log(proofHash);
+
+    //  let proofHash = await q.submitSp1Proof("/home/ubuntu/utkarsh_pg/risc0_test/host_sp1/proof", '0x8460624ba6c0eedaedf079289dd488a2680bbc6e60a546e8465e932f147ffeb7');
     // console.log(proofHash);
 
     // let proofHash = await q.submitHalo2PoseidonProof("/home/ubuntu/utkarsh_pg/risc0_test/host_halo2_kzg_poseidon/proof.bin", "/home/ubuntu/utkarsh_pg/risc0_test/host_halo2_kzg_poseidon/instances.json", '0x91add0bd41d178cbe947daaa4eae315355715b6dd6d518f92c5f139d02853ef3');
