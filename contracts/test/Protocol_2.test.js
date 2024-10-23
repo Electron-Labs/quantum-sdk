@@ -1,4 +1,5 @@
 const hre = require("hardhat")
+const { upgrades } = require("hardhat")
 const DATA = require("./data/protocol_2.json");
 const { deployVerifier } = require("../scripts/deployVerifier");
 const { deployProtocol } = require("../scripts/deployProtocol");
@@ -8,7 +9,8 @@ describe("Protocol", () => {
 
   before("", async () => {
     const Quantum = await hre.ethers.getContractFactory('lib/Quantum.sol:Quantum');
-    quantum = await Quantum.deploy(await deployVerifier(), Uint8Array.from(DATA.aggVerifierId));
+    quantum = await upgrades.deployProxy(Quantum, [await deployVerifier(), Uint8Array.from(DATA.aggVerifierId)], { kind: 'uups' })
+
     console.log("quantum deployed at:", await quantum.getAddress())
 
     nthProtocol = 0
@@ -19,7 +21,7 @@ describe("Protocol", () => {
   it("verifySuperproof and verifyPubInputs", async function () {
     let tx, receipt
 
-    tx = await quantum.verifySuperproof(DATA.proof, Uint8Array.from(DATA.batchRoot));
+    tx = await quantum.verifySuperproof(DATA.proof, Uint8Array.from(DATA.superRoot));
     receipt = await tx.wait()
     console.log("verifySuperproof::gasUsed", Number(receipt.gasUsed))
 

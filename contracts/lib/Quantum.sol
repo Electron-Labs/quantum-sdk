@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
-import {IQuantum} from "./interfaces/IQuantum.sol";
 
-contract Quantum {
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+
+contract Quantum is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     uint256 constant SIGNATURE = 0xb2ff0a36;
 
     bytes32 private aggVerifierId;
-    address public owner;
     address public verifier;
 
     mapping(bytes32 => bool) public superRootVerified;
@@ -17,20 +19,25 @@ contract Quantum {
         uint256[2] commitmentPok;
     }
 
-    constructor(address verifier_, bytes32 aggVerifierId_) {
-        owner = msg.sender;
+    function initialize(address verifier_, bytes32 aggVerifierId_) initializer public {
+        __Ownable_init(msg.sender);
+        __UUPSUpgradeable_init();
+
         verifier = verifier_;
         aggVerifierId = aggVerifierId_;
     }
 
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() initializer {}
+
     function verifySuperproof(
         Proof calldata proof,
-        bytes32 batchRoot
+        bytes32 superRoot
     ) external {
         assembly {
             let p := mload(0x40)
 
-            // copy batchRoot from calldata
+            // copy superRoot from calldata
             mstore(p, calldataload(0x184))
 
             // store aggVerifierId at `p+0x20`
@@ -77,21 +84,16 @@ contract Quantum {
             }
         }
 
-
-        superRootVerified[batchRoot] = true;
+        superRootVerified[superRoot] = true;
     }
 
-    function setVerifier(address verifierAddress) external {
-        if (msg.sender != owner) {
-            revert("!owner");
-        }
+    function setVerifier(address verifierAddress) external onlyOwner {
         verifier = verifierAddress;
     }
 
-    function setAggVerifierId(bytes32 aggVerifierId_) external {
-        if (msg.sender != owner) {
-            revert("!owner");
-        }
+    function setAggVerifierId(bytes32 aggVerifierId_) external onlyOwner {
         aggVerifierId = aggVerifierId_;
     }
+
+    function _authorizeUpgrade(address) internal override onlyOwner {}
 }

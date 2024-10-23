@@ -4,7 +4,7 @@ import {ProtocolVerifier_2} from "./ProtocolVerifier.sol";
 
 contract Protocol {
     bytes32 combinedVKeyHash;
-    address constant QUANTUM = 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
+    address constant QUANTUM = 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0;
 
     constructor(bytes32 combinedVKeyHash_) {
         combinedVKeyHash = combinedVKeyHash_;

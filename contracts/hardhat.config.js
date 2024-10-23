@@ -2,6 +2,7 @@ const dotenv = require('dotenv')
 require("@nomicfoundation/hardhat-toolbox");
 require('@openzeppelin/hardhat-upgrades');
 require("@nomicfoundation/hardhat-verify");
+require('@nomicfoundation/hardhat-ethers');
 
 
 dotenv.config()
