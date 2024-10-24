@@ -22,14 +22,14 @@ const B = (nPub) => {
 
 const C = (nPub) => {
   let code = `function verifyPubInputs(
-        uint256[${nPub}] calldata pubInputs,
-        uint256 merkleProofPosition,
-        bytes32[5] calldata merkleProof,
-        bytes32 combinedVKeyHash,
-        address quantum_verifier
-    ) internal view {
-        assembly {
-            let p := mload(0x40)\n\n`
+    uint256[${nPub}] calldata pubInputs,
+    uint256 merkleProofPosition,
+    bytes32[] calldata merkleProof,
+    bytes32 combinedVKeyHash,
+    address quantum_verifier
+) internal view {
+    assembly {
+        let p := mload(0x40)\n\n`
 
   code += `// ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
   // store pub inputs
@@ -48,20 +48,24 @@ const C = (nPub) => {
 
   code += `mstore(p, calldataload(${intToHexString(4 + (nPub * 32))})) // load merkle-proof-position at \`p\`\n\n`
 
-  code += `// ** computing root (at \`p+0x40\`) using 5 proof elms and their position **\n`
-
-  for (let i = 0; i < 5; i++) {
-    code += `switch and(mload(p), ONE)
-    case 1 {
-        mstore(add(p, 0x60), calldataload(${intToHexString(4 + ((nPub + 1 + i) * 32))}))
-        mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
-    }
-    default {
-        mstore(add(p, 0x20), calldataload(${intToHexString(4 + ((nPub + 1 + i) * 32))}))
-        mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
-    }
-    mstore(p, shr(1, mload(p))) // update next position\n\n`
-  }
+  code += `// ** computing root (at \`p+0x40\`) using the proof elms and their position **\n`
+  code += `let proofElmsSlotSize := mul(calldataload(${intToHexString(4 + ((nPub + 2) * 32))}), 0x20)
+  for {
+    let x := 0
+} lt(x, proofElmsSlotSize) {
+    x := add(x, 0x20)
+} {
+  switch and(mload(p), ONE)
+      case 1 {
+          mstore(add(p, 0x60), calldataload(add(${intToHexString(4 + ((nPub + 3) * 32))}, x)))
+          mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
+      }
+      default {
+          mstore(add(p, 0x20), calldataload(add(${intToHexString(4 + ((nPub + 3) * 32))}, x)))
+          mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
+      }
+      mstore(p, shr(1, mload(p))) // update next position
+  }\n\n`
 
   code += `mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
   let ok := staticcall(

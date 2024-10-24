@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
-import {ProtocolVerifier_2} from "./ProtocolVerifier.sol";
+import {ProtocolVerifier_5} from "./ProtocolVerifier.sol";
 
 contract Protocol {
     bytes32 combinedVKeyHash;
@@ -10,12 +10,12 @@ contract Protocol {
         combinedVKeyHash = combinedVKeyHash_;
     }
 
-    function verifyPubInputs_2(
-        uint256[2] calldata pubInputs,
+    function verifyPubInputs_5(
+        uint256[5] calldata pubInputs,
         uint256 merkleProofPosition,
-        bytes32[5] calldata merkleProof
+        bytes32[] calldata merkleProof
     ) external {
-        ProtocolVerifier_2.verifyPubInputs(
+        ProtocolVerifier_5.verifyPubInputs(
             pubInputs,
             merkleProofPosition,
             merkleProof,

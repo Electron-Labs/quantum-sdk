@@ -487,7 +487,7 @@ contract Verifier {
             uint256[] memory publicAndCommitmentCommitted;
 
             publicCommitments[0] = uint256(
-                keccak256(
+                sha256(
                     abi.encodePacked(
                         commitments[0],
                         commitments[1],
@@ -600,7 +600,7 @@ contract Verifier {
         uint256[] memory publicAndCommitmentCommitted;
 
             publicCommitments[0] = uint256(
-                keccak256(
+                sha256(
                     abi.encodePacked(
                         commitments[0],
                         commitments[1],

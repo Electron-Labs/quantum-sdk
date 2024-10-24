@@ -5,7 +5,7 @@ const { deployVerifier } = require("../scripts/deployVerifier");
 const { deployProtocol } = require("../scripts/deployProtocol");
 
 describe("Protocol", () => {
-  let quantum, protocolContract, nthProtocol
+  let quantum, protocolContract
 
   before("", async () => {
     const Quantum = await hre.ethers.getContractFactory('lib/Quantum.sol:Quantum');
@@ -13,9 +13,7 @@ describe("Protocol", () => {
 
     console.log("quantum deployed at:", await quantum.getAddress())
 
-    nthProtocol = 0
-
-    protocolContract = await hre.ethers.getContractAt('Protocol', await deployProtocol(DATA.combinedVKeyHash[nthProtocol]));
+    protocolContract = await hre.ethers.getContractAt('Protocol', await deployProtocol(DATA.combinedVKeyHash));
   })
 
   it("verifySuperproof and verifyPubInputs", async function () {
@@ -25,7 +23,7 @@ describe("Protocol", () => {
     receipt = await tx.wait()
     console.log("verifySuperproof::gasUsed", Number(receipt.gasUsed))
 
-    tx = await protocolContract.verifyPubInputs_2(DATA.protocolPubInputs[nthProtocol.toString()], DATA.merkleProofPosition, DATA.merkleProof);
+    tx = await protocolContract.verifyPubInputs_5(DATA.protocolPubInputs, DATA.merkleProofPosition, DATA.merkleProof);
     receipt = await tx.wait()
     console.log("verifyPubInputsTreeInclusion::gasUsed", Number(receipt.gasUsed))
   });
