@@ -62,45 +62,158 @@ export class Quantum implements QuantumInterface {
         return isConnectionEstablished;
     }
 
-    async registerCircuit(vkeyPath: string, publicInputsCount: number, proofType: ProofType): Promise<RegisterCircuitResponse> {
-        const vkeyJson = checkPathAndReadJsonFile(vkeyPath);
-        const serializedVKey = serializeVKey(vkeyJson, proofType);
-
-        const circuitHashString = await registerCircuit(this.rpcEndPoint, serializedVKey, publicInputsCount, proofType, this.authToken);
-        let cirucitHash = Keccak256Hash.fromString(circuitHashString);
-        return new RegisterCircuitResponse(cirucitHash);
+    async registerSnarkJSGroth16Circuit(vkeyJsonFilePath: string): Promise<RegisterCircuitResponse> {
+        const vkeyJson = checkPathAndReadJsonFile(vkeyJsonFilePath);
+        let resp = await this.registerCircuit(vkeyJson, ProofType.GROTH16);
+        return resp;
     }
 
-    async registerHalo2Circuit(proofFilePath: string, sg2FilePath: string, instanceFilePath: string, protocolFilePath: string) {
-        const proofBytes = checkPathAndReadFile(proofFilePath);
-        const sg2FileBytes = checkPathAndReadFile(sg2FilePath)
-        const instanceFileBytes = checkPathAndReadFile(instanceFilePath)
-        const protocolFileBytes = checkPathAndReadFile(protocolFilePath);
+    async registerGnarkGroth16Circuit(vkeyBinFilePath: string): Promise<RegisterCircuitResponse> {
+        const vkeyBytes = checkPathAndReadFile(vkeyBinFilePath);
+        const vkey = {
+            vkey_bytes: Array.from(vkeyBytes)
+        }
+        let resp = await this.registerCircuit(vkey, ProofType.GNARK_GROTH16);
+        return resp;
+    }
+    async registerGnarkPlonkCircuit(vkeyBinFilePath: string): Promise<RegisterCircuitResponse> {
+        const vkeyBytes = checkPathAndReadFile(vkeyBinFilePath);
+        const vkey = {
+            vkey_bytes: Array.from(vkeyBytes)
+        }
+        let resp = await this.registerCircuit(vkey, ProofType.GNARK_PLONK);
+        return resp;
+    }
 
+    async registerHalo2KZGEvmCircuit(sg2JsonFilePath: string, protocolJsonFilePath: string) {
+        const sg2FileBytes = checkPathAndReadFile(sg2JsonFilePath)
+        const protocolFileBytes = checkPathAndReadFile(protocolJsonFilePath);
         const halo2Vkey = {
             protocol_bytes: Array.from(protocolFileBytes),
             sg2_bytes: Array.from(sg2FileBytes),
-            proof_bytes: Array.from(proofBytes),
-            instance_bytes: Array.from(instanceFileBytes)
         }
-        const serializedVKey = serializeVKey(halo2Vkey, ProofType.HALO2_PLONK);
+        let resp = await this.registerCircuit(halo2Vkey, ProofType.HALO2_PLONK);
+        return resp;
+    }
 
-        const circuitHashString = await registerCircuit(this.rpcEndPoint, serializedVKey, 0, ProofType.HALO2_PLONK, this.authToken);
+    async registerHalo2KZGCircuit(sg2JsonFilePath: string, protocolJsonFilePath: string) {
+        const sg2FileBytes = checkPathAndReadFile(sg2JsonFilePath)
+        const protocolFileBytes = checkPathAndReadFile(protocolJsonFilePath);
+        const halo2Vkey = {
+            protocol_bytes: Array.from(protocolFileBytes),
+            sg2_bytes: Array.from(sg2FileBytes),
+        }
+        let resp = await this.registerCircuit(halo2Vkey, ProofType.HALO2_POSEIDON);
+        return resp;
+    }
+
+    async registerPlonky2Circuit(commonCircuitDataBinFilePath: string, verifierOnlyBinFilePath: string) {
+        const commonCircuitDataFileBytes = checkPathAndReadFile(commonCircuitDataBinFilePath)
+        const verifierOnlyFileBytes = checkPathAndReadFile(verifierOnlyBinFilePath);
+        const vkey = {
+            common_bytes: Array.from(commonCircuitDataFileBytes),
+            verifier_only_bytes: Array.from(verifierOnlyFileBytes),
+        }
+        let resp = await this.registerCircuit(vkey, ProofType.PLONKY2);
+        return resp;
+    }
+
+    async registerRisc0Circuit(vkeyJsonPath: string) {
+        const image_id = checkPathAndReadJsonFile(vkeyJsonPath);
+        const vkey = {
+            vkey_bytes: image_id 
+        }
+        let resp = await this.registerCircuit(vkey, ProofType.RISC0);
+        return resp;
+    }
+
+    async registerSp1Circuit(vkeyBinFilePath: string) {
+        const vkey_bytes = checkPathAndReadFile(vkeyBinFilePath);
+        const vkey = {
+            vkey_bytes 
+        }
+        let resp = await this.registerCircuit(vkey, ProofType.SP1);
+        return resp;
+    }
+
+    private async registerCircuit(vKey: any, proofType: ProofType) {
+        const serializedVKey = serializeVKey(vKey, proofType);
+
+        const circuitHashString = await registerCircuit(this.rpcEndPoint, serializedVKey, proofType, this.authToken);
         let cirucitHash = Keccak256Hash.fromString(circuitHashString);
         return new RegisterCircuitResponse(cirucitHash);
     }
 
     // TODO: handle error from node
-    async submitProof(proofPath: string, pisPath: string, circuitHash: string, proofType: ProofType): Promise<SubmitProofResponse> {
+    async submitSnarkJSGroth16Proof(proofJsonPath: string, pisJsonFilePath: string, circuitHash: string): Promise<SubmitProofResponse> {
         Keccak256Hash.fromString(circuitHash);
+        const proof = getProof(proofJsonPath, ProofType.GROTH16);
+        const pubInput = getPis(pisJsonFilePath, ProofType.GROTH16);
+        let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.GROTH16);
+        return resp;
+    }
 
-        const proof = getProof(proofPath, proofType);
-        const proofEncoded = serializeProof(proof, proofType);
+    async submitGnarkPlonkProof(proofBinFilePath: string, pisJsonFilePath: string, circuitHash: string): Promise<SubmitProofResponse> {
+        Keccak256Hash.fromString(circuitHash);
+        const proof = getProof(proofBinFilePath, ProofType.GNARK_PLONK);
+        const pubInput = getPis(pisJsonFilePath, ProofType.GNARK_PLONK);
+        let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.GNARK_PLONK);
+        return resp;
+    }
 
-        const pubInput = getPis(pisPath, proofType);
-        const pubInputEncoded = serializePubInputs(pubInput, proofType);
+    async submitGnarkGroth16Proof(proofBinFilePath: string, pisJsonFilePath: string, circuitHash: string): Promise<SubmitProofResponse> {
+        Keccak256Hash.fromString(circuitHash);
+        const proof = getProof(proofBinFilePath, ProofType.GNARK_GROTH16);
+        const pubInput = getPis(pisJsonFilePath, ProofType.GNARK_GROTH16);
+        let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.GNARK_GROTH16);
+        return resp;
+    }
 
-        let proofHashString = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitHash, proofType, this.authToken);
+    async submitHalo2KZGEvmProof(proofBinFilePath: string, instancesJsonFilepath: string, circuitHash: string): Promise<SubmitProofResponse> {
+        Keccak256Hash.fromString(circuitHash);
+        const proof = getProof(proofBinFilePath, ProofType.HALO2_PLONK);
+        const pubInput = getPis(instancesJsonFilepath, ProofType.HALO2_PLONK);
+        let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.HALO2_PLONK);
+        return resp;
+    }
+
+    async submitHalo2KZGProof(proofBinFilePath: string, instancesJsonFilepath: string, circuitHash: string): Promise<SubmitProofResponse> {
+        Keccak256Hash.fromString(circuitHash);
+        const proof = getProof(proofBinFilePath, ProofType.HALO2_POSEIDON);
+        const pubInput = getPis(instancesJsonFilepath, ProofType.HALO2_POSEIDON);
+        let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.HALO2_POSEIDON);
+        return resp;
+    }
+
+    async submitPlonky2Proof(proofBinFilePath: string, circuitHash: string): Promise<SubmitProofResponse> {
+        Keccak256Hash.fromString(circuitHash);
+        const proof = getProof(proofBinFilePath, ProofType.PLONKY2);
+        const pubInput: string[] = [];
+        let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.PLONKY2);
+        return resp;
+    }
+
+    async submitRisc0Proof(receiptBinFilePath: string, circuitHash: string): Promise<SubmitProofResponse> {
+        Keccak256Hash.fromString(circuitHash);
+        const proof = getProof(receiptBinFilePath, ProofType.RISC0);
+        const pubInput: string[] = [];
+        let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.RISC0);
+        return resp;
+    }
+
+    async submitSp1Proof(proofBinFilePath: string, circuitHash: string): Promise<SubmitProofResponse> {
+        Keccak256Hash.fromString(circuitHash);
+        const proof = getProof(proofBinFilePath, ProofType.SP1);
+        const pubInput: string[] = [];
+        let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.SP1);
+        return resp;
+    }
+
+    private async submitProof(proof: any, pis: any, circuitHash: string, prooftype: ProofType) {
+        const proofEncoded = serializeProof(proof, prooftype);
+        const pubInputEncoded = serializePubInputs(pis, prooftype);
+        
+        let proofHashString = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitHash, prooftype, this.authToken);
         let proofHash = Keccak256Hash.fromString(proofHashString);
         return new SubmitProofResponse(proofHash)
     }
@@ -117,12 +230,5 @@ export class Quantum implements QuantumInterface {
         let response = await getProtocolProof(this.rpcEndPoint, this.authToken, proofHash);
         let protocolProof = getProtocolProofFromResponse(response);
         return new GetProtocolProofResponse(protocolProof)
-    }
-
-    getProtocolInclusionProof(protocolProof: ProtocolProof): ProtocolInclusionProof {
-        return {
-            merkleProofPosition: protocolProof.merkleProofPosition,
-            merkleProof: protocolProof.merkleProof,
-        };
     }
 }

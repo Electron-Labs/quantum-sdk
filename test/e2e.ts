@@ -5,23 +5,72 @@ import { Quantum } from "../src/quantum";
 import hre from "hardhat"
 import { getCombinedVKeyHash } from "../src/quantum_helper";
 
-const url = "http://3.133.25.95:8000";
+const url = "http://localhost:8000";
 async function main() {
-    const q = new Quantum(url, "b3047d47c5d6551744680f5c3ba77de90acb84055eefdcbb");
+    const q = new Quantum(url, "GnarkGroth16");
     let r = await q.checkServerConnection();
     console.log(r);
 
-    // let circuitHash = await q.registerCircuit("test/dump/gnark/circuit/3/vkey.json", 3, ProofType.GNARK_GROTH16)
+    // let circuitHash = await q.registerGnarkGroth16Circuit("/home/ubuntu/quantum-risc0-circuits/host_gnark_groth16/vk.bin")
     // console.log({circuitHash})
     // console.log(circuitHash.circuitHash.asString());
 
-    // let status = await q.isCircuitRegistered(circuitHash.circuitHash.asString());
+    // circuitHash = await q.registerGnarkPlonkCircuit("/home/ubuntu/quantum-risc0-circuits/host_gnark_plonk/vk.bin")
+    // console.log({circuitHash})
+    // console.log(circuitHash.circuitHash.asString());
+
+    // let circuit_hash = await q.registerHalo2PlonkCircuit("/home/ubuntu/Spectre/build/sg2.json","/home/ubuntu/Spectre/build//protocol.json");
+    // console.log({circuit_hash})
+    // console.log(circuit_hash.circuitHash.asString());
+
+    // let circuitHash = await q.registerSnarkJSGroth16Circuit("/home/ubuntu/aditya-risc0-test/quantum-sdk/test/dump/snark/circuit/2/vkey.json")
+    // console.log({circuitHash})
+    // console.log(circuitHash.circuitHash.asString());
+
+    // let circuitHash = await q.registerHalo2PoseidonCircuit("/home/ubuntu/utkarsh_pg/risc0_test/host_halo2_kzg_poseidon/sg2.json", "/home/ubuntu/utkarsh_pg/risc0_test/host_halo2_kzg_poseidon/protocol.json")
+    // console.log({circuitHash})
+    // console.log(circuitHash.circuitHash.asString());
+
+    // let circuitHash = await q.registerPlonky2Circuit("/home/ubuntu/utkarsh_pg/risc0_test/host_plonky2/src/common_bytes.bin", "/home/ubuntu/utkarsh_pg/risc0_test/host_plonky2/src/verifier_bytes.bin");
+    // console.log({circuitHash})
+    // console.log(circuitHash.circuitHash.asString());
+
+    // let circuitHash = await q.registerRisc0Circuit("/home/ubuntu/utkarsh_pg/risc0_test/host_risc0/image_id.json");
+    // console.log({circuitHash})
+    // console.log(circuitHash.circuitHash.asString());
+
+    // let circuitHash = await q.registerSp1Circuit("/home/ubuntu/utkarsh_pg/risc0_test/host_sp1/vk");
+    // console.log({circuitHash})
+    // console.log(circuitHash.circuitHash.asString());
+
+    // let status = await q.isCircuitRegistered("0xceeb414032c1ce1d0d9e8627bf132e49c6e528f2c60c8c8d12890d99ffdaecc3");
     // console.log(status);
 
-    // let proofHash = await q.submitProof("test/dump/gnark/proof/3/1bebc197-9942-49a6-8629-adec0136193b/proof.json", "test/dump/gnark/proof/3/1bebc197-9942-49a6-8629-adec0136193b/pubic.json", circuitHash.circuitHash.asString(), ProofType.GNARK_GROTH16);
+    // let proofHash = await q.submitGnarkGroth16Proof("/home/ubuntu/quantum-risc0-circuits/host_gnark_groth16/proof.bin", "/home/ubuntu/quantum-risc0-circuits/host_gnark_groth16/pis.json", '0xd7a7bc7f5edfd20da23641577e8fb092587f8a53014725920b2eb084b4630f9e');
     // console.log(proofHash);
 
-    // let proof_status = await q.getProofData("0x55efc9dce7850312afe32f166cf4b3370a3a1544e81386539a5c4a6a2f700aaa");
+    // let proofHash = await q.submitHalo2PlonkProof("/home/ubuntu/Spectre/build/proof.bin", "/home/ubuntu/Spectre/build/instances.json", '0x47a6a69132ba315d49999dfda42cb9c0d4637ea41415943ae87c7635f6da8d14');
+    // console.log(proofHash);
+
+    // let proofHash = await q.submitGnarkPlonkProof("/home/ubuntu/quantum-risc0-circuits/host_gnark_plonk/proof.bin", "/home/ubuntu/quantum-risc0-circuits/host_gnark_plonk/pis.json", '0x8adb1656b0ab24267491a7af3efae5bc42964ec3a8ec6ad968668e9bb682e753');
+    // console.log(proofHash);
+
+    // let proofHash = await q.submitSnarkJSGroth16Proof("/home/ubuntu/aditya-risc0-test/quantum-sdk/test/dump/snark/proof/2/166adf40-7545-4d17-b99d-f80fe9555e4f/proof.json", "/home/ubuntu/aditya-risc0-test/quantum-sdk/test/dump/snark/proof/2/166adf40-7545-4d17-b99d-f80fe9555e4f/public.json", '0xceeb414032c1ce1d0d9e8627bf132e49c6e528f2c60c8c8d12890d99ffdaecc3');
+    // console.log(proofHash);
+
+    // let proofHash = await q.submitPlonky2Proof("/home/ubuntu/utkarsh_pg/risc0_test/host_plonky2/src/proof_bytes.bin", '0xd1571b92c7ba27a64e9f2c29662cc9e3329ba9694f62063b4723f8134612412b');
+    // console.log(proofHash);
+
+    // let proofHash = await q.submitRisc0Proof("/home/ubuntu/utkarsh_pg/risc0_test/host_risc0/receipt", '0x92271d368782d86f4367610307a0e3d6e5b4039206f20b7636972259656409a8');
+    // console.log(proofHash);
+
+    //  let proofHash = await q.submitSp1Proof("/home/ubuntu/utkarsh_pg/risc0_test/host_sp1/proof", '0x8460624ba6c0eedaedf079289dd488a2680bbc6e60a546e8465e932f147ffeb7');
+    // console.log(proofHash);
+
+    // let proofHash = await q.submitHalo2PoseidonProof("/home/ubuntu/utkarsh_pg/risc0_test/host_halo2_kzg_poseidon/proof.bin", "/home/ubuntu/utkarsh_pg/risc0_test/host_halo2_kzg_poseidon/instances.json", '0x91add0bd41d178cbe947daaa4eae315355715b6dd6d518f92c5f139d02853ef3');
+    // console.log(proofHash);
+
+    // let proof_status = await q.getProofData("0xb50ea463d922cc7aad3d1e420782f412a44d80039cb915e89d45189469e1be6b");
     // console.log(proof_status.proofData);
 
 

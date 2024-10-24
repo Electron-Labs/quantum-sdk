@@ -3,8 +3,6 @@ import { borshSerialize } from "../../utils/borsh";
 const halo2VkeySchema = {struct: {
     protocol_bytes: {array: {type: 'u8'}},
     sg2_bytes: {array: {type: 'u8'}},
-    proof_bytes: {array: {type: 'u8'}},
-    instance_bytes: {array: {type: 'u8'}}
 }}
 
 const halo2ProofSchema = {struct: { 
