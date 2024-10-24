@@ -3,7 +3,7 @@ import { ProofStatus } from "../src/enum/proof_status";
 import { ProofType } from "../src/enum/proof_type";
 import { Quantum } from "../src/quantum";
 import hre from "hardhat"
-import { getVKeyHash } from "../src/quantum_helper";
+import { getCombinedVKeyHash } from "../src/quantum_helper";
 
 const url = "http://3.133.25.95:8000";
 async function main() {
@@ -25,8 +25,8 @@ async function main() {
     // console.log(proof_status.proofData);
 
 
-    // let vkHash = getVKeyHash("0x5dd6e2c9ccf9746c738d6806882b2304dd0686ff75760fed8040e79fa1059290", "0x4b4b13969117f5b7ed8816572a16a748cfc96491e3170c6f12e1f76470141f82")
-    // console.log("vkHash", vkHash)
+    // let combinedVKeyHash = getCombinedVKeyHash("0x5dd6e2c9ccf9746c738d6806882b2304dd0686ff75760fed8040e79fa1059290", "0x4b4b13969117f5b7ed8816572a16a748cfc96491e3170c6f12e1f76470141f82")
+    // console.log("combinedVKeyHash", combinedVKeyHash)
     // * contract calling *
     // let protocolProofResponse = await q.getProtocolProof("0x603edbccd841d232108368695e26a1c008499c4bba446fb33ddc37ef9ce818eb");
     // console.log("protocolProofResponse", protocolProofResponse)
