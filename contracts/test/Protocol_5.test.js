@@ -1,6 +1,6 @@
 const hre = require("hardhat")
 const { upgrades } = require("hardhat")
-const DATA = require("./data/protocol_2.json");
+const DATA = require("./data/protocol_5.json");
 const { deployVerifier } = require("../scripts/deployVerifier");
 const { deployProtocol } = require("../scripts/deployProtocol");
 
