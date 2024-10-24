@@ -231,11 +231,4 @@ export class Quantum implements QuantumInterface {
         let protocolProof = getProtocolProofFromResponse(response);
         return new GetProtocolProofResponse(protocolProof)
     }
-
-    getProtocolInclusionProof(protocolProof: ProtocolProof): ProtocolInclusionProof {
-        return {
-            merkleProofPosition: protocolProof.merkleProofPosition,
-            merkleProof: protocolProof.merkleProof,
-        };
-    }
 }
