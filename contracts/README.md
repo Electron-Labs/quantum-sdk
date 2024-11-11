@@ -2,3 +2,6 @@
 
 ### Test
 - `npx hardhat test test/Protocol_5.test.js`
+
+#### Generate ProtocolVerifier.sol
+- `npx hardhat run scripts/genProtocolVerifier.js`

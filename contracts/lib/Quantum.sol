@@ -8,11 +8,16 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 contract Quantum is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     uint256 constant SIGNATURE = 0xb2ff0a36;
 
+    /// @dev The Aggregation image ID
     bytes32 private aggVerifierId;
+
+    /// @notice The verifier used for proof verification
     address public verifier;
 
+    /// @notice A boolean mapping for all superRoots; a true value indicates the superRoot is verfied
     mapping(bytes32 => bool) public superRootVerified;
 
+    /// @notice A gnark groth16 proof
     struct Proof {
         uint256[8] proof;
         uint256[2] commitments;
@@ -30,6 +35,9 @@ contract Quantum is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
 
+    /// @notice Submit a super proof; upon successful verification, mark the key `superRoot` in the mapping `superRootVerified` as true
+    /// @param proof ZK proof for this `superRoot`
+    /// @param superRoot The merkle root for this batch
     function verifySuperproof(
         Proof calldata proof,
         bytes32 superRoot
@@ -87,10 +95,12 @@ contract Quantum is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         superRootVerified[superRoot] = true;
     }
 
+    /// @notice To update the verifier address
     function setVerifier(address verifierAddress) external onlyOwner {
         verifier = verifierAddress;
     }
 
+    /// @dev To update the Aggregation image ID
     function setAggVerifierId(bytes32 aggVerifierId_) external onlyOwner {
         aggVerifierId = aggVerifierId_;
     }

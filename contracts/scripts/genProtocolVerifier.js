@@ -21,12 +21,18 @@ const B = (nPub) => {
 }
 
 const C = (nPub) => {
-  let code = `function verifyPubInputs(
+  let code = `/// @notice Check if your public inputs are aggregated by Quantum
+  /// @param pubInputs Your public inputs
+  /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+  /// @param merkleProof The inclusion proof for your public inputs
+  /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+  /// @param quantumVerifier The address to the Quantum contract
+  function verifyPubInputs(
     uint256[${nPub}] calldata pubInputs,
     uint256 merkleProofPosition,
     bytes32[] calldata merkleProof,
     bytes32 combinedVKeyHash,
-    address quantum_verifier
+    address quantumVerifier
 ) internal view {
     assembly {
         let p := mload(0x40)\n\n`
@@ -70,7 +76,7 @@ const C = (nPub) => {
   code += `mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
   let ok := staticcall(
       gas(),
-      quantum_verifier,
+      quantumVerifier,
       add(p, 0x3c),
       0x24,
       p,

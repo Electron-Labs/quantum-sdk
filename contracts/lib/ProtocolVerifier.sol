@@ -5,12 +5,18 @@ library ProtocolVerifier_1 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[1] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -52,7 +58,7 @@ library ProtocolVerifier_1 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
@@ -69,12 +75,18 @@ library ProtocolVerifier_2 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[2] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -117,7 +129,7 @@ library ProtocolVerifier_2 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
@@ -134,12 +146,18 @@ library ProtocolVerifier_3 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[3] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -183,7 +201,7 @@ library ProtocolVerifier_3 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
@@ -200,12 +218,18 @@ library ProtocolVerifier_4 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[4] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -250,7 +274,7 @@ library ProtocolVerifier_4 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
@@ -267,12 +291,18 @@ library ProtocolVerifier_5 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[5] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -318,7 +348,7 @@ library ProtocolVerifier_5 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
@@ -335,12 +365,18 @@ library ProtocolVerifier_6 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[6] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -387,7 +423,7 @@ library ProtocolVerifier_6 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
@@ -404,12 +440,18 @@ library ProtocolVerifier_7 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[7] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -457,7 +499,7 @@ library ProtocolVerifier_7 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
@@ -474,12 +516,18 @@ library ProtocolVerifier_8 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[8] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -528,7 +576,7 @@ library ProtocolVerifier_8 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
@@ -545,12 +593,18 @@ library ProtocolVerifier_9 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[9] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -600,7 +654,7 @@ library ProtocolVerifier_9 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
@@ -617,12 +671,18 @@ library ProtocolVerifier_10 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[10] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -673,7 +733,7 @@ library ProtocolVerifier_10 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
@@ -690,12 +750,18 @@ library ProtocolVerifier_11 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[11] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -747,7 +813,7 @@ library ProtocolVerifier_11 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
@@ -764,12 +830,18 @@ library ProtocolVerifier_12 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[12] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -822,7 +894,7 @@ library ProtocolVerifier_12 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
@@ -839,12 +911,18 @@ library ProtocolVerifier_13 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[13] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -898,7 +976,7 @@ library ProtocolVerifier_13 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
@@ -915,12 +993,18 @@ library ProtocolVerifier_14 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[14] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -975,7 +1059,7 @@ library ProtocolVerifier_14 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
@@ -992,12 +1076,18 @@ library ProtocolVerifier_15 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
+    /// @notice Check if your public inputs are aggregated by Quantum
+    /// @param pubInputs Your public inputs
+    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @param merkleProof The inclusion proof for your public inputs
+    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[15] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
         bytes32 combinedVKeyHash,
-        address quantum_verifier
+        address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
@@ -1053,7 +1143,7 @@ library ProtocolVerifier_15 {
             mstore(add(p, 0x20), SIGNATURE_SUPER_ROOT_VERIFIED)
             let ok := staticcall(
                 gas(),
-                quantum_verifier,
+                quantumVerifier,
                 add(p, 0x3c),
                 0x24,
                 p,
