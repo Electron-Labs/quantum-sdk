@@ -29,11 +29,12 @@ describe("Protocol", () => {
     // risc0 protocol
     tx = await protocolRisc0Contract.verifyPubInputs_2(DATA.risc0Agg.publicInputs, DATA.risc0Agg.merkleProofPosition, DATA.risc0Agg.merkleProof);
     receipt = await tx.wait()
-    console.log("risc0 verifyPubInputsTreeInclusion::gasUsed", Number(receipt.gasUsed))
+    console.log("risc0 verifyPubInputs_2::gasUsed", Number(receipt.gasUsed))
 
     // sp1 protocol
-    tx = await protocolSp1Contract.verifyPubInputs(Uint8Array.from(DATA.sp1Agg.publicInputs), DATA.sp1Agg.merkleProofPosition, DATA.sp1Agg.merkleProof);
+    const merkleProof = {"position": DATA.sp1Agg.merkleProofPosition, "proof": DATA.sp1Agg.merkleProof}
+    tx = await protocolSp1Contract.verifyPubInputs(merkleProof, Uint8Array.from(DATA.sp1Agg.publicInputs));
     receipt = await tx.wait()
-    console.log("sp1 verifyPubInputsTreeInclusion::gasUsed", Number(receipt.gasUsed))
+    console.log("sp1 verifyPubInputs::gasUsed", Number(receipt.gasUsed))
   });
 });

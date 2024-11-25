@@ -11,12 +11,10 @@ contract Protocol {
     }
 
     function verifyPubInputs(
-        bytes calldata pubInputs,
-        uint256 merkleProofPosition,
-        bytes32[] calldata merkleProof
+        ZkvmVerifier.MerkleProof calldata merkleProof,
+        bytes calldata pubInputs
     ) external {
         ZkvmVerifier.verifyPubInputs(
-            merkleProofPosition,
             merkleProof,
             circuitHash,
             QUANTUM,
