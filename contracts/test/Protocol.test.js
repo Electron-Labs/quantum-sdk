@@ -1,0 +1,39 @@
+const hre = require("hardhat")
+const { upgrades } = require("hardhat")
+const DATA = require("./data/protocol.json");
+const { deployVerifier } = require("../scripts/deployVerifier");
+
+describe("Protocol", () => {
+  let quantum, protocolRisc0Contract, protocolSp1Contract
+
+  before("", async () => {
+    const Quantum = await hre.ethers.getContractFactory('lib/Quantum.sol:Quantum');
+    quantum = await upgrades.deployProxy(Quantum, [await deployVerifier(), Uint8Array.from(DATA.aggVKey)], { kind: 'uups' })
+
+    console.log("quantum deployed at:", await quantum.getAddress())
+
+    const ProtocolRisc0 = await hre.ethers.getContractFactory('lib/ProtocolRisc0.sol:Protocol');
+    protocolRisc0Contract = await ProtocolRisc0.deploy(DATA.risc0Agg.vKeyHash);
+
+    const ProtocolSp1 = await hre.ethers.getContractFactory('lib/ProtocolSp1.sol:Protocol');
+    protocolSp1Contract = await ProtocolSp1.deploy(DATA.sp1Agg.vKeyHash);
+  })
+
+  it("verifySuperproof and verifyPubInputs", async function () {
+    let tx, receipt
+
+    tx = await quantum.verifySuperproof(DATA.proof, Uint8Array.from(DATA.superRoot));
+    receipt = await tx.wait()
+    console.log("verifySuperproof::gasUsed", Number(receipt.gasUsed))
+
+    // risc0 protocol
+    tx = await protocolRisc0Contract.verifyPubInputs_2(DATA.risc0Agg.publicInputs, DATA.risc0Agg.merkleProofPosition, DATA.risc0Agg.merkleProof);
+    receipt = await tx.wait()
+    console.log("risc0 verifyPubInputsTreeInclusion::gasUsed", Number(receipt.gasUsed))
+
+    // sp1 protocol
+    tx = await protocolSp1Contract.verifyPubInputs(Uint8Array.from(DATA.sp1Agg.publicInputs), DATA.sp1Agg.merkleProofPosition, DATA.sp1Agg.merkleProof);
+    receipt = await tx.wait()
+    console.log("sp1 verifyPubInputsTreeInclusion::gasUsed", Number(receipt.gasUsed))
+  });
+});

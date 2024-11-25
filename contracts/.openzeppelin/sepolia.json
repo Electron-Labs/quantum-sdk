@@ -60,6 +60,11 @@
       "address": "0x6afbB1c4296D2b4d333E24f2462b15f2D97449Cb",
       "txHash": "0x7a2e97c7a213f49f80d76188f6da8fb91de0fc9e7bc7c1f3e6beaafa0ca8c891",
       "kind": "uups"
+    },
+    {
+      "address": "0xaE5A309eba12Ae96a45ac580D4906Bbfac4E596f",
+      "txHash": "0x1021328c94a2dfb702ed6bb8c5b9492c2be4de38b1648232e2ed85e2681f8695",
+      "kind": "uups"
     }
   ],
   "impls": {
@@ -349,6 +354,121 @@
             "type": "t_mapping(t_bytes32,t_bool)",
             "contract": "Quantum",
             "src": "lib/Quantum.sol:14"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_struct(InitializableStorage)65_storage": {
+            "label": "struct Initializable.InitializableStorage",
+            "members": [
+              {
+                "label": "_initialized",
+                "type": "t_uint64",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_initializing",
+                "type": "t_bool",
+                "offset": 8,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_struct(OwnableStorage)14_storage": {
+            "label": "struct OwnableUpgradeable.OwnableStorage",
+            "members": [
+              {
+                "label": "_owner",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_uint64": {
+            "label": "uint64",
+            "numberOfBytes": "8"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_bool)": {
+            "label": "mapping(bytes32 => bool)",
+            "numberOfBytes": "32"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Ownable": [
+            {
+              "contract": "OwnableUpgradeable",
+              "label": "_owner",
+              "type": "t_address",
+              "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:24",
+              "offset": 0,
+              "slot": "0"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:69",
+              "offset": 0,
+              "slot": "0"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:73",
+              "offset": 8,
+              "slot": "0"
+            }
+          ]
+        }
+      }
+    },
+    "52c6a8fb300ec48494c7c5eed4da2e4114b20bcb917bd6a0b5292ce24809a36f": {
+      "address": "0x51DC87E1fCb3Ae1d5544cEcac77Fd12b6Fdb4d20",
+      "txHash": "0x5d3daf78d89237a17bb4e25c9d712c59e35d842f89ee850c1d4a7b5f9765fd6a",
+      "layout": {
+        "solcVersion": "0.8.24",
+        "storage": [
+          {
+            "label": "aggVKey",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bytes32",
+            "contract": "Quantum",
+            "src": "lib/Quantum.sol:12"
+          },
+          {
+            "label": "verifier",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_address",
+            "contract": "Quantum",
+            "src": "lib/Quantum.sol:15"
+          },
+          {
+            "label": "superRootVerified",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_bytes32,t_bool)",
+            "contract": "Quantum",
+            "src": "lib/Quantum.sol:18"
           }
         ],
         "types": {

@@ -1,17 +1,17 @@
 const hre = require("hardhat");
 const { upgrades } = require("hardhat")
 
-async function deployQuantum(verifierAddress, aggVerifierId) {
+async function deployQuantum(verifierAddress, aggVKey) {
   const Quantum = await hre.ethers.getContractFactory('lib/Quantum.sol:Quantum');
-  const quantum = await upgrades.deployProxy(Quantum, [verifierAddress, aggVerifierId], { kind: 'uups' })
+  const quantum = await upgrades.deployProxy(Quantum, [verifierAddress, aggVKey], { kind: 'uups' })
   console.log("Quantum deployed to:", await quantum.getAddress());
   return await quantum.getAddress()
 }
 
 async function main() {
-  const verifierAddress = "0x2840C36927cbb8Af17d1d23830617707655fF6b1"
-  const aggVerifierId = "0x595197c139011ce12abdc6612c2ee7f3f6ee3591bc109d7e7c3d3215f74bfb80"
-  await deployQuantum(verifierAddress, aggVerifierId)
+  const verifierAddress = "0x4b4eAd050aC324aDe3a02847d8036546336A9B1F"
+  const aggVKey = "0xff5e3140dbd03b8bf7cf4fda97ba61bb4afb9477d2ab7b21a981778b1880600d"
+  await deployQuantum(verifierAddress, aggVKey)
 }
 
 if (require.main == module) {

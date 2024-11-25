@@ -7,9 +7,9 @@ async function main() {
   // await quantum.setVerifier("0x1Bd18f0ce16B122d83394a9553Bff4323b9ba669")
   // console.log("setting verifier done!")
 
-  console.log("setting aggVerifierId...")
-  await quantum.setAggVerifierId("0xb12eb8d931fe6fcd44355d7014ed14d6ac5fdffa75497c45c3f7e3544f3476db")
-  console.log("setting aggVerifierId done!")
+  console.log("setting aggVKey...")
+  await quantum.setAggVKey("0xb12eb8d931fe6fcd44355d7014ed14d6ac5fdffa75497c45c3f7e3544f3476db")
+  console.log("setting aggVKey done!")
 }
 
 if (require.main == module) {

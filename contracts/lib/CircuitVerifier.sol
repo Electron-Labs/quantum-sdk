@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-library ProtocolVerifier_1 {
+library CircuitVerifier_1 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -9,27 +9,27 @@ library ProtocolVerifier_1 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[1] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
 
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0x20))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))
@@ -71,7 +71,7 @@ library ProtocolVerifier_1 {
     }
 }
 
-library ProtocolVerifier_2 {
+library CircuitVerifier_2 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -79,19 +79,19 @@ library ProtocolVerifier_2 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[2] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
             mstore(add(p, 0x20), calldataload(0x24))
@@ -99,8 +99,8 @@ library ProtocolVerifier_2 {
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0x40))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))
@@ -142,7 +142,7 @@ library ProtocolVerifier_2 {
     }
 }
 
-library ProtocolVerifier_3 {
+library CircuitVerifier_3 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -150,19 +150,19 @@ library ProtocolVerifier_3 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[3] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
             mstore(add(p, 0x20), calldataload(0x24))
@@ -171,8 +171,8 @@ library ProtocolVerifier_3 {
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0x60))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))
@@ -214,7 +214,7 @@ library ProtocolVerifier_3 {
     }
 }
 
-library ProtocolVerifier_4 {
+library CircuitVerifier_4 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -222,19 +222,19 @@ library ProtocolVerifier_4 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[4] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
             mstore(add(p, 0x20), calldataload(0x24))
@@ -244,8 +244,8 @@ library ProtocolVerifier_4 {
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0x80))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))
@@ -287,7 +287,7 @@ library ProtocolVerifier_4 {
     }
 }
 
-library ProtocolVerifier_5 {
+library CircuitVerifier_5 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -295,19 +295,19 @@ library ProtocolVerifier_5 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[5] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
             mstore(add(p, 0x20), calldataload(0x24))
@@ -318,8 +318,8 @@ library ProtocolVerifier_5 {
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0xa0))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))
@@ -361,7 +361,7 @@ library ProtocolVerifier_5 {
     }
 }
 
-library ProtocolVerifier_6 {
+library CircuitVerifier_6 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -369,19 +369,19 @@ library ProtocolVerifier_6 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[6] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
             mstore(add(p, 0x20), calldataload(0x24))
@@ -393,8 +393,8 @@ library ProtocolVerifier_6 {
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0xc0))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))
@@ -436,7 +436,7 @@ library ProtocolVerifier_6 {
     }
 }
 
-library ProtocolVerifier_7 {
+library CircuitVerifier_7 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -444,19 +444,19 @@ library ProtocolVerifier_7 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[7] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
             mstore(add(p, 0x20), calldataload(0x24))
@@ -469,8 +469,8 @@ library ProtocolVerifier_7 {
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0xe0))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))
@@ -512,7 +512,7 @@ library ProtocolVerifier_7 {
     }
 }
 
-library ProtocolVerifier_8 {
+library CircuitVerifier_8 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -520,19 +520,19 @@ library ProtocolVerifier_8 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[8] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
             mstore(add(p, 0x20), calldataload(0x24))
@@ -546,8 +546,8 @@ library ProtocolVerifier_8 {
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0x100))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))
@@ -589,7 +589,7 @@ library ProtocolVerifier_8 {
     }
 }
 
-library ProtocolVerifier_9 {
+library CircuitVerifier_9 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -597,19 +597,19 @@ library ProtocolVerifier_9 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[9] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
             mstore(add(p, 0x20), calldataload(0x24))
@@ -624,8 +624,8 @@ library ProtocolVerifier_9 {
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0x120))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))
@@ -667,7 +667,7 @@ library ProtocolVerifier_9 {
     }
 }
 
-library ProtocolVerifier_10 {
+library CircuitVerifier_10 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -675,19 +675,19 @@ library ProtocolVerifier_10 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[10] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
             mstore(add(p, 0x20), calldataload(0x24))
@@ -703,8 +703,8 @@ library ProtocolVerifier_10 {
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0x140))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))
@@ -746,7 +746,7 @@ library ProtocolVerifier_10 {
     }
 }
 
-library ProtocolVerifier_11 {
+library CircuitVerifier_11 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -754,19 +754,19 @@ library ProtocolVerifier_11 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[11] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
             mstore(add(p, 0x20), calldataload(0x24))
@@ -783,8 +783,8 @@ library ProtocolVerifier_11 {
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0x160))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))
@@ -826,7 +826,7 @@ library ProtocolVerifier_11 {
     }
 }
 
-library ProtocolVerifier_12 {
+library CircuitVerifier_12 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -834,19 +834,19 @@ library ProtocolVerifier_12 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[12] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
             mstore(add(p, 0x20), calldataload(0x24))
@@ -864,8 +864,8 @@ library ProtocolVerifier_12 {
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0x180))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))
@@ -907,7 +907,7 @@ library ProtocolVerifier_12 {
     }
 }
 
-library ProtocolVerifier_13 {
+library CircuitVerifier_13 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -915,19 +915,19 @@ library ProtocolVerifier_13 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[13] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
             mstore(add(p, 0x20), calldataload(0x24))
@@ -946,8 +946,8 @@ library ProtocolVerifier_13 {
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0x1a0))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))
@@ -989,7 +989,7 @@ library ProtocolVerifier_13 {
     }
 }
 
-library ProtocolVerifier_14 {
+library CircuitVerifier_14 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -997,19 +997,19 @@ library ProtocolVerifier_14 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[14] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
             mstore(add(p, 0x20), calldataload(0x24))
@@ -1029,8 +1029,8 @@ library ProtocolVerifier_14 {
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0x1c0))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))
@@ -1072,7 +1072,7 @@ library ProtocolVerifier_14 {
     }
 }
 
-library ProtocolVerifier_15 {
+library CircuitVerifier_15 {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -1080,19 +1080,19 @@ library ProtocolVerifier_15 {
     /// @param pubInputs Your public inputs
     /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
     /// @param merkleProof The inclusion proof for your public inputs
-    /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+    /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
         uint256[15] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof,
-        bytes32 combinedVKeyHash,
+        bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
         assembly {
             let p := mload(0x40)
 
-            // ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+            // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
             // store pub inputs
             mstore(p, calldataload(0x4))
             mstore(add(p, 0x20), calldataload(0x24))
@@ -1113,8 +1113,8 @@ library ProtocolVerifier_15 {
             // keccak(pubInputs))
             mstore(add(p, 0x20), keccak256(p, 0x1e0))
 
-            // combinedVKeyHash
-            mstore(p, combinedVKeyHash)
+            // circuitHash
+            mstore(p, circuitHash)
 
             // storing leaf at p+0x40; all earlier data at any memory can be discarded
             mstore(add(p, 0x40), keccak256(p, 0x40))

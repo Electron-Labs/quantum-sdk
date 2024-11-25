@@ -13,7 +13,7 @@ const A = () => {
 }
 
 const B = (nPub) => {
-  return `library ProtocolVerifier_${nPub} {
+  return `library CircuitVerifier_${nPub} {
     uint256 constant ONE = 0x01;
     uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
 
@@ -25,19 +25,19 @@ const C = (nPub) => {
   /// @param pubInputs Your public inputs
   /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
   /// @param merkleProof The inclusion proof for your public inputs
-  /// @param combinedVKeyHash The value obtained during your circuit registration on Quantum
+  /// @param circuitHash The value obtained during your circuit registration on Quantum
   /// @param quantumVerifier The address to the Quantum contract
   function verifyPubInputs(
     uint256[${nPub}] calldata pubInputs,
     uint256 merkleProofPosition,
     bytes32[] calldata merkleProof,
-    bytes32 combinedVKeyHash,
+    bytes32 circuitHash,
     address quantumVerifier
 ) internal view {
     assembly {
         let p := mload(0x40)\n\n`
 
-  code += `// ** compute leaf = keccak(combinedVKeyHash || keccak(pubInputs)) **
+  code += `// ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
   // store pub inputs
   mstore(p, calldataload(0x4))\n`
   for (let i = 1; i < nPub; i++) {
@@ -46,8 +46,8 @@ const C = (nPub) => {
   code += `\n// keccak(pubInputs))
   mstore(add(p, 0x20), keccak256(p, ${intToHexString(nPub * 32)}))\n\n`
 
-  code += `// combinedVKeyHash
-  mstore(p, combinedVKeyHash)
+  code += `// circuitHash
+  mstore(p, circuitHash)
 
   // storing leaf at p+0x40; all earlier data at any memory can be discarded
   mstore(add(p, 0x40), keccak256(p, 0x40))\n\n`
@@ -102,7 +102,7 @@ async function main() {
     code += B(nPub) + C(nPub)
   }
 
-  fs.writeFile('./lib/ProtocolVerifier.sol', code, (err) => {
+  fs.writeFile('./lib/CircuitVerifier.sol', code, (err) => {
     if (err) throw err;
   })
 

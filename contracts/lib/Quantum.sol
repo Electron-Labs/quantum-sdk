@@ -8,8 +8,8 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 contract Quantum is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     uint256 constant SIGNATURE = 0xb2ff0a36;
 
-    /// @dev The Aggregation image ID
-    bytes32 private aggVerifierId;
+    /// @dev Combined aggregation Vkey
+    bytes32 public aggVKey;
 
     /// @notice The verifier used for proof verification
     address public verifier;
@@ -24,12 +24,15 @@ contract Quantum is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         uint256[2] commitmentPok;
     }
 
-    function initialize(address verifier_, bytes32 aggVerifierId_) initializer public {
+    function initialize(
+        address verifier_,
+        bytes32 aggVKey_
+    ) public initializer {
         __Ownable_init(msg.sender);
         __UUPSUpgradeable_init();
 
         verifier = verifier_;
-        aggVerifierId = aggVerifierId_;
+        aggVKey = aggVKey_;
     }
 
     /// @custom:oz-upgrades-unsafe-allow constructor
@@ -48,8 +51,8 @@ contract Quantum is Initializable, UUPSUpgradeable, OwnableUpgradeable {
             // copy superRoot from calldata
             mstore(p, calldataload(0x184))
 
-            // store aggVerifierId at `p+0x20`
-            mstore(add(p, 0x20), sload(aggVerifierId.slot))
+            // store aggVKey at `p+0x20`
+            mstore(add(p, 0x20), sload(aggVKey.slot))
 
             // pub inputs serialized
             mstore(p, keccak256(p, 0x40))
@@ -100,9 +103,9 @@ contract Quantum is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         verifier = verifierAddress;
     }
 
-    /// @dev To update the Aggregation image ID
-    function setAggVerifierId(bytes32 aggVerifierId_) external onlyOwner {
-        aggVerifierId = aggVerifierId_;
+    /// @dev To update the Aggregation VKey
+    function setAggVKey(bytes32 aggVKey_) external onlyOwner {
+        aggVKey = aggVKey_;
     }
 
     function _authorizeUpgrade(address) internal override onlyOwner {}

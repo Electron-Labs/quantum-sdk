@@ -1,1 +1,1 @@
-npx prettier --write --plugin=prettier-plugin-solidity './lib/ProtocolVerifier.sol'
+npx prettier --write --plugin=prettier-plugin-solidity './lib/CircuitVerifier.sol'

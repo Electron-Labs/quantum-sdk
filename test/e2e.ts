@@ -7,7 +7,7 @@ import { getCombinedVKeyHash } from "../src/quantum_helper";
 
 const url = "http://localhost:8000";
 async function main() {
-    const q = new Quantum(url, "GnarkGroth16");
+    const q = new Quantum(url, "0ea06b468019a9ee2164e27cec2f4319728ccb01d12e0eb8");
     let r = await q.checkServerConnection();
     console.log(r);
 
@@ -77,8 +77,8 @@ async function main() {
     // let combinedVKeyHash = getCombinedVKeyHash("0x5dd6e2c9ccf9746c738d6806882b2304dd0686ff75760fed8040e79fa1059290", "0x4b4b13969117f5b7ed8816572a16a748cfc96491e3170c6f12e1f76470141f82")
     // console.log("combinedVKeyHash", combinedVKeyHash)
     // * contract calling *
-    // let protocolProofResponse = await q.getProtocolProof("0x603edbccd841d232108368695e26a1c008499c4bba446fb33ddc37ef9ce818eb");
-    // console.log("protocolProofResponse", protocolProofResponse)
+    let protocolProofResponse = await q.getProtocolProof("0x80ea62f7d23f93ff04cc4eb9e44d36c59bc2f6b754c3ac60228175183e6db8ec");
+    console.log("protocolProofResponse", protocolProofResponse)
     // const abi = [
     //     "function verifyOldPubInputs_2((uint256 merkleProofPosition,bytes32[10] merkleProof,bytes32 leafNextValue,bytes8 leafNextIdx),uint256[2] pubInputs) external",
     //     "function verifyLatestPubInputs_2(uint256[2] pubInputs) external",
