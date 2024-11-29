@@ -27,9 +27,9 @@ describe("Protocol", () => {
     console.log("verifySuperproof::gasUsed", Number(receipt.gasUsed))
 
     // risc0 protocol
-    tx = await protocolRisc0Contract.verifyPubInputs_2(DATA.risc0Agg.publicInputs, DATA.risc0Agg.merkleProofPosition, DATA.risc0Agg.merkleProof);
+    tx = await protocolRisc0Contract.verifyPubInputs(DATA.risc0Agg.publicInputs, DATA.risc0Agg.merkleProofPosition, DATA.risc0Agg.merkleProof);
     receipt = await tx.wait()
-    console.log("risc0 verifyPubInputs_2::gasUsed", Number(receipt.gasUsed))
+    console.log("risc0 verifyPubInputs::gasUsed", Number(receipt.gasUsed))
 
     // sp1 protocol
     const merkleProof = {"position": DATA.sp1Agg.merkleProofPosition, "proof": DATA.sp1Agg.merkleProof}

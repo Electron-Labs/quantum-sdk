@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
-import {CircuitVerifier_2} from "./CircuitVerifier.sol";
+import {CircuitVerifier} from "./CircuitVerifier.sol";
 
 contract Protocol {
     bytes32 circuitHash;
@@ -10,12 +10,12 @@ contract Protocol {
         circuitHash = circuitHash_;
     }
 
-    function verifyPubInputs_2(
-        uint256[2] calldata pubInputs,
+    function verifyPubInputs(
+        uint256[] calldata pubInputs,
         uint256 merkleProofPosition,
         bytes32[] calldata merkleProof
     ) external {
-        CircuitVerifier_2.verifyPubInputs(
+        CircuitVerifier.verifyPubInputs(
             pubInputs,
             merkleProofPosition,
             merkleProof,
