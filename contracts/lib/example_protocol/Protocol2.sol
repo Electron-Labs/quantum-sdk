@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
-import {ZkvmVerifier} from "./ZkvmVerifier.sol";
+import {ZkvmVerifier} from "../ZkvmVerifier.sol";
 
 contract Protocol {
     bytes32 circuitHash;

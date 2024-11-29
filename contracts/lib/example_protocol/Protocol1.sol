@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
-import {CircuitVerifier} from "./CircuitVerifier.sol";
+import {CircuitVerifier} from "../CircuitVerifier.sol";
 
 contract Protocol {
     bytes32 circuitHash;

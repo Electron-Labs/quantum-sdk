@@ -4,7 +4,7 @@ const DATA = require("./data/protocol.json");
 const { deployVerifier } = require("../scripts/deployVerifier");
 
 describe("Protocol", () => {
-  let quantum, protocolRisc0Contract, protocolSp1Contract
+  let quantum, protocol1Contract, protocol2Contract
 
   before("", async () => {
     const Quantum = await hre.ethers.getContractFactory('lib/Quantum.sol:Quantum');
@@ -12,11 +12,11 @@ describe("Protocol", () => {
 
     console.log("quantum deployed at:", await quantum.getAddress())
 
-    const ProtocolRisc0 = await hre.ethers.getContractFactory('lib/ProtocolRisc0.sol:Protocol');
-    protocolRisc0Contract = await ProtocolRisc0.deploy(DATA.risc0Agg.vKeyHash);
+    const Protocol1 = await hre.ethers.getContractFactory('lib/example_protocol/Protocol1.sol:Protocol');
+    protocol1Contract = await Protocol1.deploy(DATA.risc0Agg.vKeyHash);
 
-    const ProtocolSp1 = await hre.ethers.getContractFactory('lib/ProtocolSp1.sol:Protocol');
-    protocolSp1Contract = await ProtocolSp1.deploy(DATA.sp1Agg.vKeyHash);
+    const Protocol2 = await hre.ethers.getContractFactory('lib/example_protocol/Protocol2.sol:Protocol');
+    protocol2Contract = await Protocol2.deploy(DATA.sp1Agg.vKeyHash);
   })
 
   it("verifySuperproof and verifyPubInputs", async function () {
@@ -27,13 +27,13 @@ describe("Protocol", () => {
     console.log("verifySuperproof::gasUsed", Number(receipt.gasUsed))
 
     // risc0 protocol
-    tx = await protocolRisc0Contract.verifyPubInputs(DATA.risc0Agg.publicInputs, DATA.risc0Agg.merkleProofPosition, DATA.risc0Agg.merkleProof);
+    tx = await protocol1Contract.verifyPubInputs(DATA.risc0Agg.publicInputs, DATA.risc0Agg.merkleProofPosition, DATA.risc0Agg.merkleProof);
     receipt = await tx.wait()
     console.log("risc0 verifyPubInputs::gasUsed", Number(receipt.gasUsed))
 
     // sp1 protocol
     const merkleProof = {"position": DATA.sp1Agg.merkleProofPosition, "proof": DATA.sp1Agg.merkleProof}
-    tx = await protocolSp1Contract.verifyPubInputs(merkleProof, Uint8Array.from(DATA.sp1Agg.publicInputs));
+    tx = await protocol2Contract.verifyPubInputs(merkleProof, Uint8Array.from(DATA.sp1Agg.publicInputs));
     receipt = await tx.wait()
     console.log("sp1 verifyPubInputs::gasUsed", Number(receipt.gasUsed))
   });
