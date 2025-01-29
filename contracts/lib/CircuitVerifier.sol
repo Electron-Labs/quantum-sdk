@@ -2,19 +2,25 @@
 pragma solidity ^0.8.24;
 
 library CircuitVerifier {
-    uint256 constant ONE = 0x01;
-    uint256 constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
+    uint256 private constant ONE = 0x01;
+    uint256 private constant SIGNATURE_SUPER_ROOT_VERIFIED = 0x55a22a85;
+
+    /// @param position Encodes the position of each proof elements (left/right)
+    /// @param elms Array of proof elements
+    struct MerkleProof {
+        uint256 position;
+        bytes32[] elms;
+    }
 
     /// @notice Check if your public inputs are aggregated by Quantum
-    /// @param pubInputs Your public inputs
-    /// @param merkleProofPosition The position of each merkle proof element (left/right) encoded as a single number
+    /// @dev @param merkleProof This must be the first calldata parameter in the caller function
     /// @param merkleProof The inclusion proof for your public inputs
+    /// @param pubInputsHash Keccak256 has of your public inputs
     /// @param circuitHash The value obtained during your circuit registration on Quantum
     /// @param quantumVerifier The address to the Quantum contract
     function verifyPubInputs(
-        uint256[] calldata pubInputs,
-        uint256 merkleProofPosition,
-        bytes32[] calldata merkleProof,
+        MerkleProof calldata merkleProof,
+        bytes32 pubInputsHash,
         bytes32 circuitHash,
         address quantumVerifier
     ) internal view {
@@ -22,35 +28,39 @@ library CircuitVerifier {
             let p := mload(0x40)
 
             // ** compute leaf = keccak(circuitHash || keccak(pubInputs)) **
-            // store pub inputs
-            let pubInputsSize := mul(0x20, calldataload(0x64)) // public inputs size in bytes
-            calldatacopy(p, 0x84, pubInputsSize)
-
-            // keccak(pubInputs))
-            mstore(add(p, 0x20), keccak256(p, pubInputsSize))
-
             // circuitHash
             mstore(p, circuitHash)
 
-            // storing leaf at p+0x40; all earlier data at any memory can be discarded
+            // store pub inputs hash
+            mstore(add(p, 0x20), pubInputsHash)
+
+            // storing leaf at p+0x40
             mstore(add(p, 0x40), keccak256(p, 0x40))
 
-            mstore(p, calldataload(0x24)) // load merkle-proof-position at `p`
+            // merkle proof location
+            let merkleProofLoc := add(0x4, calldataload(0x4))
+            let proofElmsLoc := add(
+                merkleProofLoc,
+                calldataload(add(merkleProofLoc, 0x20))
+            )
 
-            // ** computing root (at `p+0x40`) using the proof elms and their position **
-            let proofElmsSlotSize := mul(calldataload(0xc4), 0x20)
+            mstore(p, calldataload(merkleProofLoc)) // load merkle-proof-position at `p`
+
+            // ** computing root (at `p+0x40`) using the proof and their position **
+            let merkleProofElmsSlotSize := mul(calldataload(proofElmsLoc), 0x20)
+            let firstProofLoc := add(proofElmsLoc, 0x20)
             for {
                 let x := 0
-            } lt(x, proofElmsSlotSize) {
+            } lt(x, merkleProofElmsSlotSize) {
                 x := add(x, 0x20)
             } {
                 switch and(mload(p), ONE)
                 case 1 {
-                    mstore(add(p, 0x60), calldataload(add(0xe4, x)))
+                    mstore(add(p, 0x60), calldataload(add(firstProofLoc, x)))
                     mstore(add(p, 0x40), keccak256(add(p, 0x40), 0x40))
                 }
                 default {
-                    mstore(add(p, 0x20), calldataload(add(0xe4, x)))
+                    mstore(add(p, 0x20), calldataload(add(firstProofLoc, x)))
                     mstore(add(p, 0x40), keccak256(add(p, 0x20), 0x40))
                 }
                 mstore(p, shr(1, mload(p))) // update next position
@@ -65,6 +75,9 @@ library CircuitVerifier {
                 p,
                 0x20
             )
+            if iszero(ok) {
+                revert(0, 0)
+            }
             if iszero(eq(mload(p), ONE)) {
                 revert(0, 0)
             }
