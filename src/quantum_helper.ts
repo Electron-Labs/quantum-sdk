@@ -18,6 +18,7 @@ import { getHalo2PoseidonProofSchema, getHalo2PoseidonPubInputSchema, getHalo2Po
 import { getPlonky2ProofSchema, getPlonky2PubInputSchema, getPlonky2VKeySchema } from "./types/borsh_schema/plonky2";
 import { getRisc0ProofSchema, getRisc0PubInputSchema, getRisc0VKeySchema } from "./types/borsh_schema/risc0";
 import { getSp1ProofSchema, getSp1PubInputSchema, getSp1VKeySchema } from "./types/borsh_schema/sp1";
+import { getTeeProofSchema, getTeePubInputSchema, getTeeVKeySchema } from "./types/borsh_schema/tee";
 
 export function getProtocolProofFromResponse(resp: ProtocolProofResponse) {
     return new ProtocolProof({ ...resp })
@@ -57,6 +58,10 @@ export function getProof(proofPath: string, proofType: ProofType): any {
     let proof: any;
     if(proofType == ProofType.GROTH16) {
         proof = checkPathAndReadJsonFile(proofPath);
+    }
+    else if(proofType == ProofType.TEE) {
+        const attDocBytes = Array.from(checkPathAndReadFile(proofPath));
+        proof = { att_doc_bytes: attDocBytes }
     } else {
         const proofBytes = Array.from(checkPathAndReadFile(proofPath));
         proof = { proof_bytes: proofBytes }
@@ -137,6 +142,11 @@ export function getBorshSchemaForProvingScheme(proofType: ProofType) {
             vkeySchema = getSp1VKeySchema();
             proofSchema = getSp1ProofSchema();
             pisSchema = getSp1PubInputSchema();
+            break;
+        case ProofType.TEE:
+            vkeySchema = getTeeVKeySchema();
+            proofSchema = getTeeProofSchema();
+            pisSchema = getTeePubInputSchema();
             break;
         default:
             throw new Error("unsupported proving scheme");

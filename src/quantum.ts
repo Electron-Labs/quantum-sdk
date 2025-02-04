@@ -121,7 +121,7 @@ export class Quantum implements QuantumInterface {
     async registerRisc0Circuit(vkeyJsonPath: string) {
         const image_id = checkPathAndReadJsonFile(vkeyJsonPath);
         const vkey = {
-            vkey_bytes: image_id 
+            vkey_bytes: image_id
         }
         let resp = await this.registerCircuit(vkey, ProofType.RISC0);
         return resp;
@@ -130,9 +130,18 @@ export class Quantum implements QuantumInterface {
     async registerSp1Circuit(vkeyBinFilePath: string) {
         const vkey_bytes = checkPathAndReadFile(vkeyBinFilePath);
         const vkey = {
-            vkey_bytes 
+            vkey_bytes
         }
         let resp = await this.registerCircuit(vkey, ProofType.SP1);
+        return resp;
+    }
+
+    async registerTeeCircuit(vkeyBinFilePath: string) {
+        const pcr0_bytes = checkPathAndReadFile(vkeyBinFilePath);
+        const vkey = {
+            pcr0_bytes: pcr0_bytes
+        }
+        let resp = await this.registerCircuit(vkey, ProofType.TEE);
         return resp;
     }
 
@@ -209,10 +218,18 @@ export class Quantum implements QuantumInterface {
         return resp;
     }
 
+    async submitTeeProof(proofBinFilePath: string, circuitHash: string): Promise<SubmitProofResponse> {
+        Keccak256Hash.fromString(circuitHash);
+        const proof = getProof(proofBinFilePath, ProofType.TEE);
+        const pubInput: string[] = [];
+        let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.TEE);
+        return resp;
+    }
+
     private async submitProof(proof: any, pis: any, circuitHash: string, prooftype: ProofType) {
         const proofEncoded = serializeProof(proof, prooftype);
         const pubInputEncoded = serializePubInputs(pis, prooftype);
-        
+
         let proofHashString = await submitProof(this.rpcEndPoint, proofEncoded, pubInputEncoded, circuitHash, prooftype, this.authToken);
         let proofHash = Keccak256Hash.fromString(proofHashString);
         return new SubmitProofResponse(proofHash)
