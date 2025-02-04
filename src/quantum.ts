@@ -136,12 +136,12 @@ export class Quantum implements QuantumInterface {
         return resp;
     }
 
-    async registerTeeCircuit(vkeyBinFilePath: string) {
+    async registerNitroAttCircuit(vkeyBinFilePath: string) {
         const pcr0_bytes = checkPathAndReadFile(vkeyBinFilePath);
         const vkey = {
             pcr0_bytes: pcr0_bytes
         }
-        let resp = await this.registerCircuit(vkey, ProofType.TEE);
+        let resp = await this.registerCircuit(vkey, ProofType.NITRO_ATT);
         return resp;
     }
 
@@ -218,11 +218,11 @@ export class Quantum implements QuantumInterface {
         return resp;
     }
 
-    async submitTeeProof(proofBinFilePath: string, circuitHash: string): Promise<SubmitProofResponse> {
+    async submitNitroAttProof(proofBinFilePath: string, circuitHash: string): Promise<SubmitProofResponse> {
         Keccak256Hash.fromString(circuitHash);
-        const proof = getProof(proofBinFilePath, ProofType.TEE);
+        const proof = getProof(proofBinFilePath, ProofType.NITRO_ATT);
         const pubInput: string[] = [];
-        let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.TEE);
+        let resp = await this.submitProof(proof, pubInput, circuitHash, ProofType.NITRO_ATT);
         return resp;
     }
 
