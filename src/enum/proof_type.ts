@@ -7,6 +7,7 @@ export enum ProofType {
     HALO2_POSEIDON = 6,
     RISC0 = 7,
     SP1 = 8,
+    NITRO_ATT = 9,
 }
 
 export namespace ProofType {
@@ -28,6 +29,8 @@ export namespace ProofType {
                 return 'Risc0'
             case ProofType.SP1:
                 return 'Sp1'
+            case ProofType.NITRO_ATT:
+                return 'NitroAtt'
             default:
                 throw new Error('Unknown proof type');
         }
@@ -57,6 +60,8 @@ export namespace ProofType {
                 return ProofType.RISC0
             case 'Sp1'.toLowerCase():
                 return ProofType.SP1
+            case 'NitroAtt'.toLowerCase():
+                return ProofType.NITRO_ATT
             default:
                 throw new Error('Unknown proof type');
         }
